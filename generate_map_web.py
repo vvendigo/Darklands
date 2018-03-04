@@ -26,15 +26,15 @@ out.write('''<html>
 <title>Map of Darklands</title>
 <style type="text/css">
 body {margin:0; padding:0; font-size:xx-small;}
-.city {color:yellow; text-shadow: 2px 2px #000000; position:absolute; overflow:hidden; cursor: default; width:10em;height:1.4EM}
-.city:hover { color:black; text-shadow: none; background-color:white; cursor: auto; border:1px solid black; padding:0.5em; width:auto; height:auto; z-index:1}
+.c {color:yellow; text-shadow: 2px 2px #000000; position:absolute; overflow:hidden; cursor: default; width:10em;height:1.4EM}
+.c:hover { color:black; text-shadow: none; background-color:white; cursor: auto; border:1px solid black; padding:0.5em; width:auto; height:auto; z-index:1}
 ''')
 
 for p, fn in enumerate(palFnames):
 	for r in xrange(0,16):
 		for c in xrange(0,16):
-			out.write(".t%d_%d_%d{width:%dpx;height:%dpx; background:url('%s') %dpx %dpx;position:absolute}"\
-				%(p, r, c, tw, th, fn, -c*tw, -r*th))
+			out.write(".t%d{width:%dpx;height:%dpx;background:url('%s') %dpx %dpx;position:absolute}"\
+				%(p*256+r*16+c, tw, th, fn, -c*tw, -r*th))
 
 out.write('''
 </style>
@@ -67,7 +67,7 @@ for y, ln in enumerate(m):
 		pal, row, col = tile
 		if not ((pal == 0 and row in(1, 3)) or (pal == 1 and row in (8,9,10,11,13))):
 			continue
-		rs += '<div class="t%d_%d_%d" style="left:%dpx;top:%dpx"></div>'%(pal, row, col, x*tw+xc, y*dh)
+		rs += '<div class="t%d" style="left:%dpx;top:%dpx"></div>'%(pal*256+row*16+col, x*tw+xc, y*dh)
 	out.write(rs)
 
 
@@ -81,7 +81,7 @@ for c in cities:
 	x2, y2 = c['exit_coords']
 	x2 = x2 * tw + (tw/2 if y%2 else 0)
 	y2 = y2*dh
-	out.write('<div class="city" style="left:%dpx;top:%dpx">'\
+	out.write('<div class="c" style="left:%dpx;top:%dpx">'\
 		%((x1+x2)//2-tw//2, (y1+y2)//2-th//2))
 	out.write("<b>%s</b><br><br>"%(name))
 	out.write(reader_cty.infoStr(c).replace('\n','<br>'))
