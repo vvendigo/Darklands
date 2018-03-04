@@ -1,6 +1,8 @@
 # Darklands
 Darklands (1992 game from Microprose) file reading utils and docs
 
+[Some outputs and file format docs online](http://wendigo.online-siesta.com/darklands/)
+
 
 ## Dirs
 * DL/ - put your Darklands instalation here
