@@ -26,16 +26,16 @@ Probably not suitable for Windows because of lazy filepaths handling.
 
 ### Scripts
 #### Auxilary
-* aux_show_fonts.py
-* aux_check_pics.py
+* aux_show_fonts.py - renders system fonts usable by Pygame
+* aux_check_pics.py - some PIC files scanning
 
 #### Extracting
-* extract_cat.py
+* extract_cat.py - extracts catalogue (.CAT) files
 
 #### Generators
-* generate_map_png.py
-* generate_map_web.py
-* generate_simple_map.py
+* generate_map_png.py - outputs HUGE image of DL landscape with city and village names
+* generate_map_web.py - outputs HUGE webpage of simplified DL map with city info
+* generate_simple_map.py - very simple HTML map with cities (AUX maybe?)
 
 #### Readers
 * reader_cty.py
