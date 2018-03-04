@@ -1,6 +1,8 @@
 # Darklands
 Darklands (1992 game from Microprose) file reading utils and docs
 
+Probably not suitable for Windows because of lazy filepaths handling.
+
 [Some outputs and file format docs online](http://wendigo.online-siesta.com/darklands/)
 
 

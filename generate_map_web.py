@@ -1,19 +1,26 @@
 import sys
-import map_reader
-import cty_reader
+import reader_map
+import reader_cty
+import reader_pic
 import utils
 
-dlPath = sys.argv[1] if len(sys.argv) > 1 else 'DL'
+oPath = sys.argv[1]
+dlPath = sys.argv[2] if len(sys.argv) > 2 else 'DL'
 
-m = map_reader.readData(dlPath)
+m = reader_map.readData(dlPath)
 
-width, height = len(m[0]), len(m)
-
-fnames = ('tmp/mapicons.pic.png','tmp/mapicon2.pic.png') # tile "palletes"
+width, height = len(m[0]), len(m) # in tiles
 tw, th = 16, 12 # tile dimensions
 dh = 4 # tile y-dist
 
-print '''<html>
+palFnames = ('mapicons.pic','mapicon2.pic') # tile "palletes"
+for fn in palFnames:
+	reader_pic.convertImage(dlPath+'/pics/'+fn, oPath+'/'+fn+'.png')
+palFnames = [fn+'.png' for fn in palFnames]
+
+out = open(oPath + '/map.html', 'w')
+
+out.write('''<html>
 <head>
 <meta charset="utf-8">
 <title>Map of Darklands</title>
@@ -21,18 +28,19 @@ print '''<html>
 body {margin:0; padding:0; font-size:xx-small;}
 .city {color:yellow; text-shadow: 2px 2px #000000; position:absolute; overflow:hidden; cursor: default; width:10em;height:1.4EM}
 .city:hover { color:black; text-shadow: none; background-color:white; cursor: auto; border:1px solid black; padding:0.5em; width:auto; height:auto; z-index:1}
-'''
+''')
 
-for p, fn in enumerate(fnames):
+for p, fn in enumerate(palFnames):
 	for r in xrange(0,16):
 		for c in xrange(0,16):
-			print ".t%d_%d_%d{width:%dpx;height:%dpx; background:url('%s') %dpx %dpx;position:absolute}"\
-				%(p, r, c, tw, th, fn, -c*tw, -r*th)
+			out.write(".t%d_%d_%d{width:%dpx;height:%dpx; background:url('%s') %dpx %dpx;position:absolute}"\
+				%(p, r, c, tw, th, fn, -c*tw, -r*th))
 
-print '''
+out.write('''
 </style>
 </head>
-<body>'''
+<body>''')
+
 # sprites test
 '''
 for pal in (0,1):
@@ -43,8 +51,8 @@ for pal in (0,1):
 	print '</div>'
 '''
 
-print '''
-<div style="position:relative;width:%dpx;height:%dpx;background-color:#00a000">'''%((width+1)*tw, (height+2)*dh)
+out.write('''
+<div style="position:relative;width:%dpx;height:%dpx;background-color:#00a000">'''%((width+1)*tw, (height+2)*dh))
 
 
 for y, ln in enumerate(m):
@@ -60,11 +68,11 @@ for y, ln in enumerate(m):
 		if not ((pal == 0 and row in(1, 3)) or (pal == 1 and row in (8,9,10,11,13))):
 			continue
 		rs += '<div class="t%d_%d_%d" style="left:%dpx;top:%dpx"></div>'%(pal, row, col, x*tw+xc, y*dh)
-	print rs
+	out.write(rs)
 
 
 
-cities = cty_reader.readData(dlPath)
+cities = reader_cty.readData(dlPath)
 for c in cities:
 	name = utils.tchars(c['full_name'])
 	x, y = c['entry_coords']
@@ -73,16 +81,15 @@ for c in cities:
 	x2, y2 = c['exit_coords']
 	x2 = x2 * tw + (tw/2 if y%2 else 0)
 	y2 = y2*dh
-	print '<div class="city" style="left:%dpx;top:%dpx">'\
-		%((x1+x2)//2-tw//2, (y1+y2)//2-th//2)
-	print "<b>%s</b><br><br>"%(name)
-	print cty_reader.cityInfo(c).replace('\n','<br>')
-	print '</div>'
+	out.write('<div class="city" style="left:%dpx;top:%dpx">'\
+		%((x1+x2)//2-tw//2, (y1+y2)//2-th//2))
+	out.write("<b>%s</b><br><br>"%(name))
+	out.write(reader_cty.infoStr(c).replace('\n','<br>'))
+	out.write('</div>')
 
-
-
-print '''</div>
+out.write('''</div>
 </body>
-</html>'''
+</html>''')
 
+out.close()
 

@@ -153,7 +153,7 @@ def readData(dlPath):
     return cities
 
 
-def cityInfo(c):
+def infoStr(c):
     out = ''
     for k, v in c.iteritems():
         out += "%s: "%k
