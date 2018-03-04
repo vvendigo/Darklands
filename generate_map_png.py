@@ -11,6 +11,8 @@ dname = sys.argv[1]
 # path to Darklands
 dlPath = sys.argv[2] if len(sys.argv) > 2 else 'DL'
 
+fontName = 'gentium'
+
 # tile "palletes"
 tilePalFnames = (dlPath+'/pics/mapicons.pic',dlPath+'/pics/mapicon2.pic')
 
@@ -38,7 +40,7 @@ for y, ln in enumerate(m):
 		pal, row, col = tile
 		srf.blit(pals[pal], (x*tw+xc, y*dh), (col*tw, row*th, tw, th))
 
-font = pygame.font.SysFont('gentium', 16)
+font = pygame.font.SysFont(fontName, 16)
 '''
 cities = reader_cty.readData(dlPath)
 for c in cities:
@@ -59,7 +61,7 @@ for c in cities:
 	srf.blit(textS, (x+1, y+1))
 	srf.blit(text, (x, y))
 '''
-fontSmaller = pygame.font.SysFont('gentium', 9)
+fontSmaller = pygame.font.SysFont(fontName, 9)
 fonts = (font, 0,0,0,0,0,0,0, fontSmaller)
 
 print 'Reading & rendering loc data...'
