@@ -51,3 +51,6 @@ Probably not suitable for Windows because of lazy filepaths handling.
 ### Misc
 * dosbox.conf - to ease playing of Darklands
 
+## Dependencies
+* Pygame lib for imagery
+

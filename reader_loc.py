@@ -122,7 +122,3 @@ if __name__ == '__main__':
         print '#', i, '#'
         print infoStr(c)
 
-    print locs[341]['name']
-    for ch in locs[341]['name']:
-        print hex(ord(ch)), ch
-
