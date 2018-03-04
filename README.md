@@ -1,5 +1,7 @@
 # Darklands
-Darklands (1992 game from Microprose) file reading utils and docs
+Darklands (1992 game from Microprose) file reading utils and preserved file format docs
+
+Based heavily upon work of Merle (wallace.net/darklands) and Joel "Quadko" McIntyre.
 
 Probably not suitable for Windows because of lazy filepaths handling.
 
