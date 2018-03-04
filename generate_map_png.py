@@ -12,7 +12,7 @@ dname = sys.argv[1]
 dlPath = sys.argv[2] if len(sys.argv) > 2 else 'DL'
 
 # tile "palletes"
-tilePalFnames = (dlPath+'/pics/mapicons.pic',dlPath+'pics/mapicon2.pic')
+tilePalFnames = (dlPath+'/pics/mapicons.pic',dlPath+'/pics/mapicon2.pic')
 
 print 'Reading map data...'
 m = reader_map.readData(dlPath)
@@ -24,7 +24,7 @@ dh = 4 # tile y-dist for bliting
 pals = []
 
 for fn in tilePalFnames:
-	print 'Reading tile pallete:', fname
+	print 'Reading tile pallete:', fn
 	pals.append(reader_pic.getImage(fn))
 
 print "Rendering tile map..."
@@ -62,7 +62,7 @@ for c in cities:
 fontSmaller = pygame.font.SysFont('gentium', 9)
 fonts = (font, 0,0,0,0,0,0,0, fontSmaller)
 
-echo 'Reading & rendering loc data...'
+print 'Reading & rendering loc data...'
 locs = reader_loc.readData(dlPath)
 for loc in locs:
 	lt = loc['icon']
