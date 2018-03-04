@@ -29,6 +29,16 @@ for fn in tilePalFnames:
 	print 'Reading tile pallete:', fn
 	pals.append(reader_pic.getImage(fn))
 
+print "Reading locs..."
+locs = reader_loc.readData(dlPath)
+locsByCoords = {}
+for i,l in enumerate(locs):
+	c = l['coords']
+	if c in locsByCoords:
+		locsByCoords[c].append(i)
+	else:
+		locsByCoords[c] = [i]
+
 print "Rendering tile map..."
 pygame.init()
 srf = pygame.Surface(((width+1)*tw, (height+2)*dh))
@@ -39,6 +49,12 @@ for y, ln in enumerate(m):
 	for x, tile in enumerate(ln):
 		pal, row, col = tile
 		srf.blit(pals[pal], (x*tw+xc, y*dh), (col*tw, row*th, tw, th))
+		# render locs
+		for li in locsByCoords.get((x,y), []):
+			l = locs[li]
+			if l['icon'] == 8: # village
+				pal, row, col = 1, 13, 0
+				srf.blit(pals[pal], (x*tw+xc, y*dh), (col*tw, row*th, tw, th))
 
 font = pygame.font.SysFont(fontName, 16)
 '''
@@ -64,8 +80,7 @@ for c in cities:
 fontSmaller = pygame.font.SysFont(fontName, 9)
 fonts = (font, 0,0,0,0,0,0,0, fontSmaller)
 
-print 'Reading & rendering loc data...'
-locs = reader_loc.readData(dlPath)
+print 'Rendering names...'
 for loc in locs:
 	lt = loc['icon']
 	if lt not in (0, 8):
