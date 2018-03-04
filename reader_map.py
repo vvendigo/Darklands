@@ -38,25 +38,29 @@ def readData(dlPath):
                 x += 1
         m.append(line)
 
+    adjTiles = ((0,),(1,2,3,25),(1,2,3,25),(1,2,3,25),(4,),(5,),(6,),(7,),(8,),(9,),(10,),(11,),(12,),(13,),(14,),(15,),
+                (16,),(17,),(18,),(19,),(20,),(21,),(22,),(23,),(24,25,27,29),(25,1,2,3),(26,25),(27,3),(),(29,),(),(),)
+
     # get cols
     for y in xrange(0, max_y_size):
         xc = 0 if y%2 else -1
         for x in xrange(0, max_x_size):
             pal, row = m[y][x]
             # differs from Wallace - bits set just by adjanced _same_row_ tiles
+            tv = pal*16+row
             col = 0
             
             if y > 0:
-                if xc+x>0 and xc+x<max_x_size: col += 1 if m[y-1][xc+x][0] == pal and m[y-1][xc+x][1] == row else 0
+                if xc+x>0 and xc+x<max_x_size: col += 1 if m[y-1][xc+x][0]*16+m[y-1][xc+x][1] in adjTiles[tv] else 0
                 else: col += 1
-                if xc+x+1<max_x_size: col += 2 if m[y-1][xc+x+1][0] == pal and m[y-1][xc+x+1][1] == row else 0
+                if xc+x+1<max_x_size: col += 2 if m[y-1][xc+x+1][0]*16+m[y-1][xc+x+1][1] in adjTiles[tv] else 0
                 else: col += 2
             else:
                 col += 1 + 2
             if y+1 < max_y_size:
-                if xc+x>0 and xc+x<max_x_size: col += 4 if m[y+1][xc+x][0] == pal and m[y+1][xc+x][1] == row else 0
+                if xc+x>0 and xc+x<max_x_size: col += 4 if m[y+1][xc+x][0]*16+m[y+1][xc+x][1] in adjTiles[tv] else 0
                 else: col += 4
-                if xc+x+1<max_x_size: col += 8 if m[y+1][xc+x+1][0] == pal and m[y+1][xc+x+1][1] == row else 0
+                if xc+x+1<max_x_size: col += 8 if m[y+1][xc+x+1][0]*16+m[y+1][xc+x+1][1] in adjTiles[tv] else 0
                 else: col += 8
             else:
                 col += 4 + 8
