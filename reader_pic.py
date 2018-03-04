@@ -199,7 +199,7 @@ def readFile(fname, palOnly = False):
         pos += segLen
     return pal, pic
 
-def renderImage(pal, pic, dname):
+def renderImage(pal, pic):
     s = pygame.Surface((len(pic[0]), len(pic)), pygame.SRCALPHA, 32)
     #s = s.convert_alpha()
     for y, ln in enumerate(pic):
@@ -207,7 +207,12 @@ def renderImage(pal, pic, dname):
             c = pal[ci]
             if ci > 0 and c != None:
                 s.fill(c, (x,y, 1, 1))
-    pygame.image.save(s, dname)
+    return s
+
+def getImage(fname, palExt = None):
+    pal, pic = readFile(fname)
+    if palExt: pal = palExt
+    return renderImage(pal, pic)
 
 
 # main ------------
@@ -237,6 +242,8 @@ if __name__ == '__main__':
         pal = defaultPal
     
     if pic:
-        renderImage(pal, pic, dname)
+        img = renderImage(pal, pic)
+        pygame.image.save(img, dname)
     else:
         print '!!!'
+

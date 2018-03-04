@@ -1,29 +1,33 @@
 import sys
-import map_reader
-import cty_reader
-import loc_reader
+import reader_map
+import reader_cty
+import reader_loc
+import reader_pic
 import utils
 import pygame
 
-
-dname = sys.argv[1]
-
+# output file name
+dname = sys.argv[1] 
+# path to Darklands
 dlPath = sys.argv[2] if len(sys.argv) > 2 else 'DL'
 
-m = map_reader.readData(dlPath)
+# tile "palletes"
+tilePalFnames = (dlPath+'/pics/mapicons.pic',dlPath+'pics/mapicon2.pic')
 
-width, height = len(m[0]), len(m)
+print 'Reading map data...'
+m = reader_map.readData(dlPath)
 
-fnames = ('tmp/mapicons.pic.png','tmp/mapicon2.pic.png') # tile "palletes"
+width, height = len(m[0]), len(m) # in tiles
 tw, th = 16, 12 # tile dimensions
-dh = 4 # tile y-dist
+dh = 4 # tile y-dist for bliting
 
 pals = []
 
-for fn in fnames:
-	img = pygame.image.load(fn)
-	pals.append(img)
+for fn in tilePalFnames:
+	print 'Reading tile pallete:', fname
+	pals.append(reader_pic.getImage(fn))
 
+print "Rendering tile map..."
 pygame.init()
 srf = pygame.Surface(((width+1)*tw, (height+2)*dh))
 srf.fill((0, 160, 0))
@@ -36,7 +40,7 @@ for y, ln in enumerate(m):
 
 font = pygame.font.SysFont('gentium', 16)
 '''
-cities = cty_reader.readData(dlPath)
+cities = reader_cty.readData(dlPath)
 for c in cities:
 	name = utils.tchars(c['short_name']).decode('utf-8')
 	x1, y1 = c['entry_coords']
@@ -55,10 +59,11 @@ for c in cities:
 	srf.blit(textS, (x+1, y+1))
 	srf.blit(text, (x, y))
 '''
-fontV = pygame.font.SysFont('gentium', 9)
-fonts = (font, 0,0,0,0,0,0,0, fontV)
+fontSmaller = pygame.font.SysFont('gentium', 9)
+fonts = (font, 0,0,0,0,0,0,0, fontSmaller)
 
-locs = loc_reader.readData(dlPath)
+echo 'Reading & rendering loc data...'
+locs = reader_loc.readData(dlPath)
 for loc in locs:
 	lt = loc['icon']
 	if lt not in (0, 8):

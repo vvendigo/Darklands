@@ -4,8 +4,9 @@
 # Run it from here
 
 for D in ../DL ../DL/pics ; do
-	echo "Lowercasing $D..."
-	cd $D
-	for f in *[[:upper:]]*; do mv -- "$f" "${f,,}"; done
-	cd -
+	if cd $D ; then
+		echo "Lowercasing $D ..."
+		for f in *[[:upper:]]*; do mv -- "$f" "${f,,}"; done
+		cd -
+	fi
 done

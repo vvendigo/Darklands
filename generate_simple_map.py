@@ -1,9 +1,9 @@
 import sys
-import cty_reader
+import reader_cty
 
 dlPath = sys.argv[1] if len(sys.argv) > 1 else 'DL'
 
-cities = cty_reader.readData(dlPath)
+cities = reader_cty.readData(dlPath)
 
 minX, minY, maxX, maxY = 1000, 1000, 0, 0
 for c in cities:
