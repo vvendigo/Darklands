@@ -1,0 +1,745 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands saved game">
+
+<globs>
+	<glob dir="saves" filespec="dksave*.sav" />
+</globs>
+
+<description type="extended">
+	<html:p>
+	This is the main portion of a Darklands saved game file.
+	</html:p>
+	<html:p>
+	Every saved game consists of a pair of files: ".sav" and ".bsv".
+	The ".sav" file contains world and character data.
+	The ".bsv" file contains battle and dungeon data
+	(only for the last dungeon entered and not finished).
+	</html:p>
+
+	<html:ul>
+		<html:li>
+			TODO: check for party strength (0-10): is it in here?
+		</html:li>
+	</html:ul>
+
+</description>
+
+<offsets>
+	<offset start="0x00" end="0xee">
+		<string at="0x00" size="12" name="curr_location_name" delimiter="null">
+			<description>Current party location.</description>
+			<notes>
+				<note>
+					This is a copy of a string in the 
+					<reference type="variable" to="locations" /> array at offset
+					<reference type="variable" to="curr_location" />.
+				</note>
+			</notes>
+		</string>
+
+		<unknown at="0x0c" size="9" />
+
+		<string at="0x15" size="23" name="save_game_label" delimiter="null">
+			<description>Saved game label.</description>
+		</string>
+
+		<unknown at="0x2c" size="18" constant="yes" value="all 0x00" />
+
+		<unknown at="0x3e" size="55">
+			<notes>
+				<note>The words at 0x43, word at 0x47 are almost constant, but seem to change just before dream.</note>
+			</notes>
+		</unknown>
+
+		<unknown at="0x63" size="1" constant="yes" value="0x19" />
+
+		<word at="0x64" name="city_contents_seed">
+			<description>City contents seed.</description>
+			<notes>
+				<note>This appears to be a seed for a pseudo-RND used to calculate what saints/formulas/items are available in each location.</note>
+			</notes>
+		</word>
+
+		<unknown at="0x66" size="2" constant="yes" value="0x07, 0x00" />
+
+		<struct at="0x68" type="date_reversed" name="curr_date">
+			<description>Current date.</description>
+		</struct>
+
+		<struct at="0x70" type="money" name="party_money">
+			<description>Cash on hand.</description>
+		</struct>
+
+		<unknown at="0x76" size="4" constant="yes" value="all 0x00" />
+
+		<word at="0x7a" name="reputation">
+			<description>Global reputation.</description>
+		</word>
+
+		<word at="0x7c" name="curr_location">
+			<description>Current location.</description>
+			<notes>
+				<note>
+					Index into the <reference type="variable" to="locations" /> array.
+				</note>
+				<note>
+					Wilderness locations get 0xffff.
+				</note>
+			</notes>
+		</word>
+
+		<struct at="0x7e" type="coordinates" name="curr_coords">
+			<description>Current map coordinates.</description>
+		</struct>
+
+		<word at="0x82" name="curr_menu" enumeration="menu">
+			<description>Current menu (or screen).</description>
+			<notes>
+				<note>
+					This can be thought of as "current in-city location" for most intents and purposes.
+					It defines which menu of options you get.
+				</note>
+				<note>
+					See also <reference type="variable" to="prev_menu" />.
+				</note>
+			</notes>
+		</word>
+
+
+		<unknown at="0x84" size="6">
+			<notes>
+				<note>First word is always 0, 1, or 2.</note>
+			</notes>
+		</unknown>
+
+
+		<word at="0x8a" name="prev_menu" enumeration="menu">
+			<description>Previous menu (or screen).</description>
+			<notes>
+				<note>
+					This is the last menu/screen before the current one; only important in "shared" locations.
+					For example, the "listen to rumors" board is accessible from both the inn and the town square.
+					When you leave it, you return to the correct place, but
+					<reference type="variable" to="curr_menu" /> is identical in both cases.
+				</note>
+				<note>Sometimes this value is incorrect; perhaps it's only reliable in shared locations?.</note>
+				<note>
+					See also <reference type="variable" to="curr_menu" />.
+				</note>
+			</notes>
+		</word>
+
+		<word at="0x8c" name="bank_notes">
+			<description>Bank notes (in Florins).</description>
+		</word>
+
+		<unknown at="0x8e" size="4">
+		</unknown>
+
+		<word at="0x92" name="philosopher_stone">
+			<description>Quality of philosopher's stone.</description>
+			<notes>
+				<note>Although a word, this rarely gets higher than 30(?) in real game play.</note>
+			</notes>
+		</word>
+
+		<unknown at="0x94" size="7">
+		</unknown>
+
+		<array at="0x9b" size="5" name="party_order_indices">
+			<description>Party member walking order indices.</description>
+			<notes>
+				<note>This is the order party members walk in when walking single-file.</note>
+				<note>0-based.</note>
+				<note>TODO: For some reason, changing this number while in the mines doesn't change walking order.  Probably another copy of this is stored in the corresponding <html:code>.bsv</html:code> file, and is used for large battlefields?  When do changes take effect?</note>
+			</notes>
+			<string size="4" enumeration="image_group"/>
+		</array>
+
+		<unknown at="0xa0" size="1">
+		</unknown>
+
+		<byte at="0xa1" name="party_leader_index">
+			<description>Party leader index.</description>
+			<notes>
+				<note>0-based.</note>
+			</notes>
+		</byte>
+
+		<unknown at="0xa2" size="3">
+		</unknown>
+
+		<unknown at="0xa5" size="74" constant="yes" value="all 0x00">
+		</unknown>
+
+	</offset>
+
+	<offset start="0xef" end="0x188">
+
+		<word at="0xef" name="num_curr_characters">
+			<description>Number of characters currently in the party.</description>
+			<notes>
+				<note>
+					Because this includes NPCs, it can change over the course of the game.
+				</note>
+			</notes>
+		</word>
+
+		<word at="0xf1" name="num_characters">
+			<description>Number of characters defined.</description>
+			<notes>
+				<note>
+					This is the number of characters which are available when "swapping characters" (in the inn), plus any NPC (like Hanse or the town leader) currently 	in the party.
+				</note>
+				<note>
+					Because this includes NPCs, it can change over the course of the game.
+				</note>
+			</notes>
+		</word>
+
+		<array at="0xf3" size="5" name="party_char_indices">
+			<description>Party member character indices.</description>
+			<notes>
+				<note>
+					Indexes into the arrays of character data for each of the five party slots.
+				</note>
+				<note>
+					0-based; an empty slot gets 0xffff.
+				</note>
+			</notes>
+			<word />
+		</array>
+
+		<array at="0xfd" size="5" name="party_images">
+			<description>Party member image file.</description>
+			<notes>
+				<note>
+					If defined, it will be one of the four 'player' images.
+				</note>
+				<note>
+					The string also corresponds to one of the "<html:code>pics\???small.pic</html:code>" files.
+					TODO: where is that image used?
+				</note>
+				<note>
+					The byte pattern {0x00,0x30,0x00,0x30} is used for an empty slot.
+				</note>
+			</notes>
+			<string size="4" enumeration="image_group"/>
+		</array>
+
+		<array at="0x111" size="5" name="party_colors">
+			<description>Party member colors.</description>
+			<notes>
+				<note>
+					The colormap used for the player's image (in battles) for each of the five character slots.
+				</note>
+			</notes>
+			<struct type="person_colors" />
+		</array>
+
+	</offset>
+
+	<offset start="0x189">
+
+		<array at="0x189" size="*num_characters" name="characters">
+			<description>Character data.</description>
+			<struct type="character" />
+		</array>
+
+		<word name="num_events">
+			<description>Number of events.</description>
+			<notes>
+				<note>
+					The file offset for this depends on number of characters defined:
+				 	for 4 characters, it's 0xa31; 5=0xc5b; 8=0x12d9; 9=0x1503.
+				</note>
+			</notes>
+		</word>
+		<array size="*num_events" name="events">
+			<description>Event data.</description>
+			<notes>
+				<note>
+					Events include: all quests (Raubritter and "find the X") and the expiration of saint effects.
+				</note>
+				<note>
+					Events probably also include: endgame quests; the dream; maybe also wilderness encounters.
+				</note>
+				<note>
+					A new game starts with 4-9 events already defined.
+				</note>
+			</notes>
+			<struct type="event" />
+		</array>
+		
+		<word name="num_locations" value="0x19e">
+			<description>Number of map locations.</description>
+		</word>
+		<array size="*num_locations" name="locations">
+			<description>Map location data.</description>
+			<notes>
+				<note>
+					Map location data includes cities, villages, castles, dungeons, etc; anything that can be found on the map.
+				</note>
+				<note>
+					Most -- but not all -- of this data is a straight copy from <reference file="darkland.loc" />.
+					Some data (local reputation, cache index, destroyed sites) changes over the course of the game.
+				</note>
+				<note>
+					The coordinates of Marienburg differ just slightly between here and <reference file="darkland.loc" />;
+					it seems like the city was located off the edge of the map, and some executable patch moves it back on when creating a new game.
+				</note>
+			</notes>
+			<struct type="location" />
+		</array>
+
+		<byte name="max_cache_slot" constant="yes" value="0x63">
+			<notes>
+				<note>
+					This seems to be a "warning value"; there are actually 0x62 entries in
+					<reference type="variable" to="cache_offsets" />.
+				</note>
+			</notes>
+		</byte>
+		<byte name="num_caches">
+			<description>Number of current item caches.</description>
+		</byte>
+		<array size="0x62" name="cache_offsets">
+			<description>Local offset to cache data.</description>
+			<notes>
+				<note>
+					The offsets are relative to
+					<reference type="variable" to="max_cache_slot" />.
+				</note>
+				<note>
+					0x62 offsets should suffice, as there are only 0x5c cities with inns --
+					but these slots are never reused (see the notes below).
+					Inserting a 0x63rd entry would clearly be extremely bad!
+				</note>
+				<note>
+					Only <reference type="variable" to="num_caches" />
+					of these are actually used; remaining slots are all zero.
+				</note>
+			</notes>
+			<word />
+		</array>
+		<array size="*num_caches" name="caches">
+			<description>Item caches.</description>
+			<notes>
+				<note>These are items that you "stored with the innkeeper" in cities.</note>
+				<note>
+					This structure is often corrupted.
+					If you cache items at an inn, then remove the items, the offset
+					<reference type="variable" to="cache_offsets" /> remains
+					(and <reference type="variable" to="num_caches" /> stays the same).
+					Returning to recache items sometimes causes an overflow, causing this
+					"array" to become 64k larger, full of random memory contents!
+					Needless to say, you probably lose your items then.
+				</note>
+			</notes>
+			<struct type="cache" />
+		</array>
+
+	</offset>
+</offsets>
+
+<!-- ====================================================================== -->
+
+<structdefs>
+
+	<!-- ===== Common structures ===== -->
+
+	<external-structdef type="date" file="structures" />
+	<external-structdef type="date_reversed" file="structures" />
+	<external-structdef type="money" file="structures" />
+	<external-structdef type="coordinates" file="structures" />
+	<external-structdef type="item" file="structures" />
+	<external-structdef type="attribute_set" file="structures" />
+	<external-structdef type="skill_set" file="structures" />
+	<external-structdef type="location" file="darkland.loc" />
+
+	<!-- ===== Minor structures ===== -->
+
+	<structdef type="rgb" size="0x03">
+		<description>A color value (RGB triplet).</description>
+		<notes>
+			<note>Color byte values range from 0x00 to 0x3f.</note>
+			<note>Presumably these values are then multiplied by four to get "standard" RGB triplets.</note>
+		</notes>
+		<byte at="0x00" name="red" />
+		<byte at="0x01" name="green" />
+		<byte at="0x02" name="blue" />
+	</structdef>
+
+	<structdef type="person_colors" size="0x18">
+		<description>A set of colors for a person (battle mode).</description>
+		<notes>
+			<note>Color byte values range from 0x00 to 0x3f.</note>
+			<note>
+				The set of these that can be chosen from when creating
+				characters is defined somewhere (the executable??),
+				however the game seems to handle any values correctly.
+			</note>
+		</notes>
+		<struct at="0x00" type="rgb" name="first_hi">
+			<description>Color 1: bright shade.</description>
+		</struct>
+		<struct at="0x03" type="rgb" name="first_lo">
+			<description>Color 1: dark shade.</description>
+		</struct>
+		<struct at="0x06" type="rgb" name="second_hi">
+			<description>Color 2: bright shade.</description>
+		</struct>
+		<struct at="0x09" type="rgb" name="second_med">
+			<description>Color 2: medium shade.</description>
+		</struct>
+		<struct at="0x0c" type="rgb" name="second_lo">
+			<description>Color 2: dark shade.</description>
+		</struct>
+		<struct at="0x0f" type="rgb" name="third_hi">
+			<description>Color 3: bright shade.</description>
+		</struct>
+		<struct at="0x12" type="rgb" name="third_med">
+			<description>Color 3: medium shade.</description>
+		</struct>
+		<struct at="0x15" type="rgb" name="third_lo">
+			<description>Color 3: dark shade.</description>
+		</struct>
+	</structdef>
+
+	<!-- ===== Major structures ===== -->
+
+	<structdef type="character" size="0x22a (554)">
+		<description>A character (and all their belongings).</description>
+
+		<unknown at="0x00" size="17" />
+
+		<word at="0x12" name="age">
+			<description>Age.</description>
+			<notes>
+				<note>
+					A character's birthday is dependent on their party order (not marching order).
+					The first character is January 1st, the second February, etc.
+				</note>
+				<note>
+					Note that the birthday effects can be exploited (by swapping characters at inns)
+					so that some characters never age --  although since age after initial
+					training has no deleterious effects, there's no reason to do so.
+					It would also cost 40-50% of your on-hand gold for each swap.
+				</note>
+			</notes>
+		</word>
+
+		<unknown at="0x14" size="1" />
+
+		<char at="0x15" name="shield">
+			<description>Heraldic shield.</description>
+			<notes>
+				<note>Ranges from 'A' to 'O'.</note>
+				<note>This corresponds to one of the "<html:code>pics\shield?.pic</html:code>" files.</note>
+				<note>TODO: is this a null-delimited string or just a char?</note>
+			</notes>
+		</char>
+
+		<unknown at="0x16" size="12" />
+
+		<byte at="0x22" name="equip_missile_type">
+			<description>Item type of the currently equipped missile device.</description>
+			<notes>
+				<note>This is the first of ten bytes (scattered through this structure) which indicate what a character currently has equipped.</note>
+				<note>Instead of offsets into the items array, the item type and quality are stored.  The game does not seem to enforce that you must own the item.</note>
+			</notes>
+		</byte>
+
+		<unknown at="0x23" size="2" />
+
+		<string at="0x25" size="25" name="full_name">
+			<description>Full name.</description>
+		</string>
+		<string at="0x3e" size="11" name="short_name" delimiter="null">
+			<description>Nickname.</description>
+			<notes>
+				<note>Possibly longer or shorter, but seems to be 10 characters and a null.</note>
+			</notes>
+		</string>
+
+		<unknown at="0x49" size="2" />
+
+		<byte at="0x4b" name="equip_vital_type">
+			<description>Item type of the currently equipped vital armor.</description>
+		</byte>
+
+		<byte at="0x4c" name="equip_leg_type">
+			<description>Item type of the currently equipped leg armor.</description>
+		</byte>
+
+		<unknown at="0x4d" size="2" />
+
+		<byte at="0x4f" name="equip_vital_q">
+			<description>Quality of the currently equipped vital armor.</description>
+		</byte>
+
+		<byte at="0x50" name="equip_leg_q">
+			<description>Quality of the currently equipped leg armor.</description>
+		</byte>
+
+		<byte at="0x51" name="equip_weapon_type">
+			<description>Item type of the currently equipped weapon.</description>
+		</byte>
+
+		<unknown at="0x52" size="6" />
+
+		<byte at="0x58" name="equip_weapon_q">
+			<description>Quality of the currently equipped weapon.</description>
+		</byte>
+
+		<unknown at="0x59" size="1" />
+
+		<byte at="0x5a" name="equip_missile_q">
+			<description>Quality of the currently equipped missile device.</description>
+		</byte>
+
+		<byte at="0x5b" name="equip_shield_q">
+			<description>Quality of the currently equipped shield.</description>
+		</byte>
+
+		<byte at="0x5c" name="equip_shield_type">
+			<description>Item type of the currently equipped shield.</description>
+		</byte>
+
+		<struct at="0x5d" type="attribute_set" name="curr_attrs">
+			<description>Current attributes.</description>
+			<notes>
+				<note>
+					If a saint is invoked or a potion is quaffed,
+					any resulting changes to attributes are directly reflected here;
+					<reference type="variable" to="events" />
+					are added (for the near future) which then alter the attribute back to normal.
+				</note>
+			</notes>
+		</struct>
+		<struct at="0x64" type="attribute_set" name="max_attrs">
+			<description>Maximum attributes (aside from temporary increases).</description>
+		</struct>
+		<struct at="0x6b" type="skill_set" name="skills">
+			<description>Skills.</description>
+			<notes>
+				<note>
+					As with attributes, if a saint is invoked or a potion is quaffed,
+					any resulting changes to skills are directly reflected here;
+					<reference type="variable" to="events" />
+					are added (for the near future) which then alter the skill back to normal.
+				</note>
+			</notes>
+		</struct>
+
+		<word at="0x7e" name="num_items">
+			<description>Number of items carried.</description>
+		</word>
+
+		<array at="0x80" size="160 bits" name="saints_known">
+			<description>Knowledge of saints.</description>
+			<notes>
+				<note>The array spans 20 bytes, 160 bits.</note>
+				<note>
+					The bit offset into this array corresponds to the
+					the offset of the saint in the array 
+					<reference file="darkland.lst" type="variable" to="saint_full_names"/>.
+				</note>
+				<note>
+					Fewer than 160 saints are actually defined;
+					it is unknown what happens if bits past the actual number of saints are turned on.
+				</note>
+				<note>Bit is on if saint is known</note>
+			</notes>
+			<bit />
+		</array>
+
+		<array at="0x94" size="22" name="formulae_known">
+			<description>Knowledge of alchemical formulae.</description>
+			<notes>
+				<note>
+					Byte offset into the array corresponds to the
+					offset of the type of formula
+					(fleadust, essence'o'grace, etc)
+					in the array
+					<reference file="darkland.lst" type="variable" to="formula_full_names" />.
+				</note>
+				<note>
+					It is unknown what happens if any of the first five bits are turned on;
+					probably nothing, though.
+				</note>
+			</notes>
+			<bitmask size="1">
+				<bit constant="yes" value="0" />
+				<bit constant="yes" value="0" />
+				<bit constant="yes" value="0" />
+				<bit constant="yes" value="0" />
+				<bit constant="yes" value="0" />
+				<bit name="q45">
+					<description>Knowledge of q45 formula.</description>
+				</bit>
+				<bit name="q35">
+					<description>Knowledge of q35 formula.</description>
+				</bit>
+				<bit name="q25">
+					<description>Knowledge of q25 formula.</description>
+				</bit>
+			</bitmask>
+		</array>
+
+		<array at="0xaa" size="64" name="items">
+			<notes>
+				<note>
+					Only <reference type="variable" to="num_items"/>
+					of the 64 items are populated; the rest are all 0x00.
+				</note>
+			</notes>
+			<struct type="item" />
+		</array>
+	</structdef>
+
+
+	<structdef type="event" size="0x30 (48)">
+		<description>An event, effect, or quest.</description>
+		<notes>
+			<note>TODO: flesh this out!!!!!!!!!</note>
+			<note>TODO: describe the dynamics of this structure</note>
+		</notes>
+
+		<word at="0x00" unknown="yes">
+			<notes>
+				<note>
+					For RB quests, when first given this value is sort of the name of the person who gave it to you.
+					After killing the RB the value moves to offset 0x1e, and this gets a copy of the value from 0x1a.
+				</note>
+			</notes>
+		</word>
+
+		<struct at="0x02" type="date" name="create_date">
+			<description>Date the event was created.</description>
+		</struct>
+
+		<struct at="0x0a" type="date" unknown="yes">
+			<notes>
+				<note>
+					Always identical in value to
+					<reference type="variable" to="create_date" />.
+				</note>
+			</notes>
+		</struct>
+
+		<struct at="0x12" type="date" name="expire_date">
+			<description>Date the event will expire.</description>
+			<notes>
+				<note>TODO: for effects, is this the date it happens instead??</note>
+			</notes>
+		</struct>
+
+		<word at="0x1a" unknown="yes">
+			<notes>
+				<note>For quests, this is the location where the quest was given, until the reward is taken; then it becomes -2.</note>
+				<note>For other things this is usually -2, although occasionally it is 0.</note>
+				<note>TODO: make this an enum.</note>
+			</notes>
+		</word>
+
+		<word at="0x1c" unknown="yes">
+			<notes>
+				<note>For newly given RB quests, this is the location of the RB.  Once the RB is slain it becomes the location of the city to return to.</note>
+			</notes>
+		</word>
+
+		<word at="0x1e" unknown="yes">
+			<notes>
+				<note>For newly given RB quests, this is the location of the city that gave the quest.</note>
+				<note>Once the RB quest reward is taken, this becomes 0.</note>
+			</notes>
+		</word>
+
+		<word at="0x21" unknown="yes">
+			<notes>
+				<note>Common values are 0x63, 0x5f, 0x32, and 0, although others appear sporadically.</note>
+			</notes>
+		</word>
+
+		<word at="0x23" unknown="yes">
+			<notes>
+				<note>Maybe this is a sort of state variable?</note>
+				<note>For RB quests the sequence is: 0x8 (got quest), 0x24 (killed RB), 0x7 (got reward).</note>
+			</notes>
+		</word>
+
+		<word at="0x25" unknown="yes">
+			<notes>
+				<note>This and the next five are usually, but not always, zero.</note>
+			</notes>
+		</word>
+
+		<word at="0x27" unknown="yes" />
+
+		<word at="0x29" unknown="yes">
+			<notes>
+				<note>For RB quests this is often 0x03; it becomes 0 after the reward is taken, and no reward can be gotten if it is not 3.</note>
+				<note>Possibly (for quests, at least) this is the index of the option to 'enable' within the card?  The 'ask X for your reward' option is the 3rd option on the screen...</note>
+				<note>TODO: this could maybe be tested by (carefully) altering the card and the index...?  Unless the logic is in the executable.</note>
+			</notes>
+		</word>
+
+		<word at="0x2a" unknown="yes" />
+
+		<word at="0x2c" unknown="yes" />
+
+		<word at="0x2e" unknown="yes">
+			<notes>
+				<note>This is usually the item code for an item required by a quest.</note>
+				<note>
+					Codes are a reference to offsets into the 
+					<reference type="variable" to="item_definitions" file="darkland.lst">item_definitions array</reference>.
+				</note>
+				<note>However, I've seen an event appear where this is non-zero and an item quest has not just been taken.</note>
+			</notes>
+		</word>
+	</structdef>
+
+	<structdef type="cache" size="varies">
+		<byte at="0x00" name="num_items">
+			<description>Number of items in the cache.</description>
+			<notes>
+				<note>This is probably limited to the range 0-64 (just as characters can only carry 64 items).</note>
+			</notes>
+		</byte>
+		<array at="0x01" name="items" size="*num_items">
+			<description>Cached items.</description>
+			<struct type="cache_item" />
+		</array>
+	</structdef>
+
+	<structdef type="cache_item" size="4">
+		<word at="0x00" name="item_code">
+			<description>Code of the item(s).</description>
+			<notes>
+				<note>
+					Codes are a reference to offsets into the 
+					<reference type="variable" to="item_definitions" file="darkland.lst">item_definitions array</reference>.
+				</note>
+			</notes>
+		</word>
+		<byte at="0x02" name="quality">
+			<description>Quality of the item(s).</description>
+		</byte>
+		<byte at="0x03" name="quantity">
+			<description>Number of items.</description>
+		</byte>
+	</structdef>
+
+</structdefs>
+
+<!-- ====================================================================== -->
+
+<enumerations>
+	<external-enumeration type="image_group" file="enumerations" />
+	<external-enumeration type="menu" file="enumerations" />
+</enumerations>
+
+</file>

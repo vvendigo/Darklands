@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands world map">
+
+<globs>
+	<glob filespec="darkland.map" />
+</globs>
+
+<description type="extended">
+	<html:p>
+	Contains the wilderness map, with everything except for
+	the dynamically generated locations
+	(all non-cities listed in <html:code>darkland.loc</html:code>).
+	</html:p>
+
+	<html:p>
+	The map is constructed from tiles contained in two <html:code>.pic</html:code> files:
+	"<html:code>mapicons.pic</html:code>" and "<html:code>mapicon2.pic</html:code>".
+	</html:p>
+</description>
+
+<offsets>
+	<offset start="0x00">
+		<word at="0x00" name="max_x_coord" value="0x147">
+			<description>Number of locations.</description>
+			<notes>
+				<note>This word is stored high-byte first</note>
+			</notes>
+		</word>
+		<word at="0x02" name="max_y_coord" value="0x3a3">
+			<description>Number of locations.</description>
+			<notes>
+				<note>This word is stored high-byte first</note>
+			</notes>
+		</word>
+		<array at="0x04" size="*max_y_coord" name="row_offsets">
+			<description>File offsets to row data.</description>
+			<word />
+		</array>
+		<array size="*max_y_coord" name="map_data">
+			<description>Map data.</description>
+			<notes>
+				<note>
+					This data is RLE compressed: each byte represents 1-7 map tiles.
+				</note>
+				<note>
+					The top three bits are the repeat count, 
+					and are always at least one (<html:code>001xxxxx</html:code>).
+				</note>
+				<note>
+					The next bit is the palette set:
+					<html:code>0</html:code> for "<html:code>mapicons.pic</html:code>",
+					<html:code>1</html:code> for "<html:code>mapicon2.pic</html:code>".
+				</note>
+				<note>
+					The four least bits indicate which row the tile comes from in the palette set.
+				</note>
+				<note>
+					Which column the map tile comes from depends on the four diagonally adjacent tiles:
+					<html:br />
+					the 1's bit comes from the northwest tile's row's 8's bit;
+					<html:br />
+					the 2's bit comes from the northeast tile's row's 4's bit;
+					<html:br />
+					the 4's bit comes from the southwest tile's row's 2's bit;
+					<html:br />
+					the 8's bit comes from the southeast tile's row's 1's bit.
+				</note>
+			</notes>
+			<array>
+				<byte />
+			</array>
+		</array>
+	</offset>
+</offsets>
+
+<!-- ====================================================================== -->
+
+</file>

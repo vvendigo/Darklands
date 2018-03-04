@@ -1,0 +1,462 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands executable">
+
+<globs>
+	<glob filespec="darkland.exe" />
+</globs>
+
+<description type="extended">
+	<html:p>
+	This is the main executable for Darklands.
+	</html:p>
+	<html:p>
+	Because this is a compiled binary executable, not much of the file
+	is comprehensible without disassembling it.
+	Still, many of the strings can be found, and quite possibly some
+	arrays that indicate game flow logic (ie, movement between cards).
+	</html:p>
+	<html:p>
+	Many of the "arrays of pointers to X" appear to be for a segmented architecture,
+	with segment:offset pointers (the high two bytes being the segment).
+	Such arrays are simply described as "Segmented pointers, with segment=0x????",
+	with the segment translated from big-endian.
+	</html:p>
+	<html:p>
+	Oftentimes, one array contains offsets into a number of semantically different
+	string tables; in these cases the string tables will all be listed separately,
+	but offsets will always be relative to the first entry of the first table.
+	</html:p>
+</description>
+
+<offsets>
+	<offset start="0x17d0b0" end="0x17eb17">
+		<array at="0x17d0b0" size="60" unknown="yes">
+			<notes>
+				<note>Segmented pointers, with segment=0x286b.</note>
+				<note>(TODO: verify) Offsets start at 0x355 and decrease linearly by 0x4 to 0x269, no exceptions.</note>
+			</notes>
+			<dword />
+		</array>
+		<array at="0x17d1a0" size="404" unknown="yes">
+			<notes>
+				<note>Segmented pointers, with segment=0x290e.</note>
+				<note>Offsets jump around in the approximate range of 0x1500 to 0x2aff.</note>
+			</notes>
+			<dword />
+		</array>
+		<array at="0x17dfc0" size="360" unknown="yes">
+			<notes>
+				<note>Segmented pointers, with segment=0x2caf.</note>
+				<note>This might correspond to a (TODO) set of .pic image filenames in a string table later on; maybe it's a copy?</note>
+				<note>
+					Offsets are in blocks which decrease linearly by 0x4 each time.
+					<html:br />
+					The first block runs from 0xb19 to 0xa49;
+					the next from 0xd6d to 0xb1d;
+					the next from 0xfc1 to 0xd71;
+					the last from 0xfe5 to 0xfc5;
+				</note>
+				<note>The four different blocks might indicate that there are four arrays, and the segments just happen to be the same.</note>
+			</notes>
+			<dword />
+		</array>
+		<array at="0x17e560" size="366" unknown="yes">
+			<notes>
+				<note>Segmented pointers, with segment=0x2dae.</note>
+				<note>Offsets jump around, but are generally in the range 0-0x5ff.</note>
+			</notes>
+			<dword />
+		</array>
+	</offset>
+
+	<offset start="0x17eb18" end="0x17f66b">
+		<array at="0x17eb18" size="9" unknown="yes">
+			<notes>
+				<note>Segmented pointers, with segment=0x321e.</note>
+			</notes>
+			<dword />
+		</array>
+		<array at="0x17eb3c" size="2" unknown="yes">
+			<notes>
+				<note>Segmented pointers, with segment=0x39e8.</note>
+				<note>Offsets are: 0x18, 0x16.</note>
+			</notes>
+			<dword />
+		</array>
+		<array at="0x17eb44" size="2" unknown="yes">
+			<notes>
+				<note>Segmented pointers, with segment=0x39ea.</note>
+				<note>Offsets are: 0x0a, 0x0e.</note>
+			</notes>
+			<dword />
+		</array>
+		<array at="0x17eb4c" size="712" unknown="yes">
+			<notes>
+				<note>Segmented pointers, with segment=0x39eb.</note>
+				<note>Offsets jump around, but are generally in the range 0-0x5ff.</note>
+			</notes>
+			<dword />
+		</array>
+	</offset>
+
+	<offset start="0x17f66c" end="0x1872cf">
+		<array constant="yes" size="30100" value="0x00">
+			<description>Empty space.</description>
+			<byte constant="yes" value="0x00" />
+		</array>
+		<unknown size="1744">
+			<notes>
+				<note>There's some stuff near the top of this that looks like data.</note>
+				<note>TODO: look into this area.</note>
+			</notes>
+		</unknown>
+	</offset>
+
+	<offset start="0x1872d0" end="0x187626">
+		<array at="0x1872d0" name="cardinals" size="4">
+			<description>The first four cardinal numbers.</description>
+			<notes>
+				<note>"first", "second", "third", and "fourth"</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+		<array at="0x1872ea" name="equippable_items" size="56">
+			<description>Equippable items.</description>
+			<notes>
+				<note>Melee weapons, then ranged weapons, then "Potions", then vitals armour, then leg armour.</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+		<array at="0x1874e2" size="3">
+			<description>Messages.</description>
+			<notes>
+				<note>"You can't view ", " at this time.", and "Single file order is invalid. Will use default order."</note>
+				<note>The first two strings look like part of the same string; no idea why a null is there.</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+		<array at="0x187537" size="60">
+			<description>
+				Offsets into the above string tables, from
+				<reference type="variable" to="cardinals" />
+				to
+				<reference type="variable" to="equippable_items" />.
+			</description>
+			<notes>
+				<note>Segmented pointers, with segment=0x286b.</note>
+				<note>Although there are two string tables involved, all offsets are relative to the start of the first (<reference type="variable" to="cardinals" />).</note>
+			</notes>
+			<dword />
+		</array>
+	</offset>
+
+	<offset start="0x187627" end="0x187cff">
+		<array at="0x187627" name="debug_labels" size="35">
+			<description>Labels for debugging output</description>
+			<notes>
+				<note>These are like "SmallGuySp[0]: " and "DyingBuf[0]: ".  They look familiar: temporary battle files?</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+		<unknown at="0x18781b" size="5" constant="yes" value="0x00" />
+		<array at="0x187820" size="10" unknown="yes">
+			<notes>
+				<note>These steadily increase, but the last is 0xffff (-1).</note>
+				<note>0, 0x14, 0x7a, 0xe0, 0x146, 0x1ac, 0x212, 0x278, 0x2de, 0xffff.</note>
+			</notes>
+			<word />
+		</array>
+		<unknown at="0x187834" size="1228" constant="yes" value="0x00" />
+	</offset>
+
+	<offset start="0x187d00" end="0x18a60e">
+
+		<array at="0x187d00" name="months" size="12">
+			<description>Months (full names).</description>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x187d56" name="copy_protection_words" size="20">
+			<description>Terms for the copy protection questions.</description>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x187e12" name="alchemy_submenu_items" size="4">
+			<description>Options given once an alchemical formula is chosen for mixing during a rest period.</description>
+			<notes>
+				<note>
+					All the "options" strings have a particular format:
+					0x8c, 0x20 (a space), the first letter, 0xff, the rest of the text, then 0x00 (null).
+				</note>
+				<note>
+					The 0xff is not a marker indicating "previous letter is the keyboard shortcut",
+					but instead indicates where the program should stop highlighting the shortcut:
+					moving the byte two more positions to the right in highlights an additional two characters.
+				</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x187e5f" name="saved_game_submenu_items" size="3">
+			<description>Options given when on the list of saved games.</description>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x187e9e" size="34" unknown="yes">
+			<notes>
+				<note>These do not reflect a single menu in its entirety, so may not actually be used.</note>
+				<note>Many of these are options given when creating a party or a character.</note>
+				<note>
+					Others are phrases like 
+					"Only high Virtue can subdue the dragon",
+					"Latin and Religious Training",
+					and "You need a missile weapon".
+				</note>
+				<note>Quite possibly these were just leftovers in one huge string table?
+				</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x1881d9" name="attributes" size="7">
+			<description>Attributes.</description>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x188222" name="skill_abbrs" size="19">
+			<description>Skills (abbreviated to 14 characters).</description>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x1882f0" size="5" unknown="yes">
+			<notes>
+				<note>The first is a standard "Return to main menu" option; the other three are for selecting colours and heraldry during character creation.</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<string at="0x18833a" unknown="yes">
+			<notes>
+				<note>"It is closed at night"</note>
+			</notes>
+		</string>
+
+		<array at="0x188350" name="occupations" size="37">
+			<description>Occupations available while creating a new character.</description>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x1884d3" name="global_reps" size="11">
+			<description>Descriptions of global reputation.</description>
+			<notes>
+				<note>Goes from lowest ("Unknown") to highest ("Legendary Heroes").</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x188573" size="16" unknown="yes">
+			<notes>
+				<note>Perhaps the names of demons?</note>
+				<note>"Enitharmon", "Sarcopteryx", "Odonanga vexans", "Eru damnosum" are some examples.</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x18862c" size="36" unknown="yes">
+			<notes>
+				<note>Names of something?</note>
+				<note>"Alveig", "Gulveig", "Mimingus", "Thviti" are some examples.</note>
+				<note>Perhaps these are names of dwarves?  "Gymer" sounds familiar...</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x18872c" size="12" unknown="yes">
+			<notes>
+				<note>
+					These seem to be city locations ("Blacksmith", "Armorer"),
+					but contain some extra ones ("Jeweler", "Hospital").
+					Although jeweler was in the plans, I recall no hospitals in 15th century Germany...
+				</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x18879a" name="family_backgrounds" size="37">
+			<description>Family backgrounds for a new character.</description>
+			<notes>
+				<note>Ranges from wealthiest ("Nobility") to poorest ("Rural Commoners").</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x188801" name="monastic_hours" size="8">
+			<description>Latin names for the times of the day.</description>
+			<notes>
+				<note>Starts with "Latins", ends with "Compline", as expected.</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x188838" name="compass directions" size="8">
+			<description>Compass directions.</description>
+			<notes>
+				<note>Clockwise, from "North" to "Northeast", eventually to "Northwest".</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x188876" name="quest_givers" size="13">
+			<description>Places or individuals who may give quests.</description>
+			<notes>
+				<note>
+					This array is oddly "-1"-based;
+					"Medici" (quest_givers[7]) is stored as 0x06 in
+					<reference type="struct" to="event" file="dksaveXX.sav" />.
+				</note>
+				<note>Possibly the first entry ("error") is just an extra string put in the right place, and memory was allocated starting with all bits on (so "-1" would translate to "error")?</note>
+				<note>TODO: update event structure to allow direct access to the byte involved, then update the above to point to it!</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x1888f2" name="skills" size="19">
+			<description>Skills (full text).</description>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x1889b4" name="local_reps" size="6">
+			<description>Descriptions of local reputation.</description>
+			<notes>
+				<note>Goes from highest ("a local hero") to lowest ("hunted").</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x1889eb" name="jobs" size="25">
+			<description>Jobs a character can take while staying in a city inn.</description>
+			<notes>
+				<note>
+					Not all of these may be used; some such as "Fortune Teller" and "Canon's Aide" have never been seen.
+					Of course, it is possible that very particular skills and attributes are required for those professions.
+				</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x188af4" name="variables" size="67">
+			<description>Variables used in cards.</description>
+			<notes>
+				<note>These are just the names; in files that use them, a "<html:code>$</html:code>" is prefixed to indicate that it is a variable.</note>
+				<note>
+					Some of these may not be variables, or may not work when used.
+					"ChosenOneName" is definitely used as a variable.
+					"citySquare", "CityLocation", and "MonthName" are plausible.
+					"whorehouse" and "imperialMint" are unlikely to even work.
+				</note>
+				<note>See <html:code>msgfiles</html:code> for examples of the use of variables.</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x188dd2" name="titles" size="15">
+			<description>Titles for nobility.</description>
+			<notes>
+				<note>TODO: confirm this is what it is?</note>
+				<note>	These include "Vogt", "alte Herr", and "Schultheiss", and sound like titles.</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x188e71" name="male_first_names" size="110">
+			<description>First names for males.</description>
+			<notes>
+				<note>Mostly in alphabetical order (at least the first letter is).</note>
+				<note>
+					This table is used not only for suggested first names when creating a new character,
+					but also for all other names in Darklands (raubritters, alchemists, quest givers, etc).
+				</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x1891a0" name="female_first_names" size="90">
+			<description>First names for females.</description>
+			<notes>
+				<note>
+					Starts out in alphabetical order, but degenerates half way through, then starts back over with 'A' after 70 names.
+					Possibly the developers ran out of names, and had to add some later?
+				</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x18945f" name="surnames" size="107">
+			<description>Last names.</description>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x1897e6" name="designations" size="37">
+			<description>Designations (postfix titles).</description>
+			<notes>
+				<note>Either clan names ("of Zollern") or descriptors ("the fat").</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x189993" size="18" unknown="yes">
+			<notes>
+				<note>Regions, or lords, perhaps?</note>
+				<note>Examples include "Hoffman", "Stromer", "Muffel", "Wagner", "Welser".</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x189a20" name="faction_politics" size="3">
+			<description>Political opinions.</description>
+			<notes>
+				<note>"oppose", "are undecided about", "support"</note>
+				<note>As the rebellion isn't part of the finished product, these are unused.</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array at="0x189a43" size="755">
+			<description>
+				Offsets into the above string tables, from
+				<reference type="variable" to="months" />
+				up to (but not including)
+				<reference type="variable" to="faction_politics" />.
+			</description>
+			<notes>
+				<note>Segmented pointers, with segment=0x290e.</note>
+				<note>
+					Although there are many, many string tables involved,
+					all offsets are relative to the start of the first (<reference type="variable" to="months" />).
+				</note>
+			</notes>
+			<dword />
+		</array>
+	</offset>
+
+	<offset start="0x18a60f" end="0x18a863">
+		<array at="0x18a60f" size="146" unknown="yes">
+			<notes>
+				<note>Segmented pointers, with segment=0x09c0.</note>
+				<note>Offsets jump around in the approximate range of 0x1e2d to 0x2657.</note>
+			</notes>
+			<dword />
+		</array>
+		<array at="0x18a857" size="3" unknown="yes">
+			<notes>
+				<note>Segmented pointers, with segment=0x290e.</note>
+				<note>This (and above) might just be part of the preceding array: a global pointer index to all strings?  Seems a bit long, but it's even stranger to have a table with just three entries...</note>
+			</notes>
+			<dword />
+		</array>
+	</offset>
+
+</offsets>
+
+</file>

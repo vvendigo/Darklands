@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands saint descriptions">
+
+<globs>
+	<glob filespec="darkland.snt" />
+</globs>
+
+<description>Contains long text descriptions of the saints.</description>
+
+<offsets>
+	<offset start="0x00">
+		<byte at="0x00" name="num_saints" value="0x88">
+			<description>Number of saints.</description>
+		</byte>
+
+		<array at="0x01" size="*num_saints" name="saint_descriptions">
+			<description>Descriptions of the saints.</description>
+			<notes>
+				<note>
+					TODO: verify:
+					The order of saints here matches the order in
+					<reference file="darkland.lst" type="variable" to="saint_full_names" />.
+				</note>
+			</notes>
+			<string size="168" />
+		</array>
+	</offset>
+</offsets>
+
+<!-- ====================================================================== -->
+
+</file>

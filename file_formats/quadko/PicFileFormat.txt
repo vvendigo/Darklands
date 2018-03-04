@@ -1,0 +1,380 @@
+=========================================================================
+ Darklands .Pic Image File Format
+=========================================================================
+
+	Document by Joel "Quadko" McIntyre 
+		www.eliel.com www.joelmcintyre.com
+
+	Darklands by and copyright MicroProse
+	    www.microprose.com
+
+=========================================================================
+All Material copyrighted by one or the other. Joel McIntyre gives his
+permission and the priviledge to use and distribute this document freely, 
+to the extent of his copyright, and to make use of the information in any 
+reasonable way that does not remove his rights or others' priviledges 
+regarding this document.
+=========================================================================
+
+Version 1.00 2002-3-18
+
+-------------------------------------------------------------------------
+- Table of Contents
+-------------------------------------------------------------------------
+
+1. Basic File Format
+
+2. Known 'Identifiers'
+   1) PaletteData - 'M0'
+   2) ImageData - 'X0'
+   3) Alt. ImageData - 'X1'
+
+3. Formats of Known 'Identifiers'
+   2) ImageData 'Identifier'
+
+4. Compressed Pixel Bitstream Format Discussion 
+   1) Run Length Encoding
+   2) Data Compression
+
+5. File Diagram
+
+A1. Notes on the C++ Code
+   1) The CPicReader Simple Interface
+   2) The CPicReader functions of interest
+
+H1. Document Modification History
+
+-------------------------------------------------------------------------
+- 1. Basic File Format
+-------------------------------------------------------------------------
+
+1) A '.PIC image file' contains a single 'FileData' block of data
+	=<FileData>
+
+2) A 'FileData' contains 0 or more 'ChunkData' blocks of data sandwitched 
+	back to back without any non-ChunkData header or separator data. The 
+	chunks may occur in any	order in the file. The the Darklands Imageset
+	only has files with 1 or 2 chuncks. The chuncks are always in the same
+	order.
+	=<ChunkData><ChunkData>...<ChunkData>
+
+3) A 'ChunkData' contains, in order, a 2-byte 'Identifier' field, a 2-byte  
+	'Length' field, and a variable length 'InternalData' block of data who's
+	length is described in the 'Length' field. 
+	=<Identifier><Length><InternalData>
+
+4) The format of the 'InternalData' block will be entirely dependant on the
+	'Identifier' field. If the 'Identifier' value is not recognized, the block
+	may be skipped using the 'Length' field, but no knowledge of the internal
+	structure may be gained.
+
+
+-------------------------------------------------------------------------
+- 2. Known 'Identifiers'
+-------------------------------------------------------------------------
+
+1) PaletteData:		'Identifier' field= 'M0' (0x4D30)
+2) ImageData:		'Identifier' field= 'X0' (0x5830)
+3) Alt. ImageData:	'Identifier' field= 'X1' (0x5831) (found in display 
+	code, not in data set)	
+
+* While the 'ChunkData' data blocks may occur in any order and may include
+or omit any specific 'Identifiers', the Darklands Imageset only uses 1 or 2
+'Identifiers' (PaletteData (M0) & ImageData (X0)), and always in the order 
+PaletteData (M0), ImageData (X0). However, the PaletteData (M0) is optional,
+while the ImageData (X0) exists in every file. Therefore, you have 2 
+situations in a file: A file with a single ImageData (X0) 'Identifier', or
+a file starting with a PaletteData (M0) 'Identifier' followed by an 
+ImageData (X0) 'Identifier'. The identifiers may also be considered to be 
+a combination of two single byte fields, an identifier and a version number.
+Since the Darklands Imageset only contains the two 'Identifiers' 'M0' and 'X0'
+the distinction is irrelevant. If you decide to use and extend the format,
+you might want to make use of that distinction (new image format 'X2', etc.), or 
+at least keep the pattern (adding a personalized 'Identifier' format 'P0', etc.)
+
+-------------------------------------------------------------------------
+-  3. Formats of Known 'Identifiers'
+-------------------------------------------------------------------------
+
+1) PaletteData 'Identifier'
+	The PaletteData 'Identifier' describes a continuous subrange of
+	the 256 color VGA palette. The PaletteData 'Identifier' data block
+	contains, in order: a 1 byte 'FirstIndex' field, a 1 byte 'LastIndex'
+	field, and variable length 'PaletteData' field. The 'PaletteData' 
+	field contains ('LastIndex'-'FirstIndex'+1) 'RGBPalletteValues'.
+	An 'RGBPalletteValue' contains 3 1 byte fields, in order: 'RedValue',
+	'GreenValue','BlueValue'. Each of the color values are bytes in the 
+	range 0..3F. To convert them to proper VGA Palette colors you must
+	multiply them by 4. (Or SHL Color, 2). (This potentially leaves the
+	upper 2 bits free for use as flags, for example, for transparency. 
+	However, the Darklands Imageset does not ever use the bits. 
+	The length of the data will be 1+1+(Number of Palette Entries*3).
+	In the files in the the Darklands Imageset that contain the PaletteData 
+	'Identifier' there are always 240 palette entries, with FirstIndex=16
+	(0x10) and LastIndex=256 (0xFF), giving a total length of 722 (0x2D2) 
+	bytes. This leaves room for the base 16 color traditional palette, though 
+	I am simply assuming that Darklands uses those 16 colors unchanged from 
+	their tradtional values. (The traditional values are the Dos Text Colors, 
+	the EGA 16 color default palette, and even the Windows and HTML standard 
+	16 colors. There is probably an ANSI or other standard listing the colors, 
+	though that is speculation on my part and the standard may just be de facto.)
+	=<FirstIndex><LastIndex>[<RedValue><GreenValue><BlueValue>][<RedValue>
+	 <GreenValue><BlueValue>]...[<RedValue><GreenValue><BlueValue>]
+
+2) ImageData 'Identifier'
+	The ImageData 'Identifier' contains a compressed image. It consists of the
+	following fields, in order: a 2 byte ImageWidth field,a 2 byte ImageHeight 
+	field, a 1 byte FormatIdentifyer, a variable length CompressedBitstream.
+	The CompressedBitstream and decompression is discussed below. (I still 
+	do not fully understand the format of the CompressedBitstream, but I have C++ 
+	code that correctly decompresses it.)
+	=<ImageWidth><ImageHeight><FormatIdentifyer><CompressedBitstream>
+
+3) Alt. ImageData 'Identifier'
+	The Alt. ImageData 'Identifier' is very similar to the ImageData 
+	'Identifier', both are loaded by the same code with only a minor
+	control path difference. The exact nature of the difference is 
+	not clear without any examples in the the Darklands Imageset, but
+	wherever the ImageData 'Identifier' writes a single byte (pixel)
+	to the image, the Alt. ImageData 'Identifier' writes two bytes.
+	Whether this is two one-byte pixels or one two-byte pixel is not
+	clear, though the VGA display strongly suggests the first. (Was
+	Darklands released on other platforms that might have 2 byte pixel
+	display formats? I do not know.) 
+
+
+
+-------------------------------------------------------------------------
+-  4. Compressed Pixel Bitstream Format Discussion 
+-------------------------------------------------------------------------
+The CompressedBitstream found in the ImageData 'Identifier' is a VGA 1-byte
+per pixel image that has been Run Length Encoded (RLE) and then compressed. 
+The RLE process is straightforward to encode and decode, but the compression
+algorithm is outside of my experience, so the documentation is sparser than
+prefered. Refer to the source code for an example of a decompression algorithm.
+(Luckily I had code that would decompress it, so understanding is not as 
+important!)
+
+1) Run Length Encoding
+	The Run Length Encoding is pretty straightforward. The 1 byte VGA pixels
+	are placed in a linear buffer from top-left to bottom-right. That data
+	is scanned and any pixels that are repeated are (can be) replaced with
+	a 3 byte RLE tag in the format: PixelData, RLE Flag(0x90), RepeatCount-1.
+	To decode the RLE, there are two easy methods. 
+	
+	The first method is to read a pixel, check next byte for RLE(0x90) flag, 
+	if not RLE, continue, if RLE read RepeatCount and fill in that many pixels. 
+
+	The second way is to read and remember a pixel. If the pixel is the RLE(0x90) 
+	flag, keep storing the previously remembered pixel until RepeatCount is zero. 
+	
+	There is the special case where the VGA pixel has a vaue of 0x90. To deal 
+	with this, it is always encoded with a RepeatCount of 0, which is otherwise
+	invalid (Repeat last pixel 0 times?). Therefore, the pixels (hex) 49,50,51
+	would simply be stored 49 50 51. The pixels (hex) 89,90,91 would be stored
+	89 90 00 91. And the pixels 49,50,50,50,50,50,51 would be stored 
+	49 50 90 05 51. Obviously you can only encode runs of up to 255 identical
+	pixels with a single RLE(0x90) encoding tag.
+
+	Another note, I am uncertain, but I think that no RLE encoding crosses
+	the end-of-line. However, I think the algorithm in the code will properly 
+	handle it if it does, and it handles all of the Darklands Imageset.
+
+2) Data Compression
+	The Data Compression algorithm is outside of my experience. The code works,
+	and I have made my best guess about what everything is doing, but I do
+	not have the compression background to be able to identify exactly what
+	is going on or to recognize some common compression format like: Gif / LZW,
+	Huffman, etc. Having listed those names, I have exhausted the depths of my 
+	specific knowledge of internal compression methods.
+
+	However I can tell a little what the code is actually doing. Given the
+	compressed bitstream as input, the code removes the first few bits from
+	the bitstream. It then looks them up in an odd Decoding Table/List structure 
+	that looks like a table crossed internally with linked list. This lookup 
+	provides a variable	length list of bytes that are pushed on a stack. The 
+	stack is then popped one byte at a time to produce the Run Length Encoding 
+	stream of bytes.
+
+	The code is currently setup to call the Decompression function (GetNextPixel),
+	requesting the next byte. (This is not how I would prefer to write it, but 
+	it works so no major complaints.) If there is already decompressed data
+	on the stack, the first byte of that stack data is returned. Otherwise,
+	more data is decompressed onto the stack. To decompress that data, the
+	next 16 bits of not-yet-decompressed data are fetched from the compressed
+	data buffer. These bits are used/scanned to determine how many bits are
+	actually used in this step. (1-16 bits could be used theoretically, I have 
+	actually seen only a range of 2-12.) The active bits are used as an Index
+	into the Decoding Table (table/linked list odd structure), and 
+	starting from that index the linked list part of the table is followed
+	until it ends, with each index of the table/list providing a byte (pixel) 
+	for the stack/output RLE stream. Once that data has been obtained, the 
+	table/list structure is modified slightly, and it is ready for the next
+	decompression call once the stack is emptied. Every so often (when some
+	counter reaches the max size of the table/list) the Decoding Table/List
+	and all related indexes/data are reset to their initial conditions, and 
+	decoding continues.
+
+	The Decoding Table/List is an array of length 0x800. Each item in the 
+	array has a pixel data field and a linked list style 'next index' field.
+	Initially all 'Next' fields are set to 0xffff (-1, end of list, etc.)
+	The pixel fields are set to (Array Index % 256), basically counting from
+	0 to 255 8 times over and over up the table. Some sort of 'max bits' are
+	tracked, starting at '9 bits' (0x1ff) and occasionally being increased as
+	the data requires. A base index of some sort is kept, intially equaling
+	0x100 and being increased every time more data is removed from the
+	incoming compressed bitstream, until it gets too large, when the entire
+	table is reset. Lists and pixel values are built, previous pixels and
+	indexes are tracked and use to decompress current pixels, and a few other
+	things seem to be going on. 
+	
+	All in all, it is about 50 lines of commented C code, greatly demystified 
+	from assembly, and I cannot seem to get the  big picture of it. (That is 
+	unusual, and therefore very irritating!) If	you have a better understanding, 
+	email me (web page above) and we can get your information into this file
+	with appropriate kudos to you.
+
+-------------------------------------------------------------------------
+- 5. File Diagram
+-------------------------------------------------------------------------
+Here is a diagramic breakdown of the common files in the Darkands Imageset:
+
+1) -----------------------------------------------------------------
+<FileData>
+
+2)  -----------------------------------------------------------------
+<FileData=
+	<ChunkData>
+	<ChunkData>
+>
+
+3) -----------------------------------------------------------------
+<FileData=
+	<ChunkData=
+		<Identifier><Length><InternalData>
+	>
+	<ChunkData=
+		<Identifier><Length><InternalData>
+	>
+>
+
+4) -----------------------------------------------------------------
+<FileData=
+	<ChunkData=
+		<Identifier="M0">
+		<Length="722">
+		<InternalData=
+			<FirstIndex>
+			<LastIndex>
+			[<RedValue><GreenValue><BlueValue>]>...[<RedValue><GreenValue><BlueValue>]>
+		>
+	>
+	<ChunkData=
+		<Identifier="X0">
+		<Length=Variable>
+		<InternalData=
+			<ImageWidth>
+			<ImageHeight>
+			<FormatIdentifyer>
+			<CompressedBitstream>
+		>
+	>
+>
+
+4) -----------------------------------------------------------------
+<FileData=
+	<ChunkData=
+		<Identifier="M0">
+		<Length="722">
+		<InternalData=
+			<FirstIndex=0x10>
+			<LastIndex=0xFF>
+			[
+				<RedValue=Variable>
+				<GreenValue=Variable>
+				<BlueValue=Variable>
+			]
+				
+			...
+			[
+				<RedValue=Variable>
+				<GreenValue=Variable>
+				<BlueValue=Variable>
+			]
+		>
+	>
+	<ChunkData=
+		<Identifier="X0">
+		<Length=Variable>
+		<InternalData=
+			<ImageWidth=Variable>
+			<ImageHeight=Variable>
+			<FormatIdentifyer="0b">
+			<CompressedBitstream=Variable>
+		>
+	>
+>
+
+
+
+-------------------------------------------------------------------------
+- A1. Notes on the C++ Code
+-------------------------------------------------------------------------
+I created a class CPicReader (& CPicReaderC) that will read Darklands .pic files 
+and allow easy access by several different methods, including immediate access 
+to a Windows bitmap. This code is written in Microsoft Visual C++ 6.5 using MFC.
+I also have included the decoding functions in straight C++ without any MFC 
+dependencies. Hopefully that will be useful and easily compatible/portable 
+to other compilers and platforms. 
+
+Again, there are two versions, the original that uses MFC, and a leaner, cleaner
+version without MFC References. The MFC Version allows easier access to 
+image display by creating a CBitmap for you on demand, but uses a few
+support classes and MFC classes. The NonMFC version does not provide any 
+such help, but requires no supporting classes/files. Example display projects
+are provided with both the MFC/Non-MFC versions.
+
+
+1) The CPicReader Simple Interface
+	Check the class itself and minimal documentation for more advanced 
+	features: palette, direct pixel data. Here are the simple-immediate 
+	use features to get you started	quickly.
+
+	// basic Class type and file loading
+	CPicReader PicReader; // MFC Version
+	CPicReaderC PicReader; // Non MFC Version
+	bool Load(const char *Filename);
+
+	// for Windows RGB color/COLORREF level access
+	
+	int GetWidth();
+	int GetHeight();
+	COLORREF GetPixel(int X, int Y);
+
+	// Or for a Windows/MFC CBitmap
+
+	bool CreateBitmap();
+	CBitmap *GetBitmap();
+
+
+2) The CPicReader functions of particular interest (decoding functions)
+
+	// runs file decoding/RLE.
+	void DecodeImage(void *FileData,int Len); 
+
+	// decompresses compressed bitstream, returning 'next' pixel (RLE) byte.
+	unsigned char GetNextPixel( /* lots of them */); 
+
+	// Initialize Fresh Decode Table
+	void SetupDecodeTable( /* a few of them */ );
+
+-------------------------------------------------------------------------
+- H1. Document Modification History
+-------------------------------------------------------------------------
+
+Version 1.00 2002-3-18 - Initial Release
+
+
+-------------------------------------------------------------------------
+copyright 2002 Joel McIntyre
+

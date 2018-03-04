@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands common structures">
+
+<description>These structures are common to a number of different files.</description>
+
+<structdefs>
+
+	<structdef type="date" size="0x08">
+		<description>A date.</description>
+		<word at="0x00" name="hour" />
+		<word at="0x02" name="day" />
+		<word at="0x04" name="month" enumeration="month" />
+		<word at="0x06" name="year">
+			<notes>
+				<note>Contains the entire value (not just 0 for 1400)</note>
+			</notes>
+		</word>
+	</structdef>
+
+	<structdef type="date_reversed" size="0x08">
+		<description>A date stored in reversed format.</description>
+		<notes>
+			<note>
+				<reference file="dksaveXX.sav" type="variable" to="curr_date"></reference>
+				is stored in this format, although dates in the
+				<reference file="dksaveXX.sav" type="structdef" to="event">event structure</reference>
+				are stored in the normal
+				<reference type="structdef" to="date"></reference> format.
+			</note>
+		</notes>
+		<word at="0x00" name="year">
+			<notes>
+				<note>Contains the entire value (not just 0 for 1400)</note>
+			</notes>
+		</word>
+		<word at="0x02" name="month" enumeration="month" />
+		<word at="0x04" name="day" />
+		<word at="0x06" name="hour" />
+	</structdef>
+
+	<structdef type="money" size="0x06">
+		<description>An amount of money.</description>
+		<notes>
+			<note>Money is stored with the monetary units separated, rather than simply storing the number of pfenniges.</note>
+			<note>Darklands does seem to recover if the number of pfenniges or groschen "overflow", and it makes change automatically.</note>
+		</notes>
+		<word at="0x00" name="florins" />
+		<word at="0x02" name="groschen" />
+		<word at="0x04" name="pfenniges" />
+	</structdef>
+
+	<structdef type="coordinates" size="0x04">
+		<description>A world map location (pair of coordinates).</description>
+		<word at="0x00" name="x_coord">
+			<description>X-coordinate.</description>
+			<notes>
+				<note>Ranges from 0x0000 - 0x0147.</note>
+				<note>The maximum is the first word of the file "darkland.map".</note>
+			</notes>
+		</word>
+		<word at="0x02" name="y_coord">
+			<description>Y-coordinate.</description>
+			<notes>
+				<note>Ranges from 0x0000 - 0x03a3.</note>
+				<note>The maximum is the second word of the file "darkland.map".</note>
+			</notes>
+		</word>
+	</structdef>
+
+	<structdef type="item" size="0x06">
+		<description>An item.</description>
+		<notes>
+			<note>
+				Most of these values can be found in the
+				<reference type="variable" to="item_definitions" file="darkland.lst">item_definitions array</reference>.
+				Quality and quantity, of course, differ from item to item.
+			</note>
+		</notes>
+		<word at="0x00" name="code" />
+		<byte at="0x02" name="type" />
+		<byte at="0x03" name="quality" />
+		<byte at="0x04" name="quantity" />
+		<byte at="0x05" name="weight" />
+	</structdef>
+
+	<structdef type="attribute_set" size="0x07">
+		<description>A set of attribute values.</description>
+
+		<byte at="0x00" name="end">
+			<description>Endurance.</description>
+		</byte>
+		<byte at="0x01" name="str">
+			<description>Strength.</description>
+		</byte>
+		<byte at="0x02" name="agl">
+			<description>Agility.</description>
+		</byte>
+		<byte at="0x03" name="per">
+			<description>Perception.</description>
+		</byte>
+		<byte at="0x04" name="int">
+			<description>Intelligence.</description>
+		</byte>
+		<byte at="0x05" name="chr">
+			<description>Charisma.</description>
+		</byte>
+		<byte at="0x06" name="df">
+			<description>Divine favor.</description>
+		</byte>
+	</structdef>
+
+	<structdef type="skill_set" size="0x13">
+		<description>A set of skill values.</description>
+
+		<byte at="0x00" name="wEdg">
+			<description>Edged Weapon skill.</description>
+		</byte>
+		<byte at="0x01" name="wImp">
+			<description>Impact Weapon skill.</description>
+		</byte>
+		<byte at="0x02" name="wFll">
+			<description>Flail Weapon skill.</description>
+		</byte>
+		<byte at="0x03" name="wPol">
+			<description>Polearm skill.</description>
+		</byte>
+		<byte at="0x04" name="wThr">
+			<description>Thrown Weapon skill.</description>
+		</byte>
+		<byte at="0x05" name="wBow">
+			<description>Bow skill.</description>
+		</byte>
+		<byte at="0x06" name="wMsl">
+			<description>Missile Weapon skill.</description>
+		</byte>
+		<byte at="0x07" name="alch">
+			<description>Alchemy skill.</description>
+		</byte>
+		<byte at="0x08" name="relg">
+			<description>Religious skill.</description>
+		</byte>
+		<byte at="0x09" name="virt">
+			<description>Virtue skill.</description>
+		</byte>
+		<byte at="0x0a" name="spkC">
+			<description>Speak Common skill.</description>
+		</byte>
+		<byte at="0x0b" name="spkL">
+			<description>Speak Latin skill.</description>
+		</byte>
+		<byte at="0x0c" name="r_w">
+			<description>Read/Write skill.</description>
+		</byte>
+		<byte at="0x0d" name="heal">
+			<description>Healing skill.</description>
+		</byte>
+		<byte at="0x0e" name="artf">
+			<description>Artifice skill.</description>
+		</byte>
+		<byte at="0x0f" name="stlh">
+			<description>Stealth skill.</description>
+		</byte>
+		<byte at="0x10" name="strw">
+			<description>Streetwise skill.</description>
+		</byte>
+		<byte at="0x11" name="ride">
+			<description>Riding skill.</description>
+		</byte>
+		<byte at="0x12" name="wdws">
+			<description>Woodwise skill.</description>
+		</byte>
+	</structdef>
+
+</structdefs>
+
+<!-- ====================================================================== -->
+
+<enumerations>
+	<external-enumeration type="month" file="enumerations" />
+</enumerations>
+
+</file>

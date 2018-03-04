@@ -1,0 +1,228 @@
+<!-- Root element: the file -->
+<!ELEMENT file (globs?, description, notes?, offsets?, structdefs?, enumerations?, ignore?)>
+<!ATTLIST file
+	name CDATA #REQUIRED
+>
+
+<!-- ====================================================================== -->
+
+<!-- External definitions of a "simple HTML subset" -->
+<!ENTITY % SimpleHTML SYSTEM "simple_inline_html.dtd">
+%SimpleHTML;
+
+<!-- ====================================================================== -->
+
+<!-- Data types -->
+
+<!ENTITY % BasicVar.Class "char | byte | word | dword | bit">
+
+<!ENTITY % SizableVar.Class "int | string">
+
+<!ENTITY % ContainerVar.Class "struct | array | bitmask">
+
+<!-- All data types (including the unknown object) -->
+
+<!ENTITY % Var.Class "
+	%BasicVar.Class; |
+	%SizableVar.Class; |
+	%ContainerVar.Class; |
+	unknown
+">
+
+<!-- ====================================================================== -->
+
+<!ENTITY % Describable.Contents "
+	description?, notes?
+">
+
+<!-- Contents of the basic data types -->
+<!ENTITY % BasicVar.Contents "
+	( %Describable.Contents; )
+">
+
+<!ENTITY % SizableVar.Contents "
+	%BasicVar.Contents;
+">
+
+<!-- ====================================================================== -->
+
+<!-- Filename glob for instances of this file type -->
+<!ELEMENT globs (glob+)>
+<!ELEMENT glob EMPTY>
+<!ATTLIST glob
+	dir CDATA #IMPLIED
+	filespec CDATA #REQUIRED
+>
+
+<!-- Expected contents at a particular offset -->
+<!ELEMENT offsets (offset+)>
+<!ELEMENT offset ((%Var.Class;)*)>
+<!ATTLIST offset
+	start CDATA #REQUIRED
+	end CDATA #IMPLIED
+>
+
+<!-- Definition of a structure -->
+<!ELEMENT structdefs (structdef | external-structdef)+>
+<!ELEMENT structdef (%Describable.Contents;, (%Var.Class;)*)>
+<!ATTLIST structdef
+	type ID #REQUIRED
+	description CDATA #IMPLIED
+	size CDATA #IMPLIED
+>
+<!ELEMENT external-structdef EMPTY>
+<!ATTLIST external-structdef
+	type ID #REQUIRED
+	file CDATA #REQUIRED
+>
+
+<!-- Definition of an enumeration mapping -->
+<!ELEMENT enumerations (enumeration | external-enumeration)+>
+<!ELEMENT enumeration (%Describable.Contents;, map*)>
+<!ATTLIST enumeration
+	type ID #REQUIRED
+	description CDATA #IMPLIED
+>
+<!ELEMENT external-enumeration EMPTY>
+<!ATTLIST external-enumeration
+	type ID #REQUIRED
+	file CDATA #REQUIRED
+>
+
+<!--
+	Extra text at the end of the file which can be ignored.
+	Intended to be used only while still developing a file format document.
+-->
+<!ELEMENT ignore (#PCDATA)>
+
+<!-- ====================================================================== -->
+
+<!-- Default attributes of all known data types -->
+<!ENTITY % Var.Attrib "
+	at CDATA #IMPLIED
+	name CDATA #IMPLIED
+	label NMTOKEN #IMPLIED
+	unknown ( yes | no ) #IMPLIED
+	constant ( yes | no ) #IMPLIED
+	value CDATA #IMPLIED
+">
+
+<!-- Attributes of a basic data element -->
+<!ENTITY % BasicVar.Attrib "
+	%Var.Attrib;
+	enumeration NMTOKEN #IMPLIED
+">
+
+<!-- Additional attributes of a sizable data element (like 'string') -->
+<!ENTITY % SizableVar.Attrib "
+	%Var.Attrib;
+	size CDATA #IMPLIED
+">
+
+<!-- ====================================================================== -->
+
+<!-- Simple (non-container) data types -->
+
+<!ELEMENT char %BasicVar.Contents;>
+<!ATTLIST char
+	%BasicVar.Attrib; 
+>
+<!ELEMENT byte %BasicVar.Contents;>
+<!ATTLIST byte
+	%BasicVar.Attrib; 
+>
+<!ELEMENT word %BasicVar.Contents;>
+<!ATTLIST word
+	%BasicVar.Attrib; 
+>
+<!ELEMENT dword %BasicVar.Contents;>
+<!ATTLIST dword
+	%BasicVar.Attrib; 
+>
+<!ELEMENT bit %BasicVar.Contents;>
+<!ATTLIST bit
+	%BasicVar.Attrib; 
+>
+
+<!-- ====================================================================== -->
+
+<!ELEMENT int %SizableVar.Contents;>
+<!ATTLIST int
+	%SizableVar.Attrib; 
+>
+
+<!ELEMENT string %SizableVar.Contents;>
+<!ATTLIST string
+	%SizableVar.Attrib; 
+	enumeration NMTOKEN #IMPLIED
+	delimiter CDATA #IMPLIED
+>
+
+<!-- ====================================================================== -->
+
+<!-- Container data types -->
+
+<!ELEMENT struct (%Describable.Contents;)>
+<!ATTLIST struct
+	%BasicVar.Attrib; 
+	type IDREF #REQUIRED
+>
+
+<!ELEMENT array (%Describable.Contents;, (%Var.Class;))>
+<!ATTLIST array
+	%BasicVar.Attrib; 
+	%SizableVar.Attrib; 
+>
+
+<!ELEMENT bitmask (%Describable.Contents;, (bit, bit, bit, bit, bit, bit, bit, bit)+)>
+<!ATTLIST bitmask
+	%BasicVar.Attrib; 
+	%SizableVar.Attrib; 
+>
+
+<!-- ====================================================================== -->
+
+<!ELEMENT unknown (%Describable.Contents;, guesses?)>
+<!ATTLIST unknown
+	at CDATA #IMPLIED
+	size CDATA #IMPLIED
+	constant (yes | no) #IMPLIED
+	value CDATA #IMPLIED
+>
+
+<!ELEMENT guesses (guess+)>
+<!ELEMENT guess (%Describable.Contents;, (%Var.Class;)*)>
+
+<!-- ====================================================================== -->
+
+<!-- Description (of a file, element, struct, etc) -->
+<!ELEMENT description (%html.flow; | reference)*>
+<!ATTLIST description
+	type (simple | paragraph | extended) #IMPLIED
+	xmlns:html CDATA #FIXED "http://www.w3.org/1999/xhtml"
+>
+
+<!-- Notes and comments (informal additions to the description) -->
+<!ELEMENT notes (note+)>
+<!ELEMENT note (#PCDATA | %html.inline; | reference)*>
+<!ATTLIST note
+	xmlns:html CDATA #FIXED "http://www.w3.org/1999/xhtml"
+>
+
+<!-- Reference to an internal or external definition -->
+<!ELEMENT reference (#PCDATA)>
+<!ATTLIST reference
+	file CDATA #IMPLIED
+	type CDATA #IMPLIED
+	to NMTOKEN #IMPLIED
+	label CDATA #IMPLIED
+>
+
+<!-- ====================================================================== -->
+
+<!-- A mapping (part of an enumeration) -->
+<!ELEMENT map (notes?)>
+<!ATTLIST map
+	from CDATA #REQUIRED
+	to CDATA #REQUIRED
+>

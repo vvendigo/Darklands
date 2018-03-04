@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands message file">
+
+<globs>
+	<glob filespec="*.msg" />
+</globs>
+
+<description type="extended">
+<html:p>
+Contains text and possibly other information about screens (cards).
+</html:p>
+<html:p>
+It is difficult to tell if a "card" refers to the entire file, or
+to one of the string entries in the file.  The terms are confusingly
+used interchangably in this file.
+</html:p>
+<html:p>
+Most, if not all, "<html:code>.msg</html:code>" files are found within
+the one cat file <html:a href="catalogs/msgfiles.html">msgfiles</html:a>.
+</html:p>
+</description>
+
+<offsets>
+	<offset start="0x00">
+		<byte at="0x00" name="num_cards">
+			<description>Number of cards.</description>
+		</byte>
+
+		<array at="0x01" size="*num_cards" name="card_definitions">
+			<description>Card definitions.</description>
+			<struct type="card" />
+		</array>
+	</offset>
+</offsets>
+
+<!-- ====================================================================== -->
+
+<structdefs>
+
+	<structdef type="card">
+		<description>A definition of an alchemical formula.</description>
+
+		<unknown at="0x00" size="5">
+			<notes>
+				<note>Many of these are {0x0a, 0x0a, 0x00, 0xf0, 0x00}.</note>
+				<note>Possibly these have to do with colors, images, or music?</note>
+			</notes>
+		</unknown>
+		<string at="0x05" name="contents" delimiter="null">
+			<description>Textual contents of the screen.</description>
+			<notes>
+				<note>
+					Screens are always a preamble of text, sometimes followed by a list of up to ten options.
+					If there are not that many choices, bogus entries (usually just numbered 1-10) fill the option slots.
+				</note>
+				<note>
+					Some cards appear to be standardized (always ten options, with potion/saint/leave options in the same places).
+				</note>
+
+				<note>
+					0x0a seems to be a newline, 0x14 seems to be a paragraph break.
+					These are almost always used together as a pair {0x0a, 0x14},
+					between every paragraph and each option.
+				</note>
+				<note>Usually the valid options start with {0x0a, 0x14}, but sometimes have an extra 0x14 or 0x15 appended (spacing?).</note>
+				<note>0x15 is unknown.  Usually it follows the {0x0a, 0x14}, so it's probably whitespace?</note>
+				<note>There is always an 0x1d between the "..." and the text of an option.</note>
+				<note>An 0x10 immediately precedes the "..." for options that offer a popup potion selection.</note>
+				<note>An 0x16 immediately precedes the "..." for options that offer a popup saint selection.</note>
+				<note>An 0x06 immediately precedes the "..." for options that would cause the party to enter battle immediately.</note>
+			</notes>
+		</string>
+	</structdef>
+
+</structdefs>
+
+</file>

@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands alchemical formulae">
+
+<globs>
+	<glob filespec="darkland.alc" />
+</globs>
+
+<description>Contains descriptions, ingredients, and other values for alchemical formulae.</description>
+
+<offsets>
+	<offset start="0x00">
+		<byte at="0x00" name="num_formulae" value="0x42">
+			<description>Number of formula definitions.</description>
+		</byte>
+
+		<array at="0x01" size="*num_formulae" name="formula_definitions">
+			<description>Formula definitions.</description>
+			<notes>
+				<note>
+					The order of formulas here matches the order in
+					<reference file="darkland.lst" type="variable" to="formula_full_names" />.
+				</note>
+			</notes>
+			<struct type="formula_definition" />
+		</array>
+	</offset>
+</offsets>
+
+<!-- ====================================================================== -->
+
+<structdefs>
+
+	<structdef type="formula_definition" size="0x68">
+		<description>A definition of an alchemical formula.</description>
+
+		<string at="0x00" size="80" name="description">
+			<description>Text description of the formula.</description>
+			<notes>
+				<note>The last character is always a null, as is any unused space</note>
+			</notes>
+		</string>
+
+		<word at="0x50" name="mystic_number">
+			<description>Mystic number (the base difficulty when mixing a new potion).</description>
+		</word>
+
+		<word at="0x52" name="risk_factor">
+			<description>Risk factor (when mixing a new potion).</description>
+			<notes>
+				<note>0=low, 1=medium, 2=high.</note>
+			</notes>
+		</word>
+
+		<array at="0x54" size="5" name="ingredients">
+			<description>Ingredients required to mix a potion.</description>
+			<notes>
+				<note>Ingredients are given in increasing item code value</note>
+				<note>If fewer than 5 ingredients are needed, the remaining space in the array is filled with zeroes.</note>
+			</notes>
+			<struct type="ingredient" />
+		</array>
+	</structdef>
+
+	<structdef type="ingredient" size="4">
+		<description>An ingredient (and quantity) for an alchemical formula.</description>
+
+		<word at="0x00" name="quantity">
+			<description>The amount of this ingredient needed.</description>
+			<notes>
+				<note>Ranges from 1-5.</note>
+			</notes>
+		</word>
+		<word at="0x02" name="item_code">
+			<description>The item code of the ingredient.</description>
+			<notes>
+				<note>Ingredients are given in increasing item code value.</note>
+				<note>
+					Codes are a reference to offsets into the 
+					<reference type="variable" to="item_definitions" file="darkland.lst">item_definitions array</reference>.
+				</note>
+			</notes>
+		</word>
+	</structdef>
+
+</structdefs>
+
+</file>

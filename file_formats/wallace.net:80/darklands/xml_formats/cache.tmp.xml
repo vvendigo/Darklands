@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands current inn cache data">
+
+<globs>
+	<glob filespec="cache.tmp" />
+</globs>
+
+<description type="extended">
+	<html:p>
+	This is a temporary file, created when a saved game is loaded.
+	TODO: is this also created when a new game is started?  Or when going in and out of battle?
+	</html:p>
+
+	<html:p>
+	All of the structures in here are defined in the saved game format,
+	so only brief descriptions are given here.
+	</html:p>
+</description>
+
+<offsets>
+	<offset start="0x00">
+		<byte at="0x00" name="max_cache_slot" constant="yes" value="0x63">
+			<notes>
+				<note>
+					See <reference type="variable" to="max_cache_slot" file="dksaveXX.sav" />.
+				</note>
+			</notes>
+		</byte>
+
+		<byte at="0x01" name="num_caches">
+			<notes>
+				<note>
+					See <reference type="variable" to="num_caches" file="dksaveXX.sav" />.
+				</note>
+			</notes>
+		</byte>
+
+		<array at="0x02" size="0x62" name="cache_offsets">
+			<notes>
+				<note>
+					See <reference type="variable" to="cache_offsets" file="dksaveXX.sav" />.
+				</note>
+			</notes>
+			<word />
+		</array>
+
+		<array at="0xc6" size="*num_caches" name="caches">
+			<notes>
+				<note>
+					See <reference type="variable" to="caches" file="dksaveXX.sav" />.
+				</note>
+			</notes>
+			<struct type="cache" />
+		</array>
+	</offset>
+</offsets>
+
+<!-- ====================================================================== -->
+
+<structdefs>
+	<external-structdef type="cache" file="dksaveXX.sav" />
+</structdefs>
+
+</file>
