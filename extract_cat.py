@@ -1,21 +1,18 @@
 import sys
-import os
-from common import bread, sread
+from utils import bread, sread
 
+# catalog filename
 fname = sys.argv[1]
+# output dir
 ddir = sys.argv[2]
-
-dname = ddir + '/' + os.path.basename(fname)
-
-os.mkdir(dname)
 
 data = map(ord, open(fname).read())
 dataLen = len(data)
 print fname, dataLen, 'B'
 pos = 0
 
-cnt = (data[pos+1] << 8) | data[pos]
-print cnt, bread(data[pos:pos+2])
+cnt = bread(data[pos:pos+2])
+print cnt
 pos += 2
 
 for i in xrange(0, cnt):
@@ -29,6 +26,6 @@ for i in xrange(0, cnt):
     pos += 4
     print fn, dataOffs, dataLen
 
-    fh = open(dname+'/'+fn, "wb")
+    fh = open(ddir+'/'+fn, "wb")
     fh.write(bytearray(data[dataOffs:dataOffs+dataLen]))
     fh.close()
