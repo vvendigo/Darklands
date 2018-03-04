@@ -44,6 +44,8 @@ pygame.init()
 srf = pygame.Surface(((width+1)*tw, (height+2)*dh))
 srf.fill((0, 160, 0))
 
+locIcons = {1:(1, 12, 0), 8:(1, 13, 0), 3:(1, 12, 1), 17:(1, 12, 4), 18:(1, 12, 3), 6:(1, 12, 5)} # castle, village, monastery, lake, shrine, mines
+
 for y, ln in enumerate(m):
 	xc = tw/2 if y%2 else 0
 	for x, tile in enumerate(ln):
@@ -51,50 +53,32 @@ for y, ln in enumerate(m):
 		srf.blit(pals[pal], (x*tw+xc, y*dh), (col*tw, row*th, tw, th))
 		# render locs
 		for li in locsByCoords.get((x,y), []):
-			l = locs[li]
-			if l['icon'] == 8: # village
-				pal, row, col = 1, 13, 0
+			lt = locIcons.get(locs[li]['icon'])
+			if lt:
+				pal, row, col = lt
 				srf.blit(pals[pal], (x*tw+xc, y*dh), (col*tw, row*th, tw, th))
 
-font = pygame.font.SysFont(fontName, 16)
-'''
-cities = reader_cty.readData(dlPath)
-for c in cities:
-	name = utils.tchars(c['short_name']).decode('utf-8')
-	x1, y1 = c['entry_coords']
-	x1 = x1*tw + (tw/2 if y1%2 else 0)
-	y1 *= dh
-	x2, y2 = c['exit_coords']
-	x2 = x2*tw + (tw/2 if y2%2 else 0)
-	y2 *= dh
-	text = font.render(name, True, (255, 255, 0))
-	textS = font.render(name, True, (0, 0, 0, 128))
-	cx = (x1+x2)//2 + tw//2
-	cy = (y1+y2)//2 + dh//2
-	x = cx - text.get_width()//2
-	y = cy - text.get_height()//2 - dh
-	#print name, x, y, x1, y1, x2, y2
-	srf.blit(textS, (x+1, y+1))
-	srf.blit(text, (x, y))
-'''
-fontSmaller = pygame.font.SysFont(fontName, 9)
-fonts = (font, 0,0,0,0,0,0,0, fontSmaller)
+fontBig = pygame.font.SysFont(fontName, 18)
+fontSmaller = pygame.font.SysFont(fontName, 12)
+fontSmallest = pygame.font.SysFont(fontName, 9)
+
+fonts = {0:fontBig, 8:fontSmaller, 13:0, 15:0, 17:0, 18:0, 19:0, 20:0}
 
 print 'Rendering names...'
 for loc in locs:
 	lt = loc['icon']
-	if lt not in (0, 8):
-		continue
 	name = utils.tchars(loc['name']).decode('utf-8')
 	x, y = loc['coords']
 	x = x*tw + (tw/2 if y%2 else 0)
 	y *= dh
-	text = fonts[lt].render(name, True, (255, 255, 0))
-	textS = fonts[lt].render(name, True, (0, 0, 0, 128))
+	font = fonts.get(lt, fontSmallest)
+	if not font: continue
+	text = font.render(name, True, (255, 255, 0))
+	textS = font.render(name, True, (0, 0, 0, 128))
 	cx = x + tw//2
 	cy = y + dh//2
 	x = cx - text.get_width()//2
-	y = cy - text.get_height()//2 - dh
+	y = cy - text.get_height()//2 - 2*dh
 	#print name, x, y, x1, y1, x2, y2
 	srf.blit(textS, (x+1, y+1))
 	srf.blit(text, (x, y))

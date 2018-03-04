@@ -13,11 +13,11 @@ locTypes = (
 '7',
 'village',
 'ruins of a village',
-'village', # (more square than 0x08, and unused?)
+'village2', # (more square than 0x08, and unused?)
 '11',
 '12',
 'tomb',
-'13',
+'14',
 'dragon\'s lair', # (invisible; cannot interact?)
 'spring',
 'lake',
