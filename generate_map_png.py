@@ -44,7 +44,16 @@ pygame.init()
 srf = pygame.Surface(((width+1)*tw, (height+2)*dh))
 srf.fill((0, 160, 0))
 
-locIcons = {1:(1, 12, 0), 8:(1, 13, 0), 3:(1, 12, 1), 17:(1, 12, 4), 18:(1, 12, 3), 6:(1, 12, 5)} # castle, village, monastery, lake, shrine, mines
+locIcons = {
+	1:(1, 12, 0), # castle
+	2:(1, 12, 0), # castle
+	8:(1, 13, 0), # village
+	3:(1, 12, 1), # monastery
+	16:(1, 12, 4),# spring
+	17:(1, 12, 4),# lake
+	18:(1, 12, 3),#shrine
+	6:(1, 12, 5), # mines
+}
 
 for y, ln in enumerate(m):
 	xc = tw/2 if y%2 else 0
@@ -62,7 +71,7 @@ fontBig = pygame.font.SysFont(fontName, 18)
 fontSmaller = pygame.font.SysFont(fontName, 12)
 fontSmallest = pygame.font.SysFont(fontName, 9)
 
-fonts = {0:fontBig, 8:fontSmaller, 13:0, 15:0, 17:0, 18:0, 19:0, 20:0}
+fonts = {0:fontBig, 8:fontSmaller, 13:0, 15:0, 16:0, 17:0, 18:0, 19:0, 20:0}
 
 print 'Rendering names...'
 for loc in locs:

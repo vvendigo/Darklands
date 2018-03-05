@@ -77,9 +77,11 @@ def readData(dlPath):
     return items, saints, formulae
 
 
-def infoStr(c):
+def infoStr(c, attrs=None):
     out = ''
     for k, v in c.iteritems():
+        if attrs and k not in attrs:
+            continue
         out += "%s: "%k
         if type(v) == dict:
             out += '{\n'
@@ -101,16 +103,16 @@ if __name__ == '__main__':
     items, saints, forms  = readData(dlPath)
 
     # print data
-    for i, c in enumerate(items):
-        print "%3d %20s %d %d %d"%(i, c['name'], c['rarity?'], c['unknown1'], c['unknown2'])
+#    for i, c in enumerate(items):
+#        print "%3d %20s %d %d %d"%(i, c['name'], c['rarity?'], c['unknown1'], c['unknown2'])
 
 
-'''
+
     # print data
     for i, c in enumerate(items):
         print '#', i, '#'
-        print infoStr(c)
-
+        print infoStr(c, ('name','is_impact','unknown_f4','const0_5'))
+'''
     print
 
     for i, c in enumerate(saints):
