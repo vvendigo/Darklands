@@ -10,7 +10,6 @@ Probably not suitable for Windows because of lazy filepaths handling.
 
 ## TODO
 * loc - cty relation?
-* wrong bridge tile rendering
 * MSG format
 
 ## Repository contents
@@ -38,18 +37,19 @@ Probably not suitable for Windows because of lazy filepaths handling.
 * generate_map_web.py - outputs HUGE webpage of simplified DL map with city info
 
 #### Readers
-* reader_cty.py
-* reader_loc.py
-* reader_map.py
-* reader_msg.py
-* reader_pic.py
+* reader_cty.py - cities
+* reader_loc.py - map locations (cities, villages, castles...)
+* reader_lst.py - item types & attrs, saints and formula names
+* reader_map.py - tile map
+* reader_msg.py - dialogs
+* reader_pic.py - image format
 
 #### Common libs
 * utils.py
 
 
 ### Misc
-* dosbox.conf - to ease playing of Darklands
+* dosbox.conf - to ease running of the game
 
 ## Dependencies
 * Pygame lib for imagery
