@@ -1,4 +1,3 @@
-import sys
 from utils import rbread, bread
 
 def readData(dlPath):
@@ -70,6 +69,7 @@ def readData(dlPath):
 
 # main ------------
 if __name__ == '__main__':
+    import sys
 
     dlPath = sys.argv[1] if len(sys.argv) > 1 else 'DL'
 

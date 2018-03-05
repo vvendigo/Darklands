@@ -1,5 +1,3 @@
-import sys
-import os
 from utils import bread, sread
 import pygame
 
@@ -228,6 +226,9 @@ def convertImage(infname, outfname, palExt = None):
 
 # main ------------
 if __name__ == '__main__':
+    import sys
+    import os
+
     fname = sys.argv[1]
     ddir = sys.argv[2]
     # opt. file to pallete read from

@@ -1,4 +1,3 @@
-import sys
 from collections import OrderedDict
 from utils import bread, sread
 
@@ -153,7 +152,8 @@ def readData(dlPath):
 
 # main ------------
 if __name__ == '__main__':
-    import utils
+    import sys
+    from utils import itemStr
 
     dlPath = sys.argv[1] if len(sys.argv) > 1 else 'DL'
 
@@ -162,5 +162,5 @@ if __name__ == '__main__':
     # print data
     for i, c in enumerate(cities):
         print '#', i, '#'
-        print utils.itemStr(c)
+        print itemStr(c)
 

@@ -1,4 +1,3 @@
-import sys
 from collections import OrderedDict
 from utils import bread, sread
 
@@ -80,7 +79,8 @@ def readData(dlPath):
 
 # main ------------
 if __name__ == '__main__':
-    import utils
+    import sys
+    from utils import itemStr, itemLn
 
     dlPath = sys.argv[1] if len(sys.argv) > 1 else 'DL'
 
@@ -93,16 +93,17 @@ if __name__ == '__main__':
     '''
     for i, c in enumerate(items):
         print '#', i, '#'
-        print utils.itemStr(c)
+        print itemStr(c)
 
     print
 
     for i, c in enumerate(saints):
         print '#', i, '#'
-        print utils.itemStr(c)
+        print itemStr(c)
 
     print
 
     for i, c in enumerate(forms):
         print '#', i, '#'
-        print utils.itemStr(c)
+        print itemStr(c)
+
