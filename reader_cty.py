@@ -69,14 +69,12 @@ def readData(dlPath):
         pos += 2
         #Buildings and locations in the city.
         #    Bits are on iff there is one of that type of building.
-        opts = ('is_kloster', 'is_slums', 'unknown1', 'is_cathedral', 'unknown2', 'is_no_fortress',
-                'is_town_hall', 'is_polit', 'constant1', 'constant2', 'constant3', 'constant4',
-                'docks', 'unknown3', 'is_pawnshop', 'is_university')
-        cOpts = {}
+        opts = ('has_kloster', 'has_slums', 'has_unknown1', 'has_cathedral', 'has_unknown2', 'has_no_fortress',
+                'has_town_hall', 'has_polit', 'has_constant1', 'has_constant2', 'has_constant3', 'has_constant4',
+                'has_docks', 'has_unknown3', 'has_pawnshop', 'has_university')
         for i, o in enumerate(opts):
-            cOpts[o] = 1 if city_contents & (1 << (15-i)) else 0
+            c[o] = 1 if city_contents & (1 << (15-i)) else 0
         c['bin_city_contents'] = bin(city_contents)
-        c['city_contents'] = cOpts
         c['unknown_cd_4'] = bread(data[pos:pos+2]) ; pos += 2
         # [constant: 0]
 
@@ -153,23 +151,9 @@ def readData(dlPath):
     return cities
 
 
-def infoStr(c):
-    out = ''
-    for k, v in c.iteritems():
-        out += "%s: "%k
-        if type(v) == dict:
-            out += '{\n'
-            for vk, vv in v.iteritems():
-                out += "- %s: %s\n"%(vk, vv)
-            out += '}'
-        else:
-            out += str(v)
-        out += '\n'
-    return out
-
-
 # main ------------
 if __name__ == '__main__':
+    import utils
 
     dlPath = sys.argv[1] if len(sys.argv) > 1 else 'DL'
 
@@ -178,5 +162,5 @@ if __name__ == '__main__':
     # print data
     for i, c in enumerate(cities):
         print '#', i, '#'
-        print cityInfo(c)
+        print utils.itemStr(c)
 

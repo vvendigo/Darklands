@@ -79,12 +79,12 @@ if __name__ == '__main__':
 
     tiles = [' WWWwsppffttTTTT', 'HHhhMMAA/~~%Cc++']
     tiles = [' ....sppffttTTTT', 'HHhhMMAA/~~%Cc++']
-
+    '''
     for ln in m[37:40]:
         for pal, row, col in ln[75:78]:
             print pal, bin(row), '',
         print
-
-#    for ln in m:
-#        print ''.join([tiles[pal][row] for pal, row, col in ln])
+    '''
+    for ln in m:
+        print ''.join([tiles[pal][row] for pal, row, col in ln])
             

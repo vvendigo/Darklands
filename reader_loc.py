@@ -112,6 +112,7 @@ def infoStr(c):
 
 # main ------------
 if __name__ == '__main__':
+    import utils
 
     dlPath = sys.argv[1] if len(sys.argv) > 1 else 'DL'
 
@@ -120,5 +121,5 @@ if __name__ == '__main__':
     # print data
     for i, c in enumerate(locs):
         print '#', i, '#'
-        print infoStr(c)
+        print utils.itemStr(c)
 

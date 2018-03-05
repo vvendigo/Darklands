@@ -599,13 +599,13 @@ __wbhack.init('https://web.archive.org/web');
 							<td class="bit-description">Item is a missile weapon.</td>
 						</tr>
 						<tr>
-							<td nowrap>bit 5:</td>
+							<td nowrap>bit <del>5</del><ins>7</ins>:</td>
 							<td class="bit-name">
 								<span class="var-name"></span> [constant: 0]</td>
 							<td class="bit-description"></td>
 						</tr>
 						<tr>
-							<td nowrap>bit 6:</td>
+							<td nowrap>bit <del>6</del><ins>5</ins>:</td>
 							<td class="bit-name">
 								<span class="var-name">
 									<a name="variable-is_unknown_1">
@@ -626,7 +626,7 @@ __wbhack.init('https://web.archive.org/web');
 							</td>
 						</tr>
 						<tr>
-							<td nowrap>bit 7:</td>
+							<td nowrap>bit <del>7</del><ins>6</ins>:</td>
 							<td class="bit-name">
 								<span class="var-name">
 									<a name="variable-is_music">
@@ -669,10 +669,11 @@ __wbhack.init('https://web.archive.org/web');
 							</td>
 							<td class="bit-description">
 								<ul class="notes">
-									<li class="note">
+									<li class="note"><del>
 						This and the next bit are set for anything that
 						does not have the high bit <a href="#variable-is_unknown_3">is_unknown_3</a> set,
-						except for: cloth armor, superb horse, and fast horse.
+						except for: cloth armor, superb horse, and fast horse.</del>
+						<ins>I don't see relation with <a href="#variable-is_unknown_3">is_unknown_3</a>. This and next bit are never set together. 1st or 2nd is set for misc weapons, armor and potions, 2nd only for all ingredients.</ins>
 					</li>
 								</ul>
 							</td>

@@ -84,7 +84,7 @@ for c in cities:
 	out.write('<div class="c" style="left:%dpx;top:%dpx">'\
 		%((x1+x2)//2-tw//2, (y1+y2)//2-th//2))
 	out.write("<b>%s</b><br><br>"%(name))
-	out.write(reader_cty.infoStr(c).replace('\n','<br>'))
+	out.write(utils.itemStr(c).replace('\n','<br>'))
 	out.write('</div>')
 
 out.write('''</div>

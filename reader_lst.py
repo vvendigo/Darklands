@@ -20,10 +20,10 @@ def readData(dlPath):
         c['short_name'] = sread(data[pos:pos+10]) ; pos += 10
         c['type'] = bread(data[pos:pos+2]) ; pos += 2
         flags = (('is_edged','is_impact','is_polearm','is_flail','is_thrown','is_bow','is_metal_armor','is_shield'),
-                ('unknown_f1','unknown_f2','is_component','is_potion','is_relic','is_horse','is_quest_1','const0'),
-                ('is_lockpicks','is_light','is_arrow','const0_2','is_quarrel','is_ball','const0_3','is_quest_2'),
-                ('is_throw_potion','const0_4','is_nonmetal_armor','is_missile_weapon','const0_5','unknown_f3','is_music','const0_6'),
-                ('is_unknown_2','unknown_f4','const0_7','const0_8','const0_9','const0_10','const0_11','is_unknown_3'))
+                ('is_unknown1','is_unknown2','is_component','is_potion','is_relic','is_horse','is_quest_1','is_const0_1'),
+                ('is_lockpicks','is_light','is_arrow','is_const0_2','is_quarrel','is_ball','is_const0_3','is_quest_2'),
+                ('is_throw_potion','is_const0_4','is_nonmetal_armor','is_missile_weapon','is_unknown3','is_music','is_const0_6','is_const0_7'),
+                ('is_unknown4','is_unknown5','is_const0_8','is_const0_9','is_const0_10','is_const0_11','is_const0_12','is_unknown6'))
         for f in flags:
             bits = data[pos] ; pos += 1
             for b,n in enumerate(f):
@@ -77,51 +77,32 @@ def readData(dlPath):
     return items, saints, formulae
 
 
-def infoStr(c, attrs=None):
-    out = ''
-    for k, v in c.iteritems():
-        if attrs and k not in attrs:
-            continue
-        out += "%s: "%k
-        if type(v) == dict:
-            out += '{\n'
-            for vk, vv in v.iteritems():
-                out += "- %s: %s\n"%(vk, vv)
-            out += '}'
-        else:
-            out += str(v)
-        out += '\n'
-    return out
-
-
 
 # main ------------
 if __name__ == '__main__':
+    import utils
 
     dlPath = sys.argv[1] if len(sys.argv) > 1 else 'DL'
 
     items, saints, forms  = readData(dlPath)
 
     # print data
-#    for i, c in enumerate(items):
-#        print "%3d %20s %d %d %d"%(i, c['name'], c['rarity?'], c['unknown1'], c['unknown2'])
-
-
-
-    # print data
+    '''
+    for i, c in enumerate(items):
+        print '%3d %s'%(i, utils.itemLn(c, (('name',15),'is_const0_4')))
+    '''
     for i, c in enumerate(items):
         print '#', i, '#'
-        print infoStr(c, ('name','is_impact','unknown_f4','const0_5'))
-'''
+        print utils.itemStr(c)
+
     print
 
     for i, c in enumerate(saints):
         print '#', i, '#'
-        print infoStr(c)
+        print utils.itemStr(c)
 
     print
 
     for i, c in enumerate(forms):
         print '#', i, '#'
-        print infoStr(c)
-'''
+        print utils.itemStr(c)
