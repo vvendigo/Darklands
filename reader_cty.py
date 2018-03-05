@@ -21,7 +21,7 @@ def readData(dlPath):
         c = OrderedDict()
 
         c['short_name'] = sread(data[pos:pos+32]) ; pos += 32
-        c['full_name'] = sread(data[pos:pos+32]) ; pos += 32
+        c['name'] = sread(data[pos:pos+32]) ; pos += 32
         #city_data = (size 0x2e)
         dataPos = pos
 

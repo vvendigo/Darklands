@@ -42,17 +42,19 @@ for i,l in enumerate(locs):
 print "Rendering tile map..."
 pygame.init()
 srf = pygame.Surface(((width+1)*tw, (height+2)*dh))
-srf.fill((0, 160, 0))
+srf.fill((4, 154, 0))
 
 locIcons = {
 	1:(1, 12, 0), # castle
 	2:(1, 12, 0), # castle
-	8:(1, 13, 0), # village
 	3:(1, 12, 1), # monastery
+	6:(1, 12, 5), # mines
+	8:(1, 13, 0), # village
 	16:(1, 12, 4),# spring
 	17:(1, 12, 4),# lake
 	18:(1, 12, 3),#shrine
-	6:(1, 12, 5), # mines
+	22:(1, 12, 13), # templ. castle
+	23:(1, 12, 14), # baph. castle
 }
 
 for y, ln in enumerate(m):
@@ -73,10 +75,14 @@ fontSmallest = pygame.font.SysFont(fontName, 9)
 
 fonts = {0:fontBig, 8:fontSmaller, 13:0, 15:0, 16:0, 17:0, 18:0, 19:0, 20:0}
 
+print 'Reading cities...'
+cities = reader_cty.readData(dlPath)
+
 print 'Rendering names...'
-for loc in locs:
+for i, loc in enumerate(locs):
 	lt = loc['icon']
-	name = utils.tchars(loc['name']).decode('utf-8')
+	name = loc['name'] if lt else cities[i]['name']
+	name = utils.tchars(name).decode('utf-8')
 	x, y = loc['coords']
 	x = x*tw + (tw/2 if y%2 else 0)
 	y *= dh

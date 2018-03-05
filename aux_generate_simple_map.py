@@ -38,10 +38,10 @@ for c in cities:
     name = utils.tchars(c['short_name'])
     x, y = c['entry_coords']
     dx, dy = x-minX, y-minY
-    print '<div class="ce" style="top:%dpx;left:%dpx" title="%s"></div>'%(int(dy*a/2)-4, int(dx*a)-4, name)
+    print '<div class="ce" style="top:%dpx;left:%dpx" title="%s"></div>'%(int(dy*a/2)-4, int(dx*a)-4, name+' E')
     x, y = c['exit_coords']
     dx, dy = x-minX, y-minY
-    print '<div class="cx" style="top:%dpx;left:%dpx" title="%s"></div>'%(int(dy*a/2)-4, int(dx*a)-4, name)
+    print '<div class="cx" style="top:%dpx;left:%dpx" title="%s"></div>'%(int(dy*a/2)-4, int(dx*a)-4, name+' X')
 
 
 locs = reader_loc.readData(dlPath)
@@ -50,10 +50,23 @@ for c  in locs:
     name = utils.tchars(c['name'] + '(' + c['str_loc_type'] + ')')
     x, y = c['coords']
     dx, dy = x-minX, y-minY
-    print '<div class="l" style="top:%dpx;left:%dpx" title="%s"></div>'%(int(dy*a/2)-4, int(dx*a)-4, name)
+    print '<div class="l" style="top:%dpx;left:%dpx" title="%s"></div>'%(int(dy*a/2)-4, int(dx*a)-4, name+' L')
 
 
 print '''</div>
+<pre>
+'''
+for i, l  in enumerate(locs):
+    if l['icon'] != 0:
+        continue
+    lx, ly = l['coords']
+    c = cities[i]
+    cx, cy = c['entry_coords']
+    if l['name'] != c['short_name'] or cx-lx or cy-ly:
+        print l['name'], c['short_name'], cx-lx, cy-ly
+
+'''
+</pre>
 </body>
 </html>
 '''
