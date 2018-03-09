@@ -89,7 +89,9 @@ if __name__ == '__main__':
     # print data
     '''
     for i, c in enumerate(items):
-        print '%3d %s'%(i, utils.itemLn(c, (('name',15),'is_const0_4')))
+        print '%3d %s'%(i, itemLn(c, (('name',15),'is_unknown1','is_unknown2','is_unknown3', 'is_const0_6','is_const0_7','is_unknown4','is_unknown5','is_unknown6')))
+    print
+
     '''
     for i, c in enumerate(items):
         print '#', i, '#'

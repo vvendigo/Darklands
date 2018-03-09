@@ -41,7 +41,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 * reader_loc.py - map locations (cities, villages, castles...)
 * reader_lst.py - item types & attrs, saints and formula names
 * reader_map.py - tile map
-* reader_msg.py - dialogs
+* reader_msg.py - dialogs - WIP
 * reader_pic.py - image format
 
 #### Common libs

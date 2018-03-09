@@ -244,7 +244,7 @@ if __name__ == '__main__':
         print 'pic', len(pic[0]), len(pic),
     #print pic[0][0]
     if pal:
-        print 'pal', len(pal), pal
+        print 'pal', len(pal), #pal
     print
 
     if pname:

@@ -84,15 +84,71 @@ the one cat file <a href="catalogs/msgfiles.html">msgfiles</a>.
 			<dt>
 				<span class="var-at">
 					<code>0x00</code>: </span>
-				<span class="var-name"></span>
+				<span class="var-name"><ins>textOffsY:</ins></span>
 				<span class="var-datatype">
-					<i>unknown</i> (5 bytes)</span>
+					<del><i>unknown</i> (5 bytes)</del></span>
+					byte
 			</dt>
+<ins>
+            <dd>
+                <span class="var-description">
+				Left border of card text. Starting at the edge of left border -2 pixels.
+				</span>
+			</dd>
+
+            <dt>
+                <span class="var-at">
+                    <code>0x01</code>: </span>
+                <span class="var-name"><ins>textOffsX:</ins></span>
+                <span class="var-datatype">
+                    byte</span>
+            </dt>
+            <dd>
+                <span class="var-description">
+                Top border of card text. Starting at the edge of top border -1 pixel.
+                </span>
+            </dd>
+
+            <dt>
+                <span class="var-at">
+                    <code>0x02</code>: </span>
+                <span class="var-name"></span>
+                <span class="var-datatype">
+                    unknown (byte)</span>
+            </dt>
+
+            <dt>
+                <span class="var-at">
+                    <code>0x03</code>: </span>
+                <span class="var-name">textMaxX:</span>
+                <span class="var-datatype">
+                    byte</span>
+            </dt>
+            <dd>
+                <span class="var-description">
+                Text maximum X. (Width of the text column = textMaxX - textOffsX)
+                </span>
+            </dd>
+
+            <dt>
+                <span class="var-at">
+                    <code>0x04</code>: </span>
+                <span class="var-name"></span>
+                <span class="var-datatype">
+                    unknown (byte)</span>
+            </dt>
+</ins>
+
 			<dd>
 				<span class="var-description">
 					<ul class="notes">
 						<li class="note">Many of these are {0x0a, 0x0a, 0x00, 0xf0, 0x00}.</li>
-						<li class="note">Possibly these have to do with colors, images, or music?</li>
+						<del><li class="note">Possibly these have to do with colors, images, or music?</li></del>
+						<ins>
+						<li class="note">Unknown bytes are 0x0 for all but 2 cards.</li>
+						<li class="note">First (extreme) exception is $MCGUF07.MSG, it has 76 cards, all without text and nearly all of them have nonzero unk1 or unk 2.</li>
+						<li class="note">Second one is $RAUBI05.MSG, there id only one nonzero unk2. Typo probably?</li>
+						</ins>
 					</ul>
 				</span>
 			</dd>
