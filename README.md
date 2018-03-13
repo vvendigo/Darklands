@@ -9,8 +9,9 @@ Probably not suitable for Windows because of lazy filepaths handling.
 
 
 ## TODO
-* loc - cty relation?
-* MSG format
+* File format documentation of my own
+* MSG cards connections
+* Weapon attributes
 
 ## Repository contents
 
