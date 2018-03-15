@@ -35,7 +35,7 @@
 		</word>
 		<array at="0x04" size="*max_y_coord" name="row_offsets">
 			<description>File offsets to row data.</description>
-			<word />
+			<dword />
 		</array>
 		<array size="*max_y_coord" name="map_data">
 			<description>Map data.</description>
@@ -65,6 +65,13 @@
 					the 4's bit comes from the southwest tile's row's 2's bit;
 					<html:br />
 					the 8's bit comes from the southeast tile's row's 1's bit.
+				</note>
+				<note>
+					W: Described recipe doesn't seem to work.<html:br />
+					The bits seems to be set by adjacent tile "similarity". Tile having same palette and row sets the bit. Plus there are other relations: river binds to bridge tile (and vice versa), most of "wet" tiles binds together, etc.
+				</note>
+				<note>
+					Odd lines (y%2 == 1) are shifted by half to the right. Therefore ie. for y==2 are north adjacent tiles coordinates x-1, y-1 and x, y-1, and for y==3 are north adjacent tiles coordinates x, y-1 and x+1, y-1.
 				</note>
 			</notes>
 			<array>

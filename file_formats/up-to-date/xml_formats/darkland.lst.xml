@@ -261,6 +261,9 @@
 						does not have the high bit <reference type="variable" to="is_unknown_3" /> set,
 						except for: cloth armor, superb horse, and fast horse.
 					</note>
+					<note>
+						W: I don't see relation with is_unknown_3. This and next bit are never set together. 1st or 2nd is set for misc weapons, armor and potions, 2nd only for all ingredients.
+					</note>
 				</notes>
 			</bit>
 			<bit unknown="yes" />
@@ -299,6 +302,13 @@
 					99 for quest items and non-weapon relics.
 					High (40-70) for weapon relics.
 				</note>
+			</notes>
+		</byte>
+
+        <byte at="0x27" name="rarity">
+            <description>Rarity of the item.</description>
+			<notes>
+				<note>Range 0-12 (relics 12, quest items 0 [n/a?], missiles 1, bows: Short 3, Long 10, Composite 12, horses: Pack 2, Average 3, Fast 4, Superb 6</note>
 			</notes>
 		</byte>
 

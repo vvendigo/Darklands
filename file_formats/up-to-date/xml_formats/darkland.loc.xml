@@ -110,9 +110,9 @@
 			</notes>
 		</byte>
 
-		<unknown at="0x15" size="4" constant="yes" value="{ 0, 0x19, 0x19, 0x19 }" />
+		<unknown at="0x15" size="3" constant="yes" value="{ 0x19, 0x19, 0x19 }" />
 
-		<word at="0x19" name="inn_cache_idx">
+		<word at="0x18" name="inn_cache_idx">
 			<notes>
 				<note>In this file, this is always 0xffff (-1).</note>
 				<note>
@@ -123,9 +123,9 @@
 			</notes>
 		</word>
 
-		<word at="0x1a" constant="yes" value="0x0000" />
+		<word at="0x19" constant="yes" value="0x0000" />
 
-		<word at="0x1c" unknown="yes">
+		<word at="0x1b" unknown="yes">
 			<notes>
 				<note>
 					All are zero except for Nurnberg, which is 0xc0.
@@ -133,9 +133,9 @@
 			</notes>
 		</word>
 
-		<unknown at="0x1e" size="8" constant="yes" value="all 0x00" />
+		<unknown at="0x1d" size="8" constant="yes" value="all 0x00" />
 
-		<string at="0x26" size="20" name="name">
+		<string at="0x25" size="20" name="name">
 			<description>Name.</description>
 		</string>
 	</structdef>

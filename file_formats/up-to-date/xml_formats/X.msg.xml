@@ -41,12 +41,34 @@ the one cat file <html:a href="catalogs/msgfiles.html">msgfiles</html:a>.
 	<structdef type="card">
 		<description>A definition of an alchemical formula.</description>
 
-		<unknown at="0x00" size="5">
+		<byte at="0x00" name="text_offs_x">
+			<description>Left border of card text.</description>
 			<notes>
-				<note>Many of these are {0x0a, 0x0a, 0x00, 0xf0, 0x00}.</note>
-				<note>Possibly these have to do with colors, images, or music?</note>
+				<note>Starting at the inner edge of left border -2 pixels. </note>
 			</notes>
+		</byte>
+		<byte at="0x01" name="text_offs_y">
+			<description>Top border of card text.</description>
+			<notes>
+				<note>Starting at the inner edge of top border -1 pixel. </note>
+			</notes>
+		</byte>
+		<unknown at="0x02" size="1">
 		</unknown>
+		<byte at="0x03" name="text_max_x">
+			<description>Text maximum X.</description>
+			<notes>
+				<note>(Width of the text column = text_max_x - text_offs_x)</note>
+			</notes>
+		</byte>
+        <unknown at="0x04" size="1">
+			<notes>
+				<note>Unknown bytes are 0x0 for all but 2 cards.</note>
+				<note>First (extreme) exception is $MCGUF07.MSG, it has 76 cards, all without text and nearly all of them have nonzero unk1 or unk 2.</note>
+				<note>Second one is $RAUBI05.MSG, there is only one nonzero unk2. Typo probably?</note>
+			</notes>
+        </unknown>
+
 		<string at="0x05" name="contents" delimiter="null">
 			<description>Textual contents of the screen.</description>
 			<notes>
