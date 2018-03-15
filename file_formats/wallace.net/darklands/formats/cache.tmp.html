@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/cache.tmp.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands current inn cache data</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands current inn cache data</h1>
+		<p>Files with this format: "<code>cache.tmp</code>".</p>
+		<p>
+	This is a temporary file, created when a saved game is loaded.
+	TODO: is this also created when a new game is started?  Or when going in and out of battle?
+	</p>
+		<p>
+	All of the structures in here are defined in the saved game format,
+	so only brief descriptions are given here.
+	</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">starting at 0x00</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: starting at 0x00</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-max_cache_slot">
+						<strong>max_cache_slot: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span> [constant: 0x63]</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					See <a class="external" href="dksaveXX.sav.html#variable-max_cache_slot">max_cache_slot</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x01</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_caches">
+						<strong>num_caches: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					See <a class="external" href="dksaveXX.sav.html#variable-num_caches">num_caches</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-cache_offsets">
+						<strong>cache_offsets: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 0x62 ] of word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					See <a class="external" href="dksaveXX.sav.html#variable-cache_offsets">cache_offsets</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xc6</code>: </span>
+				<span class="var-name">
+					<a name="variable-caches">
+						<strong>caches: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_caches">num_caches</a> ] of struct <a class="external" href="dksaveXX.sav.html#structdef-cache">cache</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					See <a class="external" href="dksaveXX.sav.html#variable-caches">caches</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/cache.tmp.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

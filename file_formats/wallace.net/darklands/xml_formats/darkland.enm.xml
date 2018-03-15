@@ -1,0 +1,253 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands enemy definitions">
+
+<globs>
+	<glob filespec="darkland.enm" />
+</globs>
+
+<description>Contains definitions for all enemies (people and creatures).</description>
+
+<offsets>
+	<offset start="0x00">
+		<array at="0x00" size="71" name="enemy_types">
+			<description>Definitions of the types of enemies.</description>
+			<notes>
+				<note>TODO: Is this 71 (and the following 82) stored anywhere?</note>
+			</notes>
+			<struct type="enemy_type" />
+		</array>
+
+		<array at="0x3894" size="82" name="enemies">
+			<description>Definitions of the enemies.</description>
+			<struct type="enemy" />
+		</array>
+	</offset>
+</offsets>
+
+<!-- ====================================================================== -->
+
+<structdefs>
+	<external-structdef type="attribute_set" file="structures" />
+	<external-structdef type="skill_set" file="structures" />
+
+	<structdef type="enemy_type" size="0xcc">
+		<description>Definition of a type of enemy.</description>
+
+		<string at="0x00" size="4" name="enemy_image" enumeration="image_group" delimiter="null">
+			<notes>
+				<note>
+					Three characters followed by a null; 'E??' for humans, 'M??' for monsters.
+				</note>
+			</notes>
+		</string>
+
+		<string at="0x04" size="10" name="type_name">
+			<description>Internal name.</description>
+			<notes>
+				<note>TODO: verify this is completely internal and not referred to elsewhere?</note>
+				<note>Variants are labelled "Sergeant1", "Sergeant2", etc.  These numbers are the reverse of the cluebook's "type" designations; ie, "Sergeant1" is type "E" (weakest), "Sergeant5" is type "A" (strongest).</note>
+			</notes>
+		</string>
+
+		<byte at="0x0e" name="num_variants">
+			<notes>
+				<note>For the first instance of a type (say, 'Sergeant1'), this contains the number of variants.</note>
+				<note>Variants after the first contain the value 0xff.</note>
+			</notes>
+		</byte>
+
+		<byte at="0x0f" unknown="yes">
+			<notes>
+				<note>Ranges from 1-6.</note>
+				<note>At a guess, maybe this is a probability frequency?  Number of instances?</note>
+			</notes>
+		</byte>
+
+		<byte at="0x10" unknown="yes">
+			<notes>
+				<note>Ranges from 1-3; 1 is the most common value.</note>
+			</notes>
+		</byte>
+
+		<byte at="0x11" unknown="yes">
+			<notes>
+				<note>Increases in jumps from 0 to 0x47.</note>
+			</notes>
+		</byte>
+
+		<word at="0x12" unknown="yes">
+			<notes>
+				<note>Ranges from 0-2.</note>
+			</notes>
+		</word>
+
+		<struct at="0x14" type="attribute_set" name="attrs">
+			<description>Attributes (both current and maximum).</description>
+		</struct>
+
+		<struct at="0x1a" type="skill_set" name="skills">
+			<description>Skills.</description>
+			<notes>
+				<note>For a given enemy, all melee weapon skills are equal, and all missile weapon skills are equal.</note>
+				<note>All non-weapon skills are 0x14 (20).</note>
+			</notes>
+		</struct>
+
+		<byte at="0x2e" unknown="yes">
+			<notes>
+				<note>Ranges from 0x08-0x14.</note>
+				<note>Since the range is a tolerable attribute/skill value, maybe this is related?</note>
+			</notes>
+		</byte>
+
+		<byte at="0x2f" constant="yes" value="0x00" />
+
+		<byte at="0x30" unknown="yes">
+			<notes>
+				<note>Most are 0, except: skeletons/gnome/giant gnome (0x2b), vulcan (0x40), hellhound (0x01), both dragons (0x20).</note>
+			</notes>
+		</byte>
+
+		<byte at="0x31" unknown="yes">
+			<notes>
+				<note>Ranges from 0-2, most are 0.  Gargoyle is the only 2.</note>
+			</notes>
+		</byte>
+
+		<unknown at="0x32" size="0x42">
+			<notes>
+				<note>
+					This looks like the probabilities of the enemy carrying each of the types of potions.
+					The size of the structure equals the number of potions (times three), and the values are only non-zero for evil alchemists, monks, and one variety of dwarves.
+				</note>
+				<note>
+					They appear in triplets (0x0a,0xf8,0x19 for evil alchemist) with the first number around 10, the second around 250, and the third around 25.
+				</note>
+				<note>
+					If the first byte is zero, the second is usually positive; if not, it's negative.
+				</note>
+				<note>
+					The third number in the triplets is 0x19 (25), 0x23 (35), or 0x2d (45).  Must be the quality.
+				</note>
+			</notes>
+		</unknown>
+
+		<unknown at="0x74" size="0x1e">
+			<notes>
+				<note>
+					Maybe the odds of carrying components?
+					Non-zero for evil alchemists, monks, and one variant of dwarves, but also for witches, templars, demon princes, a dragon, and Baphomet.
+				</note>
+				<note>
+					If combined with the preceding unknown triplets, it makes 32 triplets in all.
+				</note>
+			</notes>
+		</unknown>
+
+		<unknown at="0x92" size="0x2">
+			<notes>
+				<note>Generally increasing, getting up to 0x5b for Baphomet.</note>
+			</notes>
+		</unknown>
+
+		<byte at="0x94" name="vital_type">
+			<description>Item type of the vital armor worn.</description>
+			<notes>
+				<note>0xff if no armor is worn (ditto for future 'type' values).</note>
+			</notes>
+		</byte>
+
+		<byte at="0x95" name="leg_type">
+			<description>Item type of the leg armor worn.</description>
+		</byte>
+
+		<byte at="0x96" name="armor_q">
+			<description>Quality of the armor worn.</description>
+			<notes>
+				<note>Both vital and leg armor have the same quality.</note>
+				<note>If no armor is worn, this is the 'effective' armor class of the creature.</note>
+			</notes>
+		</byte>
+
+		<byte at="0x97" unknown="yes">
+			<notes>
+				<note>0x5f, 0x60, 0x61, or 0xff.</note>
+			</notes>
+		</byte>
+
+		<byte at="0x98" name="shield_type">
+			<description>Item type of the shield worn.</description>
+		</byte>
+
+		<byte at="0x99" name="shield_q">
+			<description>Quality of the shield worn.</description>
+			<notes>
+				<note>This is 0x19 even if it is a creature that carries no shield.</note>
+			</notes>
+		</byte>
+
+		<unknown at="0x9a" size="6">
+		</unknown>
+
+		<unknown at="0xa0" size="6">
+			<notes>
+				<note>This really looks a lot like the next block... almost.</note>
+			</notes>
+		</unknown>
+
+		<array at="0xa6" size="6" name="weapon_types">
+			<description>Possible types of weapons that might be carried.</description>
+			<notes>
+				<note>This doesn't *quite* correlate with the hint book, but comes so close that it's probably what it is.</note>
+			</notes>
+			<byte />
+		</array>
+
+		<byte at="0xac" name="weapon_q">
+			<description>Quality of the weapon wielded.</description>
+			<notes>
+				<note>If the creature doesn't use a weapon, this is the 'effective' weapon quality.</note>
+				<note>Not sure where other weapon factors (penetration, damage) are.</note>
+			</notes>
+		</byte>
+
+		<unknown at="0xad" size="0x0b">
+			<notes>
+				<note>Most values are 0xff.</note>
+			</notes>
+		</unknown>
+
+		<unknown at="0xb9" size="0x13">
+			<notes>
+				<note>Looks like a byte followed by a bunch of word values</note>
+				<note>Mostly zero or low values, with occasional 0xffff (-1) values.</note>
+			</notes>
+		</unknown>
+	</structdef>
+
+	<structdef type="enemy" size="0x18">
+		<description>Definition of an enemy.</description>
+		<word at="0x00" name="enemy_type">
+			<description>The type of enemy.</description>
+			<notes>
+				<note>
+					This is an index into the
+					<reference type="variable" to="enemy_types" /> array.
+				</note>
+			</notes>
+		</word>
+		<string at="0x02" size="12" name="name">
+			<description>Name.</description>
+		</string>
+		<unknown at="0x0e" size="8" constant="yes" value="all 0x00" />
+		<word at="0x16" unknown="yes">
+			<notes>
+				<note>There are only a few distinct values: 0, 1, 3, 7, 0x3f, 0x4f, and 0x81.  Bitmask?</note>
+				<note>For a given enemy type, this value is always the same.</note>
+			</notes>
+		</word>
+	</structdef>
+</structdefs>
+
+</file>

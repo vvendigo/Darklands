@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/darkland.alc.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands alchemical formulae</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands alchemical formulae</h1>
+		<p>Files with this format: "<code>darkland.alc</code>".</p>
+		<p>Contains descriptions, ingredients, and other values for alchemical formulae.</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">starting at 0x00</a>
+		</div>
+		<h2 class="toc-category">Structures</h2>
+		<div class="toc-entry">
+			<a href="#structdef-formula_definition">formula_definition</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-ingredient">ingredient</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: starting at 0x00</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_formulae">
+						<strong>num_formulae: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span> = 0x42</dt>
+			<dd>
+				<span class="var-description">Number of formula definitions.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x01</code>: </span>
+				<span class="var-name">
+					<a name="variable-formula_definitions">
+						<strong>formula_definitions: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_formulae">num_formulae</a> ] of struct <a href="#structdef-formula_definition">formula_definition</a>
+					<span class="var-struct-size"> (each size 0x68)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Formula definitions.<ul class="notes">
+						<li class="note">
+					The order of formulas here matches the order in
+					<a class="external" href="darkland.lst.html#variable-formula_full_names">formula_full_names</a> (found in <a class="external" href="darkland.lst.html">darkland.lst</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<hr>
+		<h1>Structures</h1>
+		<h2>
+			<a name="structdef-formula_definition">Structure: formula_definition</a>
+		</h2>
+		<p>Size 0x68.</p>
+		<p>A definition of an alchemical formula.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-description">
+						<strong>description: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(80)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Text description of the formula.<ul class="notes">
+						<li class="note">The last character is always a null, as is any unused space</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x50</code>: </span>
+				<span class="var-name">
+					<a name="variable-mystic_number">
+						<strong>mystic_number: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Mystic number (the base difficulty when mixing a new potion).</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x52</code>: </span>
+				<span class="var-name">
+					<a name="variable-risk_factor">
+						<strong>risk_factor: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Risk factor (when mixing a new potion).<ul class="notes">
+						<li class="note">0=low, 1=medium, 2=high.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x54</code>: </span>
+				<span class="var-name">
+					<a name="variable-ingredients">
+						<strong>ingredients: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 5 ] of struct <a href="#structdef-ingredient">ingredient</a>
+					<span class="var-struct-size"> (each size 4)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Ingredients required to mix a potion.<ul class="notes">
+						<li class="note">Ingredients are given in increasing item code value</li>
+						<li class="note">If fewer than 5 ingredients are needed, the remaining space in the array is filled with zeroes.</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-ingredient">Structure: ingredient</a>
+		</h2>
+		<p>Size 4.</p>
+		<p>An ingredient (and quantity) for an alchemical formula.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-quantity">
+						<strong>quantity: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">The amount of this ingredient needed.<ul class="notes">
+						<li class="note">Ranges from 1-5.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-item_code">
+						<strong>item_code: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">The item code of the ingredient.<ul class="notes">
+						<li class="note">Ingredients are given in increasing item code value.</li>
+						<li class="note">
+					Codes are a reference to offsets into the 
+					<a class="external" href="darkland.lst.html#variable-item_definitions">item_definitions array</a> (found in <a class="external" href="darkland.lst.html">darkland.lst</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/darkland.alc.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

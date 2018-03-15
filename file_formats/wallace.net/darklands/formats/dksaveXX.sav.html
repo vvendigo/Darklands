@@ -1,0 +1,1726 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/dksaveXX.sav.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 17:59:59 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands saved game</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands saved game</h1>
+		<p>Files with this format: "<code>saves\dksave*.sav</code>".</p>
+		<p>
+	This is the main portion of a Darklands saved game file.
+	</p>
+		<p>
+	Every saved game consists of a pair of files: ".sav" and ".bsv".
+	The ".sav" file contains world and character data.
+	The ".bsv" file contains battle and dungeon data
+	(only for the last dungeon entered and not finished).
+	</p>
+		<ul>
+		<li>
+			TODO: check for party strength (0-10): is it in here?
+		</li>
+	</ul>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">from 0x00 to 0xee</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#offset-0xef">from 0xef to 0x188</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#offset-0x189">starting at 0x189</a>
+		</div>
+		<h2 class="toc-category">Structures</h2>
+		<div class="toc-entry">
+			<a href="#structdef-cache">cache</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-cache_item">cache_item</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-character">character</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-event">event</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-person_colors">person_colors</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-rgb">rgb</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: from 0x00 to 0xee</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-curr_location_name">
+						<strong>curr_location_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(12) (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Current party location.<ul class="notes">
+						<li class="note">
+					This is a copy of a string in the 
+					<a href="#variable-locations">locations</a> array at offset
+					<a href="#variable-curr_location">curr_location</a>.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0c</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (9 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x15</code>: </span>
+				<span class="var-name">
+					<a name="variable-save_game_label">
+						<strong>save_game_label: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(23) (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Saved game label.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x2c</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (18 bytes)</span> [constant: all 0x00]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x3e</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (55 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">The words at 0x43, word at 0x47 are almost constant, but seem to change just before dream.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x63</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (1 bytes)</span> [constant: 0x19]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x64</code>: </span>
+				<span class="var-name">
+					<a name="variable-city_contents_seed">
+						<strong>city_contents_seed: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">City contents seed.<ul class="notes">
+						<li class="note">This appears to be a seed for a pseudo-RND used to calculate what saints/formulas/items are available in each location.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x66</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (2 bytes)</span> [constant: 0x07, 0x00]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x68</code>: </span>
+				<span class="var-name">
+					<a name="variable-curr_date">
+						<strong>curr_date: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-date_reversed">date_reversed</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Current date.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x70</code>: </span>
+				<span class="var-name">
+					<a name="variable-party_money">
+						<strong>party_money: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-money">money</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Cash on hand.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x76</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (4 bytes)</span> [constant: all 0x00]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x7a</code>: </span>
+				<span class="var-name">
+					<a name="variable-reputation">
+						<strong>reputation: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Global reputation.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x7c</code>: </span>
+				<span class="var-name">
+					<a name="variable-curr_location">
+						<strong>curr_location: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Current location.<ul class="notes">
+						<li class="note">
+					Index into the <a href="#variable-locations">locations</a> array.
+				</li>
+						<li class="note">
+					Wilderness locations get 0xffff.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x7e</code>: </span>
+				<span class="var-name">
+					<a name="variable-curr_coords">
+						<strong>curr_coords: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-coordinates">coordinates</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Current map coordinates.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x82</code>: </span>
+				<span class="var-name">
+					<a name="variable-curr_menu">
+						<strong>curr_menu: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word (enum <a class="external" href="enumerations.html#enumeration-menu">menu</a>)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Current menu (or screen).<ul class="notes">
+						<li class="note">
+					This can be thought of as "current in-city location" for most intents and purposes.
+					It defines which menu of options you get.
+				</li>
+						<li class="note">
+					See also <a href="#variable-prev_menu">prev_menu</a>.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x84</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (6 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">First word is always 0, 1, or 2.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x8a</code>: </span>
+				<span class="var-name">
+					<a name="variable-prev_menu">
+						<strong>prev_menu: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word (enum <a class="external" href="enumerations.html#enumeration-menu">menu</a>)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Previous menu (or screen).<ul class="notes">
+						<li class="note">
+					This is the last menu/screen before the current one; only important in "shared" locations.
+					For example, the "listen to rumors" board is accessible from both the inn and the town square.
+					When you leave it, you return to the correct place, but
+					<a href="#variable-curr_menu">curr_menu</a> is identical in both cases.
+				</li>
+						<li class="note">Sometimes this value is incorrect; perhaps it's only reliable in shared locations?.</li>
+						<li class="note">
+					See also <a href="#variable-curr_menu">curr_menu</a>.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x8c</code>: </span>
+				<span class="var-name">
+					<a name="variable-bank_notes">
+						<strong>bank_notes: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Bank notes (in Florins).</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x8e</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (4 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x92</code>: </span>
+				<span class="var-name">
+					<a name="variable-philosopher_stone">
+						<strong>philosopher_stone: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of philosopher's stone.<ul class="notes">
+						<li class="note">Although a word, this rarely gets higher than 30(?) in real game play.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x94</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (7 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x9b</code>: </span>
+				<span class="var-name">
+					<a name="variable-party_order_indices">
+						<strong>party_order_indices: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 5 ] of string(4) (enum <a class="external" href="enumerations.html#enumeration-image_group">image_group</a>)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Party member walking order indices.<ul class="notes">
+						<li class="note">This is the order party members walk in when walking single-file.</li>
+						<li class="note">0-based.</li>
+						<li class="note">TODO: For some reason, changing this number while in the mines doesn't change walking order.  Probably another copy of this is stored in the corresponding <code>.bsv</code> file, and is used for large battlefields?  When do changes take effect?</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xa0</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (1 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xa1</code>: </span>
+				<span class="var-name">
+					<a name="variable-party_leader_index">
+						<strong>party_leader_index: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Party leader index.<ul class="notes">
+						<li class="note">0-based.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xa2</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (3 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xa5</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (74 bytes)</span> [constant: all 0x00]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="offset-0xef">Offset: from 0xef to 0x188</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0xef</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_curr_characters">
+						<strong>num_curr_characters: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Number of characters currently in the party.<ul class="notes">
+						<li class="note">
+					Because this includes NPCs, it can change over the course of the game.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xf1</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_characters">
+						<strong>num_characters: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Number of characters defined.<ul class="notes">
+						<li class="note">
+					This is the number of characters which are available when "swapping characters" (in the inn), plus any NPC (like Hanse or the town leader) currently 	in the party.
+				</li>
+						<li class="note">
+					Because this includes NPCs, it can change over the course of the game.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xf3</code>: </span>
+				<span class="var-name">
+					<a name="variable-party_char_indices">
+						<strong>party_char_indices: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 5 ] of word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Party member character indices.<ul class="notes">
+						<li class="note">
+					Indexes into the arrays of character data for each of the five party slots.
+				</li>
+						<li class="note">
+					0-based; an empty slot gets 0xffff.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xfd</code>: </span>
+				<span class="var-name">
+					<a name="variable-party_images">
+						<strong>party_images: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 5 ] of string(4) (enum <a class="external" href="enumerations.html#enumeration-image_group">image_group</a>)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Party member image file.<ul class="notes">
+						<li class="note">
+					If defined, it will be one of the four 'player' images.
+				</li>
+						<li class="note">
+					The string also corresponds to one of the "<code>pics\???small.pic</code>" files.
+					TODO: where is that image used?
+				</li>
+						<li class="note">
+					The byte pattern {0x00,0x30,0x00,0x30} is used for an empty slot.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x111</code>: </span>
+				<span class="var-name">
+					<a name="variable-party_colors">
+						<strong>party_colors: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 5 ] of struct <a href="#structdef-person_colors">person_colors</a>
+					<span class="var-struct-size"> (each size 0x18)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Party member colors.<ul class="notes">
+						<li class="note">
+					The colormap used for the player's image (in battles) for each of the five character slots.
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="offset-0x189">Offset: starting at 0x189</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x189</code>: </span>
+				<span class="var-name">
+					<a name="variable-characters">
+						<strong>characters: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_characters">num_characters</a> ] of struct <a href="#structdef-character">character</a>
+					<span class="var-struct-size"> (each size 0x22a (554))</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Character data.</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-num_events">
+						<strong>num_events: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Number of events.<ul class="notes">
+						<li class="note">
+					The file offset for this depends on number of characters defined:
+				 	for 4 characters, it's 0xa31; 5=0xc5b; 8=0x12d9; 9=0x1503.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-events">
+						<strong>events: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_events">num_events</a> ] of struct <a href="#structdef-event">event</a>
+					<span class="var-struct-size"> (each size 0x30 (48))</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Event data.<ul class="notes">
+						<li class="note">
+					Events include: all quests (Raubritter and "find the X") and the expiration of saint effects.
+				</li>
+						<li class="note">
+					Events probably also include: endgame quests; the dream; maybe also wilderness encounters.
+				</li>
+						<li class="note">
+					A new game starts with 4-9 events already defined.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-num_locations">
+						<strong>num_locations: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span> = 0x19e</dt>
+			<dd>
+				<span class="var-description">Number of map locations.</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-locations">
+						<strong>locations: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_locations">num_locations</a> ] of struct <a class="external" href="darkland.loc.html#structdef-location">location</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Map location data.<ul class="notes">
+						<li class="note">
+					Map location data includes cities, villages, castles, dungeons, etc; anything that can be found on the map.
+				</li>
+						<li class="note">
+					Most -- but not all -- of this data is a straight copy from <a class="external" href="darkland.loc.html">darkland.loc</a>.
+					Some data (local reputation, cache index, destroyed sites) changes over the course of the game.
+				</li>
+						<li class="note">
+					The coordinates of Marienburg differ just slightly between here and <a class="external" href="darkland.loc.html">darkland.loc</a>;
+					it seems like the city was located off the edge of the map, and some executable patch moves it back on when creating a new game.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-max_cache_slot">
+						<strong>max_cache_slot: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span> [constant: 0x63]</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					This seems to be a "warning value"; there are actually 0x62 entries in
+					<a href="#variable-cache_offsets">cache_offsets</a>.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-num_caches">
+						<strong>num_caches: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Number of current item caches.</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-cache_offsets">
+						<strong>cache_offsets: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 0x62 ] of word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Local offset to cache data.<ul class="notes">
+						<li class="note">
+					The offsets are relative to
+					<a href="#variable-max_cache_slot">max_cache_slot</a>.
+				</li>
+						<li class="note">
+					0x62 offsets should suffice, as there are only 0x5c cities with inns --
+					but these slots are never reused (see the notes below).
+					Inserting a 0x63rd entry would clearly be extremely bad!
+				</li>
+						<li class="note">
+					Only <a href="#variable-num_caches">num_caches</a>
+					of these are actually used; remaining slots are all zero.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-caches">
+						<strong>caches: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_caches">num_caches</a> ] of struct <a href="#structdef-cache">cache</a>
+					<span class="var-struct-size"> (each size varies)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Item caches.<ul class="notes">
+						<li class="note">These are items that you "stored with the innkeeper" in cities.</li>
+						<li class="note">
+					This structure is often corrupted.
+					If you cache items at an inn, then remove the items, the offset
+					<a href="#variable-cache_offsets">cache_offsets</a> remains
+					(and <a href="#variable-num_caches">num_caches</a> stays the same).
+					Returning to recache items sometimes causes an overflow, causing this
+					"array" to become 64k larger, full of random memory contents!
+					Needless to say, you probably lose your items then.
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<hr>
+		<h1>Structures</h1>
+		<h2>
+			<a name="structdef-rgb">Structure: rgb</a>
+		</h2>
+		<p>Size 0x03.</p>
+		<p>A color value (RGB triplet).</p>
+		<ul class="notes">
+			<li class="note">Color byte values range from 0x00 to 0x3f.</li>
+			<li class="note">Presumably these values are then multiplied by four to get "standard" RGB triplets.</li>
+		</ul>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-red">
+						<strong>red: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x01</code>: </span>
+				<span class="var-name">
+					<a name="variable-green">
+						<strong>green: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-blue">
+						<strong>blue: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-person_colors">Structure: person_colors</a>
+		</h2>
+		<p>Size 0x18.</p>
+		<p>A set of colors for a person (battle mode).</p>
+		<ul class="notes">
+			<li class="note">Color byte values range from 0x00 to 0x3f.</li>
+			<li class="note">
+				The set of these that can be chosen from when creating
+				characters is defined somewhere (the executable??),
+				however the game seems to handle any values correctly.
+			</li>
+		</ul>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-first_hi">
+						<strong>first_hi: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a href="#structdef-rgb">rgb</a>
+					<span class="var-struct-size"> (size 0x03)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Color 1: bright shade.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x03</code>: </span>
+				<span class="var-name">
+					<a name="variable-first_lo">
+						<strong>first_lo: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a href="#structdef-rgb">rgb</a>
+					<span class="var-struct-size"> (size 0x03)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Color 1: dark shade.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x06</code>: </span>
+				<span class="var-name">
+					<a name="variable-second_hi">
+						<strong>second_hi: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a href="#structdef-rgb">rgb</a>
+					<span class="var-struct-size"> (size 0x03)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Color 2: bright shade.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x09</code>: </span>
+				<span class="var-name">
+					<a name="variable-second_med">
+						<strong>second_med: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a href="#structdef-rgb">rgb</a>
+					<span class="var-struct-size"> (size 0x03)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Color 2: medium shade.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0c</code>: </span>
+				<span class="var-name">
+					<a name="variable-second_lo">
+						<strong>second_lo: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a href="#structdef-rgb">rgb</a>
+					<span class="var-struct-size"> (size 0x03)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Color 2: dark shade.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0f</code>: </span>
+				<span class="var-name">
+					<a name="variable-third_hi">
+						<strong>third_hi: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a href="#structdef-rgb">rgb</a>
+					<span class="var-struct-size"> (size 0x03)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Color 3: bright shade.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x12</code>: </span>
+				<span class="var-name">
+					<a name="variable-third_med">
+						<strong>third_med: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a href="#structdef-rgb">rgb</a>
+					<span class="var-struct-size"> (size 0x03)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Color 3: medium shade.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x15</code>: </span>
+				<span class="var-name">
+					<a name="variable-third_lo">
+						<strong>third_lo: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a href="#structdef-rgb">rgb</a>
+					<span class="var-struct-size"> (size 0x03)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Color 3: dark shade.</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-character">Structure: character</a>
+		</h2>
+		<p>Size 0x22a (554).</p>
+		<p>A character (and all their belongings).</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (17 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x12</code>: </span>
+				<span class="var-name">
+					<a name="variable-age">
+						<strong>age: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Age.<ul class="notes">
+						<li class="note">
+					A character's birthday is dependent on their party order (not marching order).
+					The first character is January 1st, the second February, etc.
+				</li>
+						<li class="note">
+					Note that the birthday effects can be exploited (by swapping characters at inns)
+					so that some characters never age --  although since age after initial
+					training has no deleterious effects, there's no reason to do so.
+					It would also cost 40-50% of your on-hand gold for each swap.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x14</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (1 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x15</code>: </span>
+				<span class="var-name">
+					<a name="variable-shield">
+						<strong>shield: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">char</span>
+			</dt>
+			<dd>
+				<span class="var-description">Heraldic shield.<ul class="notes">
+						<li class="note">Ranges from 'A' to 'O'.</li>
+						<li class="note">This corresponds to one of the "<code>pics\shield?.pic</code>" files.</li>
+						<li class="note">TODO: is this a null-delimited string or just a char?</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x16</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (12 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x22</code>: </span>
+				<span class="var-name">
+					<a name="variable-equip_missile_type">
+						<strong>equip_missile_type: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Item type of the currently equipped missile device.<ul class="notes">
+						<li class="note">This is the first of ten bytes (scattered through this structure) which indicate what a character currently has equipped.</li>
+						<li class="note">Instead of offsets into the items array, the item type and quality are stored.  The game does not seem to enforce that you must own the item.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x23</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (2 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x25</code>: </span>
+				<span class="var-name">
+					<a name="variable-full_name">
+						<strong>full_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(25)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Full name.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x3e</code>: </span>
+				<span class="var-name">
+					<a name="variable-short_name">
+						<strong>short_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(11) (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Nickname.<ul class="notes">
+						<li class="note">Possibly longer or shorter, but seems to be 10 characters and a null.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x49</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (2 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x4b</code>: </span>
+				<span class="var-name">
+					<a name="variable-equip_vital_type">
+						<strong>equip_vital_type: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Item type of the currently equipped vital armor.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x4c</code>: </span>
+				<span class="var-name">
+					<a name="variable-equip_leg_type">
+						<strong>equip_leg_type: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Item type of the currently equipped leg armor.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x4d</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (2 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x4f</code>: </span>
+				<span class="var-name">
+					<a name="variable-equip_vital_q">
+						<strong>equip_vital_q: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the currently equipped vital armor.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x50</code>: </span>
+				<span class="var-name">
+					<a name="variable-equip_leg_q">
+						<strong>equip_leg_q: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the currently equipped leg armor.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x51</code>: </span>
+				<span class="var-name">
+					<a name="variable-equip_weapon_type">
+						<strong>equip_weapon_type: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Item type of the currently equipped weapon.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x52</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (6 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x58</code>: </span>
+				<span class="var-name">
+					<a name="variable-equip_weapon_q">
+						<strong>equip_weapon_q: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the currently equipped weapon.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x59</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (1 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x5a</code>: </span>
+				<span class="var-name">
+					<a name="variable-equip_missile_q">
+						<strong>equip_missile_q: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the currently equipped missile device.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x5b</code>: </span>
+				<span class="var-name">
+					<a name="variable-equip_shield_q">
+						<strong>equip_shield_q: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the currently equipped shield.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x5c</code>: </span>
+				<span class="var-name">
+					<a name="variable-equip_shield_type">
+						<strong>equip_shield_type: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Item type of the currently equipped shield.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x5d</code>: </span>
+				<span class="var-name">
+					<a name="variable-curr_attrs">
+						<strong>curr_attrs: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-attribute_set">attribute_set</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Current attributes.<ul class="notes">
+						<li class="note">
+					If a saint is invoked or a potion is quaffed,
+					any resulting changes to attributes are directly reflected here;
+					<a href="#variable-events">events</a>
+					are added (for the near future) which then alter the attribute back to normal.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x64</code>: </span>
+				<span class="var-name">
+					<a name="variable-max_attrs">
+						<strong>max_attrs: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-attribute_set">attribute_set</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Maximum attributes (aside from temporary increases).</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x6b</code>: </span>
+				<span class="var-name">
+					<a name="variable-skills">
+						<strong>skills: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-skill_set">skill_set</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Skills.<ul class="notes">
+						<li class="note">
+					As with attributes, if a saint is invoked or a potion is quaffed,
+					any resulting changes to skills are directly reflected here;
+					<a href="#variable-events">events</a>
+					are added (for the near future) which then alter the skill back to normal.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x7e</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_items">
+						<strong>num_items: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Number of items carried.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x80</code>: </span>
+				<span class="var-name">
+					<a name="variable-saints_known">
+						<strong>saints_known: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <em>160 bits</em> ] of bit</span>
+			</dt>
+			<dd>
+				<span class="var-description">Knowledge of saints.<ul class="notes">
+						<li class="note">The array spans 20 bytes, 160 bits.</li>
+						<li class="note">
+					The bit offset into this array corresponds to the
+					the offset of the saint in the array 
+					<a class="external" href="darkland.lst.html#variable-saint_full_names">saint_full_names</a> (found in <a class="external" href="darkland.lst.html">darkland.lst</a>).
+				</li>
+						<li class="note">
+					Fewer than 160 saints are actually defined;
+					it is unknown what happens if bits past the actual number of saints are turned on.
+				</li>
+						<li class="note">Bit is on if saint is known</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x94</code>: </span>
+				<span class="var-name">
+					<a name="variable-formulae_known">
+						<strong>formulae_known: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 22 ] of bitmask[1]</span>
+			</dt>
+			<dd>
+				<span class="var-description">Knowledge of alchemical formulae.<ul class="notes">
+						<li class="note">
+					Byte offset into the array corresponds to the
+					offset of the type of formula
+					(fleadust, essence'o'grace, etc)
+					in the array
+					<a class="external" href="darkland.lst.html#variable-formula_full_names">formula_full_names</a> (found in <a class="external" href="darkland.lst.html">darkland.lst</a>).
+				</li>
+						<li class="note">
+					It is unknown what happens if any of the first five bits are turned on;
+					probably nothing, though.
+				</li>
+					</ul>
+					<table class="bitmask-contents">
+						<tr>
+							<td nowrap>bit 1:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 2:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 3:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 4:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 5:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 6:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-q45">
+										<strong>q45: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Knowledge of q45 formula.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 7:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-q35">
+										<strong>q35: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Knowledge of q35 formula.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 8:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-q25">
+										<strong>q25: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Knowledge of q25 formula.</td>
+						</tr>
+					</table>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xaa</code>: </span>
+				<span class="var-name">
+					<a name="variable-items">
+						<strong>items: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 64 ] of struct <a class="external" href="structures.html#structdef-item">item</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					Only <a href="#variable-num_items">num_items</a>
+					of the 64 items are populated; the rest are all 0x00.
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-event">Structure: event</a>
+		</h2>
+		<p>Size 0x30 (48).</p>
+		<p>An event, effect, or quest.</p>
+		<ul class="notes">
+			<li class="note">TODO: flesh this out!!!!!!!!!</li>
+			<li class="note">TODO: describe the dynamics of this structure</li>
+		</ul>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					For RB quests, when first given this value is sort of the name of the person who gave it to you.
+					After killing the RB the value moves to offset 0x1e, and this gets a copy of the value from 0x1a.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-create_date">
+						<strong>create_date: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-date">date</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Date the event was created.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0a</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-date">date</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					Always identical in value to
+					<a href="#variable-create_date">create_date</a>.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x12</code>: </span>
+				<span class="var-name">
+					<a name="variable-expire_date">
+						<strong>expire_date: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-date">date</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Date the event will expire.<ul class="notes">
+						<li class="note">TODO: for effects, is this the date it happens instead??</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1a</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">For quests, this is the location where the quest was given, until the reward is taken; then it becomes -2.</li>
+						<li class="note">For other things this is usually -2, although occasionally it is 0.</li>
+						<li class="note">TODO: make this an enum.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1c</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">For newly given RB quests, this is the location of the RB.  Once the RB is slain it becomes the location of the city to return to.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1e</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">For newly given RB quests, this is the location of the city that gave the quest.</li>
+						<li class="note">Once the RB quest reward is taken, this becomes 0.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x21</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Common values are 0x63, 0x5f, 0x32, and 0, although others appear sporadically.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x23</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Maybe this is a sort of state variable?</li>
+						<li class="note">For RB quests the sequence is: 0x8 (got quest), 0x24 (killed RB), 0x7 (got reward).</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x25</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">This and the next five are usually, but not always, zero.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x27</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x29</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">For RB quests this is often 0x03; it becomes 0 after the reward is taken, and no reward can be gotten if it is not 3.</li>
+						<li class="note">Possibly (for quests, at least) this is the index of the option to 'enable' within the card?  The 'ask X for your reward' option is the 3rd option on the screen...</li>
+						<li class="note">TODO: this could maybe be tested by (carefully) altering the card and the index...?  Unless the logic is in the executable.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x2a</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x2c</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x2e</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">This is usually the item code for an item required by a quest.</li>
+						<li class="note">
+					Codes are a reference to offsets into the 
+					<a class="external" href="darkland.lst.html#variable-item_definitions">item_definitions array</a> (found in <a class="external" href="darkland.lst.html">darkland.lst</a>).
+				</li>
+						<li class="note">However, I've seen an event appear where this is non-zero and an item quest has not just been taken.</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-cache">Structure: cache</a>
+		</h2>
+		<p>Size varies.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_items">
+						<strong>num_items: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Number of items in the cache.<ul class="notes">
+						<li class="note">This is probably limited to the range 0-64 (just as characters can only carry 64 items).</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x01</code>: </span>
+				<span class="var-name">
+					<a name="variable-items">
+						<strong>items: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#member-num_items">num_items</a> ] of struct <a href="#structdef-cache_item">cache_item</a>
+					<span class="var-struct-size"> (each size 4)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Cached items.</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-cache_item">Structure: cache_item</a>
+		</h2>
+		<p>Size 4.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-item_code">
+						<strong>item_code: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Code of the item(s).<ul class="notes">
+						<li class="note">
+					Codes are a reference to offsets into the 
+					<a class="external" href="darkland.lst.html#variable-item_definitions">item_definitions array</a> (found in <a class="external" href="darkland.lst.html">darkland.lst</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-quality">
+						<strong>quality: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the item(s).</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x03</code>: </span>
+				<span class="var-name">
+					<a name="variable-quantity">
+						<strong>quantity: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Number of items.</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/dksaveXX.sav.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

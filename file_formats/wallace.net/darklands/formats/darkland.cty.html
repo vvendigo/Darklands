@@ -1,0 +1,884 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/darkland.cty.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands city definitions</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands city definitions</h1>
+		<p>Files with this format: "<code>darkland.cty</code>".</p>
+		<p>
+	Contains names, location names, coordinates, and other data specific to cities.
+	Non-city locations are stored in darkland.loc.
+</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">starting at 0x00</a>
+		</div>
+		<h2 class="toc-category">Structures</h2>
+		<div class="toc-entry">
+			<a href="#structdef-city">city</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-city_data">city_data</a>
+		</div>
+		<h2 class="toc-category">Enumerations</h2>
+		<div class="toc-entry">
+			<a href="#enumeration-ruler">ruler</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: starting at 0x00</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_cities">
+						<strong>num_cities: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span> = 0x5c</dt>
+			<dd>
+				<span class="var-description">Number of cities.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x01</code>: </span>
+				<span class="var-name">
+					<a name="variable-cities">
+						<strong>cities: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_cities">num_cities</a> ] of struct <a href="#structdef-city">city</a>
+					<span class="var-struct-size"> (each size 0x26e)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">City definitions.<ul class="notes">
+						<li class="note">
+					The order of these is the "definitive" order, since the full name is the best unique identifier.
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<hr>
+		<h1>Structures</h1>
+		<h2>
+			<a name="structdef-city">Structure: city</a>
+		</h2>
+		<p>Size 0x26e.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-short_name">
+						<strong>short_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x20</code>: </span>
+				<span class="var-name">
+					<a name="variable-full_name">
+						<strong>full_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x40</code>: </span>
+				<span class="var-name">
+					<a name="variable-city_data">
+						<strong>city_data: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a href="#structdef-city_data">city_data</a>
+					<span class="var-struct-size"> (size 0x2e)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x6e</code>: </span>
+				<span class="var-name">
+					<a name="variable-leader_name">
+						<strong>leader_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x8e</code>: </span>
+				<span class="var-name">
+					<a name="variable-ruler_name">
+						<strong>ruler_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xae</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">TODO: is this non-empty ever?  (ditto for other two unknowns)</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xce</code>: </span>
+				<span class="var-name">
+					<a name="variable-polit_name">
+						<strong>polit_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Name of the political center or town square.<ul class="notes">
+						<li class="note">TODO: describe what empty values look like</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xee</code>: </span>
+				<span class="var-name">
+					<a name="variable-town_hall_name">
+						<strong>town_hall_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x10e</code>: </span>
+				<span class="var-name">
+					<a name="variable-fortress_name">
+						<strong>fortress_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Name of the city fortress or castle.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x12e</code>: </span>
+				<span class="var-name">
+					<a name="variable-cathedral_name">
+						<strong>cathedral_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x14e</code>: </span>
+				<span class="var-name">
+					<a name="variable-church_name">
+						<strong>church_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x16e</code>: </span>
+				<span class="var-name">
+					<a name="variable-market_name">
+						<strong>market_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Name of the marketplace.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x18e</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Often contains "Munzenplatz".  Possibly this is "central square name".</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1ae</code>: </span>
+				<span class="var-name">
+					<a name="variable-slum_name">
+						<strong>slum_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1ce</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					Many places have "Zeughaus", which translates to "armoury";
+					others end in "-turm" (tower?) or "-tor" (gate?).
+					Quite possible this is for one of the unused "rebellion" codepath.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1ee</code>: </span>
+				<span class="var-name">
+					<a name="variable-pawnshop_name">
+						<strong>pawnshop_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Name of the pawnshop.<ul class="notes">
+						<li class="note">All pawnshops are named the same; this is either 'Leifhaus' or is empty.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x20e</code>: </span>
+				<span class="var-name">
+					<a name="variable-kloster_name">
+						<strong>kloster_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Name of the kloster (church law and administration building).</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x22e</code>: </span>
+				<span class="var-name">
+					<a name="variable-inn_name">
+						<strong>inn_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x24e</code>: </span>
+				<span class="var-name">
+					<a name="variable-university_name">
+						<strong>university_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(32)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-city_data">Structure: city_data</a>
+		</h2>
+		<p>Size 0x2e.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-city_size">
+						<strong>city_size: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Size of the city.<ul class="notes">
+						<li class="note">Ranges from 3 (small) to 8 (Koln).</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-entry_coords">
+						<strong>entry_coords: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-coordinates">coordinates</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">City location on the map.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x06</code>: </span>
+				<span class="var-name">
+					<a name="variable-exit_coords">
+						<strong>exit_coords: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-coordinates">coordinates</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Party coordinates when leaving a city.<ul class="notes">
+						<li class="note">
+					When you leave a city, you don't exit at the same point as you entered.
+					The exit coordinates were (usually) selected so as not to place you in an untenable position (the ocean, trapped by a river loop, etc).
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0a</code>: </span>
+				<span class="var-name">
+					<a name="variable-dock_destinations">
+						<strong>dock_destinations: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 4 ] of word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Dock destination cities.<ul class="notes">
+						<li class="note">
+					This contains the indices 
+					(in the <a href="#variable-cities">cities</a> array)
+					of the destinations available via the city docks the docks.
+				</li>
+						<li class="note">
+					0xffff is used for "no destination".
+					Inland cities have all 0xffffs.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x12</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">if coastal, side of the river ???[Hamburg] TODO.<ul class="notes">
+						<li class="note">Values are: 0xffff (inland), 0 (north of the river), 1 (south of the river)</li>
+						<li class="note">0 and 1 cities are on or near tidal zones (swamps), and may be subject to flooding.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x14</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">word</span> [constant: 4]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x16</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Pseudo-ordinal.<ul class="notes">
+						<li class="note">
+					At first glance, this looks like an ordinal offset running
+					from 0 to 0x5b, but 0x18 is missing, and 0x3c repeats.
+				</li>
+						<li class="note">
+					This value is probably not used.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x18</code>: </span>
+				<span class="var-name">
+					<a name="variable-city_type">
+						<strong>city_type: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word (enum <a href="#enumeration-ruler">ruler</a>)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Type of city</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1a</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">0, 1, 2, or 3.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1c</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">word</span> [constant: 0]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1e</code>: </span>
+				<span class="var-name">
+					<a name="variable-city_contents">
+						<strong>city_contents: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">bitmask[<em>16 bits</em>]</span>
+			</dt>
+			<dd>
+				<span class="var-description">Buildings and locations in the city.<ul class="notes">
+						<li class="note">Bits are on iff there is one of that type of building.</li>
+					</ul>
+					<table class="bitmask-contents">
+						<tr>
+							<td nowrap>bit 1:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_kloster">
+										<strong>is_kloster: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Is there a kloster?</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 2:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_slums">
+										<strong>is_slums: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Is there a slums?</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 3:</td>
+							<td class="bit-name">
+								<span class="var-name"></span>
+								<em>unknown </em>
+							</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 4:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_cathedral">
+										<strong>is_cathedral: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Is there a cathedral?</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 5:</td>
+							<td class="bit-name">
+								<span class="var-name"></span>
+								<em>unknown </em>
+							</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 6:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_no_fortress">
+										<strong>is_no_fortress: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Is there no city fortress?<ul class="notes">
+									<li class="note">A rare case of a reversed boolean.  Possibly it's a "has something else" flag, and fortresses are added if it doesn't have the other?</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 7:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_town_hall">
+										<strong>is_town_hall: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Is there a town hall?</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 8:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_polit">
+										<strong>is_polit: </strong>
+									</a>
+								</span> [constant: 1]</td>
+							<td class="bit-description">Is there a political center?</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 9:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 10:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 11:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 12:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 13:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-docks">
+										<strong>docks: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Are there docks?</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 14:</td>
+							<td class="bit-name">
+								<span class="var-name"></span>
+								<em>unknown </em>
+							</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 15:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_pawnshop">
+										<strong>is_pawnshop: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Is there a liefhaus (pawnshop)?</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 16:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_university">
+										<strong>is_university: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Is there a university?</td>
+						</tr>
+					</table>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x20</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">word</span> [constant: 0]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x22</code>: </span>
+				<span class="var-name">
+					<a name="variable-qual_black">
+						<strong>qual_black: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the blacksmith.<ul class="notes">
+						<li class="note">
+					This, and the other nine qualities, all seem to work in the same way.
+				</li>
+						<li class="note">A zero value indicates that the city does not have that particular shop.</li>
+						<li class="note">
+					Non-zero values do not exactly equal the quality of the items available,
+					but merely indicate relative qualities!
+					For example, Nurnberg has a 0x31 (49) listed for the armory, but offers q37 (0x25) armor.
+					However, if one city has a higher value than another, then that city's items
+					will be of equal or greater quality.
+				</li>
+						<li class="note">
+					The quality of the healer is not stored here, but is apparently random.  (TODO: verify?)
+				</li>
+						<li class="note">
+					TODO: comments about Quality of the alchemist, university, pharmacist being the seed thing.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x23</code>: </span>
+				<span class="var-name">
+					<a name="variable-qual_merch">
+						<strong>qual_merch: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the merchant.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x24</code>: </span>
+				<span class="var-name">
+					<a name="variable-qual_sword">
+						<strong>qual_sword: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the swordsmith.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x25</code>: </span>
+				<span class="var-name">
+					<a name="variable-qual_armor">
+						<strong>qual_armor: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the armorer.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x26</code>: </span>
+				<span class="var-name">
+					<a name="variable-qual_unk1">
+						<strong>qual_unk1: </strong>
+					</a>
+				</span>
+				<em>unknown </em>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x27</code>: </span>
+				<span class="var-name">
+					<a name="variable-qual_bow">
+						<strong>qual_bow: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the bowyer.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x28</code>: </span>
+				<span class="var-name">
+					<a name="variable-qual_tink">
+						<strong>qual_tink: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the tinker.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x29</code>: </span>
+				<span class="var-name">
+					<a name="variable-qual_unk2">
+						<strong>qual_unk2: </strong>
+					</a>
+				</span>
+				<em>unknown </em>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x2a</code>: </span>
+				<span class="var-name">
+					<a name="variable-qual_cloth">
+						<strong>qual_cloth: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the clothing merchant.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x2b</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">byte</span> [constant: 0]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x2c</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Since the following byte is 0 or 1, this and that might actually be a single word value.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x2d</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Either zero or one (only a couple of ones).</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<hr>
+		<h1>Enumerations</h1>
+		<h2>
+			<a name="enumeration-ruler">Enumeration: ruler</a>
+		</h2>
+		<p>Type of city (free, ruled, capital)</p>
+		<ul class="notes">
+			<li class="note">This controls which message from <code>$CITYE00.msg</code> is given when you are approaching a city.</li>
+		</ul>
+		<table class="enum">
+			<thead>
+				<tr>
+					<th class="enum-label">
+					Data Value
+				</th>
+					<th class="enum-label">
+					Meaning
+				</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="enum-value-from">0</td>
+					<td class="enum-value-to">Free City</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">1</td>
+					<td class="enum-value-to">Ruled City</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">2</td>
+					<td class="enum-value-to">Capital</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/darkland.cty.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

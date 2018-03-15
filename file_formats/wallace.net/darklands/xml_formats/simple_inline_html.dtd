@@ -1,0 +1,53 @@
+<!-- A simple subset of HTML with an "html" namespace. -->
+
+<!--
+	Lame coding note:
+	Normally '#PCDATA' would be part of the html.inline definition,
+	but Infoteria's iXSLT processor fails to handle having
+	'#PCDATA' as part of an entity definition if that entity is
+	then used in the definition of a second entity.  Sigh.
+-->
+
+<!-- ====================================================================== -->
+
+<!ENTITY % html.phrase "html:em | html:strong | html:code">
+<!ENTITY % html.special "html:a | html:img | html:br">
+
+<!-- Inline or "text-level" elements -->
+<!ENTITY % html.inline "%html.phrase; | %html.special;">
+
+<!-- ====================================================================== -->
+
+<!-- Block elements -->
+<!ENTITY % html.block "html:hr | html:p | html:pre | html:ul">
+
+<!-- General flow (block or inline) elements -->
+<!ENTITY % html.flow "#PCDATA | %html.inline; | %html.block;">
+
+<!-- ====================================================================== -->
+
+<!-- Inline phrase elements -->
+<!ELEMENT html:em ( #PCDATA | %html.inline; )*>
+<!ELEMENT html:strong ( #PCDATA | %html.inline; )*>
+<!ELEMENT html:code ( #PCDATA | %html.inline; )*>
+
+<!-- Inline special elements -->
+<!ELEMENT html:a ( #PCDATA | %html.inline; )*>
+<!ATTLIST html:a
+	href CDATA #IMPLIED
+	name ID #IMPLIED
+>
+<!ELEMENT html:img EMPTY>
+<!ELEMENT html:br EMPTY>
+
+<!-- ====================================================================== -->
+
+<!-- Block elements -->
+<!ELEMENT html:hr EMPTY>
+<!ELEMENT html:p ( #PCDATA | %html.inline; )*>
+<!ELEMENT html:pre ( #PCDATA | %html.inline; )*>
+<!ELEMENT html:ul ( html:li )*>
+
+<!-- List contents -->
+<!ELEMENT html:li ( #PCDATA | %html.inline; )*>
+

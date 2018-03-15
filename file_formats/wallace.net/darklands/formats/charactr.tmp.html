@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/charactr.tmp.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands current character data</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands current character data</h1>
+		<p>Files with this format: "<code>charactr.tmp</code>".</p>
+		<p>
+	This is a temporary file, created when a saved game is loaded.
+	TODO: is this also created when a new game is started?  Or when going in and out of battle?
+	</p>
+		<p>
+	All of the structures in here are defined in the saved game format,
+	so only brief descriptions are given here.
+	</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">starting at 0x00</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: starting at 0x00</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_characters">
+						<strong>num_characters: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					See <a class="external" href="dksaveXX.sav.html#variable-num_curr_characters">num_curr_characters</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-char_index">
+						<strong>char_index: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 5 ] of word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					See <a class="external" href="dksaveXX.sav.html#variable-party_char_index">party_char_index</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0c</code>: </span>
+				<span class="var-name">
+					<a name="variable-images">
+						<strong>images: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 5 ] of string(4) (enum <a class="external" href="enumerations.html#enumeration-image_group">image_group</a>)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					See <a class="external" href="dksaveXX.sav.html#variable-party_images">party_images</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x20</code>: </span>
+				<span class="var-name">
+					<a name="variable-characters">
+						<strong>characters: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_characters">num_characters</a> ] of struct <a class="external" href="dksaveXX.sav.html#structdef-character">character</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					See <a class="external" href="dksaveXX.sav.html#variable-characters">characters</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/charactr.tmp.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

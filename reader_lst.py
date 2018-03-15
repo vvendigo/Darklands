@@ -29,7 +29,7 @@ def readData(dlPath):
                 c[n] = True if bits & (1 << b) else False
         c['weight'] = data[pos] ; pos += 1
         c['quality'] = data[pos] ; pos += 1
-        c['rarity?'] = data[pos] ; pos += 1 # missing in Merle's doc!
+        c['rarity'] = data[pos] ; pos += 1 # missing in Merle's doc!
         c['unknown1'] = bread(data[pos:pos+2]) ; pos += 2
         #Non-zero only for relics.
         #Ranges from 0x06 (St. Edward's Ring) to 0x50 (St. Gabriel's Horn).

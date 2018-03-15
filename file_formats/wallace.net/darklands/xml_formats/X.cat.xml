@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands catalog files">
+
+<globs>
+	<glob filespec="*.cat" />
+	<glob filespec="bc" />
+	<glob filespec="lcastle" />
+	<glob filespec="msgfiles" />
+</globs>
+
+<description type="paragraph">
+	Catalog files are basically a filesystem; each one contains a large set of (usually related) files.
+</description>
+
+<offsets>
+	<offset start="0x00">
+		<word at="0x00" name="num_entries">
+			<description>Number of file entries.</description>
+		</word>
+
+		<array at="0x02" size="*num_entries" name="entries">
+			<description>File entries.</description>
+			<struct type="entry" />
+		</array>
+	</offset>
+
+	<offset start="entry[0].offset">
+		<array size="*num_entries" name="contents">
+			<description>
+				Contents of the files.
+			</description>
+			<notes>
+				<note>
+					For a given index, the contents start at
+					<reference type="structdef" to="entry">entry[idx].offset</reference>,
+					and are 
+					<reference type="structdef" to="entry">entry[idx].length</reference> long.
+				</note>
+			</notes>
+			<unknown size="entry[idx].length" />
+		</array>
+	</offset>
+
+</offsets>
+
+<!-- ====================================================================== -->
+
+<structdefs>
+	<structdef type="entry" size="0x18">
+
+		<string at="0x00" size="12" name="filename">
+			<description>Name of the file.</description>
+			<notes>
+				<note>Always in 8.3 format.</note>
+				<note>Padded with nulls if the filename is shorter.</note>
+			</notes>
+		</string>
+
+		<dword at="0x0c" name="timestamp">
+			<description>Timestamp of when the file was added to the archive.</description>
+			<notes>
+				<note>
+					This might be something else, but all the values in a single cat file are very close together.
+					a00c.cat has a timestamp about a minute before e00c.cat, and this field is about 0x40 (64) higher in e00c.cat.
+					That would imply it's a number of seconds since an epoch.
+					Additionally, einfo.cat (timestamped half a year earlier) has numbers much smaller.
+				</note>
+				<note>
+					Epoch seems to be around 3/1/1979, although I could be mistaken.  1/1/1980 would make more sense.
+				</note>
+			</notes>
+		</dword>
+
+		<dword at="0x10" name="length">
+			<description>Length of the contents.</description>
+		</dword>
+
+		<dword at="0x14" name="offset">
+			<description>Offset to the contents.</description>
+		</dword>
+
+	</structdef>
+</structdefs>
+
+</file>

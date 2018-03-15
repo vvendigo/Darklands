@@ -1,0 +1,154 @@
+body {
+	background-color: #eee;
+	color: #003;
+}
+
+/* ----- links ----- */
+
+a.external {
+	/* TODO */
+}
+
+/* ----- headers ----- */
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: helvetica, arial, futura, sans-serif;
+	font-weight: bold;
+}
+
+h1 {
+	font-size: 120%;
+}
+
+h2 {
+	font-size: 110%;
+}
+
+h3 {
+	font-size: 100%;
+}
+
+/* ----- table of contents ----- */
+
+h1.toc {
+	margin: 10px;
+	font-size: 80%;
+}
+
+.toc-category {
+	margin: 1px;
+	padding-left: 20px;
+	font-size: 80%;
+}
+
+.toc-entry {
+	margin: 1px;
+	padding-left: 40px;
+	font-size: 80%;
+}
+
+/* ----- indentation ----- */
+
+p {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+dl {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+dd {
+	padding-bottom: 5px;
+}
+
+/* ----- variable/member definitions ----- */
+
+.var-at {
+	color: #666;
+}
+
+.var-name {
+	color: #009;
+	font-weight: bold;
+}
+
+.var-datatype {
+	color: #009;
+}
+
+.var-unknown {
+	color: #900;
+	font-style: italic;
+}
+
+.var-description {
+	color: #003;
+}
+
+.var-struct-size {
+	font-size: smaller;
+}
+
+/* ----- enumerations ----- */
+
+table.enum {
+	margin-left: 10px;
+	margin-right: 10px;
+	padding: 10px;
+}
+
+th.enum-label {
+	padding-right: 4px;
+	font-family: helvetica, arial, futura, sans-serif;
+	font-weight: bold;
+	font-size: 80%;
+	text-align: left;
+}
+
+td.enum-value-from {
+	padding-right: 4px;
+	color: #009;
+	text-align: left;
+}
+
+td.enum-value-to {
+	padding-right: 4px;
+	color: #003;
+	text-align: left;
+}
+
+/* ----- bitmasks----- */
+
+table.bitmask-contents {
+	margin-left: 110px;
+	margin-right: 10px;
+	padding: 10px;
+}
+
+table.bitmask-contents td {
+	vertical-align: top;
+}
+
+table.bitmask-contents td.bit-name {
+	font-size: 80%;
+}
+
+table.bitmask-contents td.bit-description {
+	font-size: 80%;
+}
+
+/* ----- notes ----- */
+
+ul.notes {
+	margin-top: 0px;
+	margin-bottom: 2px;
+}
+
+li.note {
+	list-style-type: square;
+	font-size: smaller;
+	font-weight: lighter;
+	color: #003;
+}

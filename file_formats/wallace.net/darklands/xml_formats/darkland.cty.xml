@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands city definitions">
+
+<globs>
+	<glob filespec="darkland.cty" />
+</globs>
+
+<description type="paragraph">
+	Contains names, location names, coordinates, and other data specific to cities.
+	Non-city locations are stored in darkland.loc.
+</description>
+
+<offsets>
+	<offset start="0x00">
+		<byte at="0x00" name="num_cities" value="0x5c">
+			<description>Number of cities.</description>
+		</byte>
+		<array at="0x01" size="*num_cities" name="cities">
+			<description>City definitions.</description>
+			<notes>
+				<note>
+					The order of these is the "definitive" order, since the full name is the best unique identifier.
+				</note>
+			</notes>
+			<struct type="city" />
+		</array>
+	</offset>
+</offsets>
+
+<!-- ====================================================================== -->
+
+<structdefs>
+	<external-structdef type="coordinates" file="structures" />
+
+	<structdef type="city" size="0x26e">
+		<string at="0x00" size="32" name="short_name" />
+		<string at="0x20" size="32" name="full_name" />
+		
+		<struct at="0x40" type="city_data" name="city_data" />
+		
+		<string at="0x6e" size="32" name="leader_name" />
+		<string at="0x8e" size="32" name="ruler_name" />
+
+		<string at="0xae" size="32" unknown="yes">
+			<notes>
+				<note>TODO: is this non-empty ever?  (ditto for other two unknowns)</note>
+			</notes>
+		</string>
+
+		<string at="0xce" size="32" name="polit_name">
+			<description>Name of the political center or town square.</description>
+			<notes>
+				<note>TODO: describe what empty values look like</note>
+			</notes>
+		</string>
+		<string at="0xee" size="32" name="town_hall_name" />
+		<string at="0x10e" size="32" name="fortress_name">
+			<description>Name of the city fortress or castle.</description>
+		</string>
+		<string at="0x12e" size="32" name="cathedral_name" />
+		<string at="0x14e" size="32" name="church_name" />
+		<string at="0x16e" size="32" name="market_name">
+			<description>Name of the marketplace.</description>
+		</string>
+		<string at="0x18e" size="32" unknown="yes">
+			<notes>
+				<note>Often contains "Munzenplatz".  Possibly this is "central square name".</note>
+			</notes>
+		</string>
+		<string at="0x1ae" size="32" name="slum_name" />
+		<string at="0x1ce" size="32" unknown="yes">
+			<notes>
+				<note>
+					Many places have "Zeughaus", which translates to "armoury";
+					others end in "-turm" (tower?) or "-tor" (gate?).
+					Quite possible this is for one of the unused "rebellion" codepath.
+				</note>
+			</notes>
+		</string>
+		<string at="0x1ee" size="32" name="pawnshop_name">
+			<description>Name of the pawnshop.</description>
+			<notes>
+				<note>All pawnshops are named the same; this is either 'Leifhaus' or is empty.</note>
+			</notes>
+		</string>
+		<string at="0x20e" size="32" name="kloster_name">
+			<description>Name of the kloster (church law and administration building).</description>
+		</string>
+		<string at="0x22e" size="32" name="inn_name" />
+		<string at="0x24e" size="32" name="university_name" />
+	</structdef>
+
+<!-- ====================================================================== -->
+
+	<structdef type="city_data" size="0x2e">
+		<word at="0x00" name="city_size">
+			<description>Size of the city.</description>
+			<notes>
+				<note>Ranges from 3 (small) to 8 (Koln).</note>
+			</notes>
+		</word>
+
+		<struct at="0x02" type="coordinates" name="entry_coords">
+			<description>City location on the map.</description>
+		</struct>
+		<struct at="0x06" type="coordinates" name="exit_coords">
+			<description>Party coordinates when leaving a city.</description>
+			<notes>
+				<note>
+					When you leave a city, you don't exit at the same point as you entered.
+					The exit coordinates were (usually) selected so as not to place you in an untenable position (the ocean, trapped by a river loop, etc).
+				</note>
+			</notes>
+		</struct>
+
+		<array at="0x0a" size="4" name="dock_destinations">
+			<description>Dock destination cities.</description>
+			<notes>
+				<note>
+					This contains the indices 
+					(in the <reference type="variable" to="cities" /> array)
+					of the destinations available via the city docks the docks.
+				</note>
+				<note>
+					0xffff is used for "no destination".
+					Inland cities have all 0xffffs.
+				</note>
+			</notes>
+			<word />
+		</array>
+
+		<word at="0x12" >
+			<description>if coastal, side of the river ???[Hamburg] TODO.</description>
+			<notes>
+				<note>Values are: 0xffff (inland), 0 (north of the river), 1 (south of the river)</note>
+				<note>0 and 1 cities are on or near tidal zones (swamps), and may be subject to flooding.</note>
+			</notes>
+		</word>
+
+		<word at="0x14" constant="yes" value="4" />
+
+		<word at="0x16">
+			<description>Pseudo-ordinal.</description>
+			<notes>
+				<note>
+					At first glance, this looks like an ordinal offset running
+					from 0 to 0x5b, but 0x18 is missing, and 0x3c repeats.
+				</note>
+				<note>
+					This value is probably not used.
+				</note>
+			</notes>
+		</word>
+
+		<word at="0x18" name="city_type" enumeration="ruler">
+			<description>Type of city</description>
+		</word>
+		<word at="0x1a" unknown="yes">
+			<notes>
+				<note>0, 1, 2, or 3.</note>
+			</notes>
+		</word>
+
+		<word at="0x1c" constant="yes" value="0" />
+
+		<bitmask at="0x1e" size="16 bits" name="city_contents">
+			<description>Buildings and locations in the city.</description>
+			<notes>
+				<note>Bits are on iff there is one of that type of building.</note>
+			</notes>
+
+			<bit name="is_kloster">
+				<description>Is there a kloster?</description>
+			</bit>
+			<bit name="is_slums">
+				<description>Is there a slums?</description>
+			</bit>
+			<bit unknown="yes" />
+			<bit name="is_cathedral">
+				<description>Is there a cathedral?</description>
+			</bit>
+
+			<bit unknown="yes" />
+			<bit name="is_no_fortress">
+				<description>Is there no city fortress?</description>
+				<notes>
+					<note>A rare case of a reversed boolean.  Possibly it's a "has something else" flag, and fortresses are added if it doesn't have the other?</note>
+				</notes>
+			</bit>
+			<bit name="is_town_hall">
+				<description>Is there a town hall?</description>
+			</bit>
+			<bit name="is_polit" constant="yes" value="1">
+				<description>Is there a political center?</description>
+			</bit>
+
+			<bit constant="yes" value="0" />
+			<bit constant="yes" value="0" />
+			<bit constant="yes" value="0" />
+			<bit constant="yes" value="0" />
+
+			<bit name="docks">
+				<description>Are there docks?</description>
+			</bit>
+			<bit unknown="yes" />
+			<bit name="is_pawnshop">
+				<description>Is there a liefhaus (pawnshop)?</description>
+			</bit>
+			<bit name="is_university">
+				<description>Is there a university?</description>
+			</bit>
+		</bitmask>
+
+		<word at="0x20" constant="yes" value="0" />
+
+		<byte at="0x22" name="qual_black">
+			<description>Quality of the blacksmith.</description>
+			<notes>
+				<note>
+					This, and the other nine qualities, all seem to work in the same way.
+				</note>
+				<note>A zero value indicates that the city does not have that particular shop.</note>
+				<note>
+					Non-zero values do not exactly equal the quality of the items available,
+					but merely indicate relative qualities!
+					For example, Nurnberg has a 0x31 (49) listed for the armory, but offers q37 (0x25) armor.
+					However, if one city has a higher value than another, then that city's items
+					will be of equal or greater quality.
+				</note>
+				<note>
+					The quality of the healer is not stored here, but is apparently random.  (TODO: verify?)
+				</note>
+				<note>
+					TODO: comments about Quality of the alchemist, university, pharmacist being the seed thing.
+				</note>
+			</notes>
+		</byte>
+
+		<byte at="0x23" name="qual_merch">
+			<description>Quality of the merchant.</description>
+		</byte>
+		<byte at="0x24" name="qual_sword">
+			<description>Quality of the swordsmith.</description>
+		</byte>
+		<byte at="0x25" name="qual_armor">
+			<description>Quality of the armorer.</description>
+		</byte>
+
+		<byte at="0x26" name="qual_unk1" unknown="yes" />
+
+		<byte at="0x27" name="qual_bow">
+			<description>Quality of the bowyer.</description>
+		</byte>
+		<byte at="0x28" name="qual_tink">
+			<description>Quality of the tinker.</description>
+		</byte>
+
+		<byte at="0x29" name="qual_unk2" unknown="yes" />
+
+		<byte at="0x2a" name="qual_cloth">
+			<description>Quality of the clothing merchant.</description>
+		</byte>
+
+		<byte at="0x2b" constant="yes" value="0" />
+
+		<byte at="0x2c" unknown="yes">
+			<notes>
+				<note>Since the following byte is 0 or 1, this and that might actually be a single word value.</note>
+			</notes>
+		</byte>
+
+		<byte at="0x2d" unknown="yes">
+			<notes>
+				<note>Either zero or one (only a couple of ones).</note>
+			</notes>
+		</byte>
+	</structdef>
+</structdefs>
+
+<enumerations>
+	<enumeration type="ruler">
+		<description>Type of city (free, ruled, capital)</description>
+		<notes>
+			<note>This controls which message from <html:code>$CITYE00.msg</html:code> is given when you are approaching a city.</note>
+		</notes>
+		<map from="0" to="Free City">
+			<notes>
+				<note>Message 7</note>
+			</notes>
+		</map>
+		<map from="1" to="Ruled City">
+			<notes>
+				<note>Message 1</note>
+			</notes>
+		</map>
+		<map from="2" to="Capital">
+			<notes>
+				<note>Message 6</note>
+			</notes>
+		</map>
+	</enumeration>
+</enumerations>
+
+</file>

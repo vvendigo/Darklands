@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands current location data">
+
+<globs>
+	<glob filespec="locs.tmp" />
+</globs>
+
+<description type="extended">
+	<html:p>
+	This is a temporary file, created when a saved game is loaded.
+	TODO: is this also created when a new game is started?  Or when going in and out of battle?
+	</html:p>
+
+	<html:p>
+	All of the structures in here are defined in the saved game format,
+	so only brief descriptions are given here.
+	</html:p>
+</description>
+
+<offsets>
+	<offset start="0x00" end="0x5dcd">
+		<word at="0x00" name="num_locations" value="0x19e">
+			<notes>
+				<note>
+					See <reference type="variable" to="num_locations" file="dksaveXX.sav" />.
+				</note>
+			</notes>
+		</word>
+
+		<array at="0x02" size="*num_locations" name="locations">
+			<notes>
+				<note>
+					See <reference type="variable" to="locations" file="dksaveXX.sav" />.
+				</note>
+			</notes>
+			<struct type="location" />
+		</array>
+	</offset>
+</offsets>
+
+<!-- ====================================================================== -->
+
+<structdefs>
+	<external-structdef type="location" file="dksaveXX.sav" />
+</structdefs>
+
+</file>

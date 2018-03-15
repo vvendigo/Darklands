@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/X.cat.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands catalog files</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands catalog files</h1>
+		<p>Files with this format: "<code>*.cat</code>"; "<code>bc</code>"; "<code>lcastle</code>"; "<code>msgfiles</code>".</p>
+		<p>
+	Catalog files are basically a filesystem; each one contains a large set of (usually related) files.
+</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">starting at 0x00</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#offset-entry[0].offset">starting at entry[0].offset</a>
+		</div>
+		<h2 class="toc-category">Structures</h2>
+		<div class="toc-entry">
+			<a href="#structdef-entry">entry</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: starting at 0x00</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_entries">
+						<strong>num_entries: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Number of file entries.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-entries">
+						<strong>entries: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_entries">num_entries</a> ] of struct <a href="#structdef-entry">entry</a>
+					<span class="var-struct-size"> (each size 0x18)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">File entries.</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="offset-entry[0].offset">Offset: starting at entry[0].offset</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-contents">
+						<strong>contents: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_entries">num_entries</a> ] of <i>unknown</i> (<em>entry[idx].length</em> bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+				Contents of the files.
+			<ul class="notes">
+						<li class="note">
+					For a given index, the contents start at
+					<a href="#structdef-entry">entry[idx].offset</a>,
+					and are 
+					<a href="#structdef-entry">entry[idx].length</a> long.
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<hr>
+		<h1>Structures</h1>
+		<h2>
+			<a name="structdef-entry">Structure: entry</a>
+		</h2>
+		<p>Size 0x18.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-filename">
+						<strong>filename: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(12)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Name of the file.<ul class="notes">
+						<li class="note">Always in 8.3 format.</li>
+						<li class="note">Padded with nulls if the filename is shorter.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0c</code>: </span>
+				<span class="var-name">
+					<a name="variable-timestamp">
+						<strong>timestamp: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">Timestamp of when the file was added to the archive.<ul class="notes">
+						<li class="note">
+					This might be something else, but all the values in a single cat file are very close together.
+					a00c.cat has a timestamp about a minute before e00c.cat, and this field is about 0x40 (64) higher in e00c.cat.
+					That would imply it's a number of seconds since an epoch.
+					Additionally, einfo.cat (timestamped half a year earlier) has numbers much smaller.
+				</li>
+						<li class="note">
+					Epoch seems to be around 3/1/1979, although I could be mistaken.  1/1/1980 would make more sense.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x10</code>: </span>
+				<span class="var-name">
+					<a name="variable-length">
+						<strong>length: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">Length of the contents.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x14</code>: </span>
+				<span class="var-name">
+					<a name="variable-offset">
+						<strong>offset: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">Offset to the contents.</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/X.cat.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

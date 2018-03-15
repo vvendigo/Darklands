@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands city descriptions">
+
+<globs>
+	<glob filespec="darkland.dsc" />
+</globs>
+
+<description>Contains descriptions of the cities.</description>
+
+<offsets>
+	<offset start="0x00">
+		<byte at="0x00" name="num_cities" value="0x5e">
+			<description>Number of cities.</description>
+			<notes>
+				<note>
+					Note: this value is WRONG!
+					It should be 0x5c (92), which is the number of cities defined in
+					<reference file="darkland.loc" />.
+					This would seem to imply that the game ignores this value.
+				</note>
+			</notes>
+		</byte>
+
+		<array at="0x01" size="92" name="city_descriptions">
+			<description>Long descriptions of the cities.</description>
+			<notes>
+				<note>
+					TODO: verify:
+					The order of cities here matches the order in
+					<reference file="darkland.cty" type="variable" to="cities" />.
+				</note>
+			</notes>
+			<string size="80" />
+		</array>
+	</offset>
+</offsets>
+
+<!-- ====================================================================== -->
+
+</file>

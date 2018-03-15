@@ -1,0 +1,885 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/darkland.exe.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands executable</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands executable</h1>
+		<p>Files with this format: "<code>darkland.exe</code>".</p>
+		<p>
+	This is the main executable for Darklands.
+	</p>
+		<p>
+	Because this is a compiled binary executable, not much of the file
+	is comprehensible without disassembling it.
+	Still, many of the strings can be found, and quite possibly some
+	arrays that indicate game flow logic (ie, movement between cards).
+	</p>
+		<p>
+	Many of the "arrays of pointers to X" appear to be for a segmented architecture,
+	with segment:offset pointers (the high two bytes being the segment).
+	Such arrays are simply described as "Segmented pointers, with segment=0x????",
+	with the segment translated from big-endian.
+	</p>
+		<p>
+	Oftentimes, one array contains offsets into a number of semantically different
+	string tables; in these cases the string tables will all be listed separately,
+	but offsets will always be relative to the first entry of the first table.
+	</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x17d0b0">from 0x17d0b0 to 0x17eb17</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#offset-0x17eb18">from 0x17eb18 to 0x17f66b</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#offset-0x17f66c">from 0x17f66c to 0x1872cf</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#offset-0x1872d0">from 0x1872d0 to 0x187626</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#offset-0x187627">from 0x187627 to 0x187cff</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#offset-0x187d00">from 0x187d00 to 0x18a60e</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#offset-0x18a60f">from 0x18a60f to 0x18a863</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x17d0b0">Offset: from 0x17d0b0 to 0x17eb17</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x17d0b0</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 60 ] of dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Segmented pointers, with segment=0x286b.</li>
+						<li class="note">(TODO: verify) Offsets start at 0x355 and decrease linearly by 0x4 to 0x269, no exceptions.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x17d1a0</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 404 ] of dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Segmented pointers, with segment=0x290e.</li>
+						<li class="note">Offsets jump around in the approximate range of 0x1500 to 0x2aff.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x17dfc0</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 360 ] of dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Segmented pointers, with segment=0x2caf.</li>
+						<li class="note">This might correspond to a (TODO) set of .pic image filenames in a string table later on; maybe it's a copy?</li>
+						<li class="note">
+					Offsets are in blocks which decrease linearly by 0x4 each time.
+					<br>
+					The first block runs from 0xb19 to 0xa49;
+					the next from 0xd6d to 0xb1d;
+					the next from 0xfc1 to 0xd71;
+					the last from 0xfe5 to 0xfc5;
+				</li>
+						<li class="note">The four different blocks might indicate that there are four arrays, and the segments just happen to be the same.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x17e560</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 366 ] of dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Segmented pointers, with segment=0x2dae.</li>
+						<li class="note">Offsets jump around, but are generally in the range 0-0x5ff.</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="offset-0x17eb18">Offset: from 0x17eb18 to 0x17f66b</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x17eb18</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 9 ] of dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Segmented pointers, with segment=0x321e.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x17eb3c</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 2 ] of dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Segmented pointers, with segment=0x39e8.</li>
+						<li class="note">Offsets are: 0x18, 0x16.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x17eb44</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 2 ] of dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Segmented pointers, with segment=0x39ea.</li>
+						<li class="note">Offsets are: 0x0a, 0x0e.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x17eb4c</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 712 ] of dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Segmented pointers, with segment=0x39eb.</li>
+						<li class="note">Offsets jump around, but are generally in the range 0-0x5ff.</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="offset-0x17f66c">Offset: from 0x17f66c to 0x1872cf</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">array[ 30100 ] of byte</span> [constant: 0x00]</dt>
+			<dd>
+				<span class="var-description">Empty space.</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (1744 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">There's some stuff near the top of this that looks like data.</li>
+						<li class="note">TODO: look into this area.</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="offset-0x1872d0">Offset: from 0x1872d0 to 0x187626</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x1872d0</code>: </span>
+				<span class="var-name">
+					<a name="variable-cardinals">
+						<strong>cardinals: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 4 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">The first four cardinal numbers.<ul class="notes">
+						<li class="note">"first", "second", "third", and "fourth"</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1872ea</code>: </span>
+				<span class="var-name">
+					<a name="variable-equippable_items">
+						<strong>equippable_items: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 56 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Equippable items.<ul class="notes">
+						<li class="note">Melee weapons, then ranged weapons, then "Potions", then vitals armour, then leg armour.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1874e2</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">array[ 3 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Messages.<ul class="notes">
+						<li class="note">"You can't view ", " at this time.", and "Single file order is invalid. Will use default order."</li>
+						<li class="note">The first two strings look like part of the same string; no idea why a null is there.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x187537</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">array[ 60 ] of dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+				Offsets into the above string tables, from
+				<a href="#variable-cardinals">cardinals</a>
+				to
+				<a href="#variable-equippable_items">equippable_items</a>.
+			<ul class="notes">
+						<li class="note">Segmented pointers, with segment=0x286b.</li>
+						<li class="note">Although there are two string tables involved, all offsets are relative to the start of the first (<a href="#variable-cardinals">cardinals</a>).</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="offset-0x187627">Offset: from 0x187627 to 0x187cff</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x187627</code>: </span>
+				<span class="var-name">
+					<a name="variable-debug_labels">
+						<strong>debug_labels: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 35 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Labels for debugging output<ul class="notes">
+						<li class="note">These are like "SmallGuySp[0]: " and "DyingBuf[0]: ".  They look familiar: temporary battle files?</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x18781b</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (5 bytes)</span> [constant: 0x00]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x187820</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 10 ] of word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">These steadily increase, but the last is 0xffff (-1).</li>
+						<li class="note">0, 0x14, 0x7a, 0xe0, 0x146, 0x1ac, 0x212, 0x278, 0x2de, 0xffff.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x187834</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (1228 bytes)</span> [constant: 0x00]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="offset-0x187d00">Offset: from 0x187d00 to 0x18a60e</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x187d00</code>: </span>
+				<span class="var-name">
+					<a name="variable-months">
+						<strong>months: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 12 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Months (full names).</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x187d56</code>: </span>
+				<span class="var-name">
+					<a name="variable-copy_protection_words">
+						<strong>copy_protection_words: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 20 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Terms for the copy protection questions.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x187e12</code>: </span>
+				<span class="var-name">
+					<a name="variable-alchemy_submenu_items">
+						<strong>alchemy_submenu_items: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 4 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Options given once an alchemical formula is chosen for mixing during a rest period.<ul class="notes">
+						<li class="note">
+					All the "options" strings have a particular format:
+					0x8c, 0x20 (a space), the first letter, 0xff, the rest of the text, then 0x00 (null).
+				</li>
+						<li class="note">
+					The 0xff is not a marker indicating "previous letter is the keyboard shortcut",
+					but instead indicates where the program should stop highlighting the shortcut:
+					moving the byte two more positions to the right in highlights an additional two characters.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x187e5f</code>: </span>
+				<span class="var-name">
+					<a name="variable-saved_game_submenu_items">
+						<strong>saved_game_submenu_items: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 3 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Options given when on the list of saved games.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x187e9e</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 34 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">These do not reflect a single menu in its entirety, so may not actually be used.</li>
+						<li class="note">Many of these are options given when creating a party or a character.</li>
+						<li class="note">
+					Others are phrases like 
+					"Only high Virtue can subdue the dragon",
+					"Latin and Religious Training",
+					and "You need a missile weapon".
+				</li>
+						<li class="note">Quite possibly these were just leftovers in one huge string table?
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1881d9</code>: </span>
+				<span class="var-name">
+					<a name="variable-attributes">
+						<strong>attributes: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 7 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Attributes.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x188222</code>: </span>
+				<span class="var-name">
+					<a name="variable-skill_abbrs">
+						<strong>skill_abbrs: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 19 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Skills (abbreviated to 14 characters).</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1882f0</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 5 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">The first is a standard "Return to main menu" option; the other three are for selecting colours and heraldry during character creation.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x18833a</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">string</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">"It is closed at night"</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x188350</code>: </span>
+				<span class="var-name">
+					<a name="variable-occupations">
+						<strong>occupations: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 37 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Occupations available while creating a new character.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1884d3</code>: </span>
+				<span class="var-name">
+					<a name="variable-global_reps">
+						<strong>global_reps: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 11 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Descriptions of global reputation.<ul class="notes">
+						<li class="note">Goes from lowest ("Unknown") to highest ("Legendary Heroes").</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x188573</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 16 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Perhaps the names of demons?</li>
+						<li class="note">"Enitharmon", "Sarcopteryx", "Odonanga vexans", "Eru damnosum" are some examples.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x18862c</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 36 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Names of something?</li>
+						<li class="note">"Alveig", "Gulveig", "Mimingus", "Thviti" are some examples.</li>
+						<li class="note">Perhaps these are names of dwarves?  "Gymer" sounds familiar...</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x18872c</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 12 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					These seem to be city locations ("Blacksmith", "Armorer"),
+					but contain some extra ones ("Jeweler", "Hospital").
+					Although jeweler was in the plans, I recall no hospitals in 15th century Germany...
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x18879a</code>: </span>
+				<span class="var-name">
+					<a name="variable-family_backgrounds">
+						<strong>family_backgrounds: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 37 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Family backgrounds for a new character.<ul class="notes">
+						<li class="note">Ranges from wealthiest ("Nobility") to poorest ("Rural Commoners").</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x188801</code>: </span>
+				<span class="var-name">
+					<a name="variable-monastic_hours">
+						<strong>monastic_hours: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 8 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Latin names for the times of the day.<ul class="notes">
+						<li class="note">Starts with "Latins", ends with "Compline", as expected.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x188838</code>: </span>
+				<span class="var-name">
+					<a name="variable-compass directions">
+						<strong>compass directions: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 8 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Compass directions.<ul class="notes">
+						<li class="note">Clockwise, from "North" to "Northeast", eventually to "Northwest".</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x188876</code>: </span>
+				<span class="var-name">
+					<a name="variable-quest_givers">
+						<strong>quest_givers: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 13 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Places or individuals who may give quests.<ul class="notes">
+						<li class="note">
+					This array is oddly "-1"-based;
+					"Medici" (quest_givers[7]) is stored as 0x06 in
+					<a class="external" href="dksaveXX.sav.html#struct-event">event</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>).
+				</li>
+						<li class="note">Possibly the first entry ("error") is just an extra string put in the right place, and memory was allocated starting with all bits on (so "-1" would translate to "error")?</li>
+						<li class="note">TODO: update event structure to allow direct access to the byte involved, then update the above to point to it!</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1888f2</code>: </span>
+				<span class="var-name">
+					<a name="variable-skills">
+						<strong>skills: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 19 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Skills (full text).</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1889b4</code>: </span>
+				<span class="var-name">
+					<a name="variable-local_reps">
+						<strong>local_reps: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 6 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Descriptions of local reputation.<ul class="notes">
+						<li class="note">Goes from highest ("a local hero") to lowest ("hunted").</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1889eb</code>: </span>
+				<span class="var-name">
+					<a name="variable-jobs">
+						<strong>jobs: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 25 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Jobs a character can take while staying in a city inn.<ul class="notes">
+						<li class="note">
+					Not all of these may be used; some such as "Fortune Teller" and "Canon's Aide" have never been seen.
+					Of course, it is possible that very particular skills and attributes are required for those professions.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x188af4</code>: </span>
+				<span class="var-name">
+					<a name="variable-variables">
+						<strong>variables: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 67 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Variables used in cards.<ul class="notes">
+						<li class="note">These are just the names; in files that use them, a "<code>$</code>" is prefixed to indicate that it is a variable.</li>
+						<li class="note">
+					Some of these may not be variables, or may not work when used.
+					"ChosenOneName" is definitely used as a variable.
+					"citySquare", "CityLocation", and "MonthName" are plausible.
+					"whorehouse" and "imperialMint" are unlikely to even work.
+				</li>
+						<li class="note">See <code>msgfiles</code> for examples of the use of variables.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x188dd2</code>: </span>
+				<span class="var-name">
+					<a name="variable-titles">
+						<strong>titles: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 15 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Titles for nobility.<ul class="notes">
+						<li class="note">TODO: confirm this is what it is?</li>
+						<li class="note">	These include "Vogt", "alte Herr", and "Schultheiss", and sound like titles.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x188e71</code>: </span>
+				<span class="var-name">
+					<a name="variable-male_first_names">
+						<strong>male_first_names: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 110 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">First names for males.<ul class="notes">
+						<li class="note">Mostly in alphabetical order (at least the first letter is).</li>
+						<li class="note">
+					This table is used not only for suggested first names when creating a new character,
+					but also for all other names in Darklands (raubritters, alchemists, quest givers, etc).
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1891a0</code>: </span>
+				<span class="var-name">
+					<a name="variable-female_first_names">
+						<strong>female_first_names: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 90 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">First names for females.<ul class="notes">
+						<li class="note">
+					Starts out in alphabetical order, but degenerates half way through, then starts back over with 'A' after 70 names.
+					Possibly the developers ran out of names, and had to add some later?
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x18945f</code>: </span>
+				<span class="var-name">
+					<a name="variable-surnames">
+						<strong>surnames: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 107 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Last names.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1897e6</code>: </span>
+				<span class="var-name">
+					<a name="variable-designations">
+						<strong>designations: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 37 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Designations (postfix titles).<ul class="notes">
+						<li class="note">Either clan names ("of Zollern") or descriptors ("the fat").</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x189993</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 18 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Regions, or lords, perhaps?</li>
+						<li class="note">Examples include "Hoffman", "Stromer", "Muffel", "Wagner", "Welser".</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x189a20</code>: </span>
+				<span class="var-name">
+					<a name="variable-faction_politics">
+						<strong>faction_politics: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 3 ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Political opinions.<ul class="notes">
+						<li class="note">"oppose", "are undecided about", "support"</li>
+						<li class="note">As the rebellion isn't part of the finished product, these are unused.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x189a43</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">array[ 755 ] of dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+				Offsets into the above string tables, from
+				<a href="#variable-months">months</a>
+				up to (but not including)
+				<a href="#variable-faction_politics">faction_politics</a>.
+			<ul class="notes">
+						<li class="note">Segmented pointers, with segment=0x290e.</li>
+						<li class="note">
+					Although there are many, many string tables involved,
+					all offsets are relative to the start of the first (<a href="#variable-months">months</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="offset-0x18a60f">Offset: from 0x18a60f to 0x18a863</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x18a60f</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 146 ] of dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Segmented pointers, with segment=0x09c0.</li>
+						<li class="note">Offsets jump around in the approximate range of 0x1e2d to 0x2657.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x18a857</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">array[ 3 ] of dword</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Segmented pointers, with segment=0x290e.</li>
+						<li class="note">This (and above) might just be part of the preceding array: a global pointer index to all strings?  Seems a bit long, but it's even stranger to have a table with just three entries...</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/darkland.exe.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/darkland.enm.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands enemy definitions</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands enemy definitions</h1>
+		<p>Files with this format: "<code>darkland.enm</code>".</p>
+		<p>Contains definitions for all enemies (people and creatures).</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">starting at 0x00</a>
+		</div>
+		<h2 class="toc-category">Structures</h2>
+		<div class="toc-entry">
+			<a href="#structdef-enemy">enemy</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-enemy_type">enemy_type</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: starting at 0x00</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-enemy_types">
+						<strong>enemy_types: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 71 ] of struct <a href="#structdef-enemy_type">enemy_type</a>
+					<span class="var-struct-size"> (each size 0xcc)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Definitions of the types of enemies.<ul class="notes">
+						<li class="note">TODO: Is this 71 (and the following 82) stored anywhere?</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x3894</code>: </span>
+				<span class="var-name">
+					<a name="variable-enemies">
+						<strong>enemies: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 82 ] of struct <a href="#structdef-enemy">enemy</a>
+					<span class="var-struct-size"> (each size 0x18)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Definitions of the enemies.</span>
+			</dd>
+		</dl>
+		<hr>
+		<h1>Structures</h1>
+		<h2>
+			<a name="structdef-enemy_type">Structure: enemy_type</a>
+		</h2>
+		<p>Size 0xcc.</p>
+		<p>Definition of a type of enemy.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-enemy_image">
+						<strong>enemy_image: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(4) (enum null<a href="#enumeration-image_group">image_group</a>) (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					Three characters followed by a null; 'E??' for humans, 'M??' for monsters.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x04</code>: </span>
+				<span class="var-name">
+					<a name="variable-type_name">
+						<strong>type_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(10)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Internal name.<ul class="notes">
+						<li class="note">TODO: verify this is completely internal and not referred to elsewhere?</li>
+						<li class="note">Variants are labelled "Sergeant1", "Sergeant2", etc.  These numbers are the reverse of the cluebook's "type" designations; ie, "Sergeant1" is type "E" (weakest), "Sergeant5" is type "A" (strongest).</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0e</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_variants">
+						<strong>num_variants: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">For the first instance of a type (say, 'Sergeant1'), this contains the number of variants.</li>
+						<li class="note">Variants after the first contain the value 0xff.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0f</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Ranges from 1-6.</li>
+						<li class="note">At a guess, maybe this is a probability frequency?  Number of instances?</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x10</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Ranges from 1-3; 1 is the most common value.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x11</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Increases in jumps from 0 to 0x47.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x12</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Ranges from 0-2.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x14</code>: </span>
+				<span class="var-name">
+					<a name="variable-attrs">
+						<strong>attrs: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-attribute_set">attribute_set</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Attributes (both current and maximum).</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1a</code>: </span>
+				<span class="var-name">
+					<a name="variable-skills">
+						<strong>skills: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-skill_set">skill_set</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Skills.<ul class="notes">
+						<li class="note">For a given enemy, all melee weapon skills are equal, and all missile weapon skills are equal.</li>
+						<li class="note">All non-weapon skills are 0x14 (20).</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x2e</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Ranges from 0x08-0x14.</li>
+						<li class="note">Since the range is a tolerable attribute/skill value, maybe this is related?</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x2f</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">byte</span> [constant: 0x00]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x30</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Most are 0, except: skeletons/gnome/giant gnome (0x2b), vulcan (0x40), hellhound (0x01), both dragons (0x20).</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x31</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Ranges from 0-2, most are 0.  Gargoyle is the only 2.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x32</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (0x42 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					This looks like the probabilities of the enemy carrying each of the types of potions.
+					The size of the structure equals the number of potions (times three), and the values are only non-zero for evil alchemists, monks, and one variety of dwarves.
+				</li>
+						<li class="note">
+					They appear in triplets (0x0a,0xf8,0x19 for evil alchemist) with the first number around 10, the second around 250, and the third around 25.
+				</li>
+						<li class="note">
+					If the first byte is zero, the second is usually positive; if not, it's negative.
+				</li>
+						<li class="note">
+					The third number in the triplets is 0x19 (25), 0x23 (35), or 0x2d (45).  Must be the quality.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x74</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (0x1e bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					Maybe the odds of carrying components?
+					Non-zero for evil alchemists, monks, and one variant of dwarves, but also for witches, templars, demon princes, a dragon, and Baphomet.
+				</li>
+						<li class="note">
+					If combined with the preceding unknown triplets, it makes 32 triplets in all.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x92</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (0x2 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Generally increasing, getting up to 0x5b for Baphomet.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x94</code>: </span>
+				<span class="var-name">
+					<a name="variable-vital_type">
+						<strong>vital_type: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Item type of the vital armor worn.<ul class="notes">
+						<li class="note">0xff if no armor is worn (ditto for future 'type' values).</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x95</code>: </span>
+				<span class="var-name">
+					<a name="variable-leg_type">
+						<strong>leg_type: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Item type of the leg armor worn.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x96</code>: </span>
+				<span class="var-name">
+					<a name="variable-armor_q">
+						<strong>armor_q: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the armor worn.<ul class="notes">
+						<li class="note">Both vital and leg armor have the same quality.</li>
+						<li class="note">If no armor is worn, this is the 'effective' armor class of the creature.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x97</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">0x5f, 0x60, 0x61, or 0xff.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x98</code>: </span>
+				<span class="var-name">
+					<a name="variable-shield_type">
+						<strong>shield_type: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Item type of the shield worn.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x99</code>: </span>
+				<span class="var-name">
+					<a name="variable-shield_q">
+						<strong>shield_q: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the shield worn.<ul class="notes">
+						<li class="note">This is 0x19 even if it is a creature that carries no shield.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x9a</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (6 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xa0</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (6 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">This really looks a lot like the next block... almost.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xa6</code>: </span>
+				<span class="var-name">
+					<a name="variable-weapon_types">
+						<strong>weapon_types: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 6 ] of byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Possible types of weapons that might be carried.<ul class="notes">
+						<li class="note">This doesn't *quite* correlate with the hint book, but comes so close that it's probably what it is.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xac</code>: </span>
+				<span class="var-name">
+					<a name="variable-weapon_q">
+						<strong>weapon_q: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Quality of the weapon wielded.<ul class="notes">
+						<li class="note">If the creature doesn't use a weapon, this is the 'effective' weapon quality.</li>
+						<li class="note">Not sure where other weapon factors (penetration, damage) are.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xad</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (0x0b bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Most values are 0xff.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0xb9</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (0x13 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Looks like a byte followed by a bunch of word values</li>
+						<li class="note">Mostly zero or low values, with occasional 0xffff (-1) values.</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-enemy">Structure: enemy</a>
+		</h2>
+		<p>Size 0x18.</p>
+		<p>Definition of an enemy.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-enemy_type">
+						<strong>enemy_type: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">The type of enemy.<ul class="notes">
+						<li class="note">
+					This is an index into the
+					<a href="#variable-enemy_types">enemy_types</a> array.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-name">
+						<strong>name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(12)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Name.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0e</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (8 bytes)</span> [constant: all 0x00]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x16</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">There are only a few distinct values: 0, 1, 3, 7, 0x3f, 0x4f, and 0x81.  Bitmask?</li>
+						<li class="note">For a given enemy type, this value is always the same.</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/darkland.enm.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

@@ -1,0 +1,699 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/structures.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands common structures</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands common structures</h1>
+		<p>These structures are common to a number of different files.</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Structures</h2>
+		<div class="toc-entry">
+			<a href="#structdef-attribute_set">attribute_set</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-coordinates">coordinates</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-date">date</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-date_reversed">date_reversed</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-item">item</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-money">money</a>
+		</div>
+		<div class="toc-entry">
+			<a href="#structdef-skill_set">skill_set</a>
+		</div>
+		<hr>
+		<h1>Structures</h1>
+		<h2>
+			<a name="structdef-date">Structure: date</a>
+		</h2>
+		<p>Size 0x08.</p>
+		<p>A date.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-hour">
+						<strong>hour: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-day">
+						<strong>day: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x04</code>: </span>
+				<span class="var-name">
+					<a name="variable-month">
+						<strong>month: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word (enum <a class="external" href="enumerations.html#enumeration-month">month</a>)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x06</code>: </span>
+				<span class="var-name">
+					<a name="variable-year">
+						<strong>year: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Contains the entire value (not just 0 for 1400)</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-date_reversed">Structure: date_reversed</a>
+		</h2>
+		<p>Size 0x08.</p>
+		<p>A date stored in reversed format.</p>
+		<ul class="notes">
+			<li class="note">
+				<a class="external" href="dksaveXX.sav.html#variable-curr_date">curr_date</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>)
+				is stored in this format, although dates in the
+				<a class="external" href="dksaveXX.sav.html#structdef-event">event structure</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>)
+				are stored in the normal
+				<a href="#structdef-date">date</a> format.
+			</li>
+		</ul>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-year">
+						<strong>year: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Contains the entire value (not just 0 for 1400)</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-month">
+						<strong>month: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word (enum <a class="external" href="enumerations.html#enumeration-month">month</a>)</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x04</code>: </span>
+				<span class="var-name">
+					<a name="variable-day">
+						<strong>day: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x06</code>: </span>
+				<span class="var-name">
+					<a name="variable-hour">
+						<strong>hour: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-money">Structure: money</a>
+		</h2>
+		<p>Size 0x06.</p>
+		<p>An amount of money.</p>
+		<ul class="notes">
+			<li class="note">Money is stored with the monetary units separated, rather than simply storing the number of pfenniges.</li>
+			<li class="note">Darklands does seem to recover if the number of pfenniges or groschen "overflow", and it makes change automatically.</li>
+		</ul>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-florins">
+						<strong>florins: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-groschen">
+						<strong>groschen: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x04</code>: </span>
+				<span class="var-name">
+					<a name="variable-pfenniges">
+						<strong>pfenniges: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-coordinates">Structure: coordinates</a>
+		</h2>
+		<p>Size 0x04.</p>
+		<p>A world map location (pair of coordinates).</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-x_coord">
+						<strong>x_coord: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">X-coordinate.<ul class="notes">
+						<li class="note">Ranges from 0x0000 - 0x0147.</li>
+						<li class="note">The maximum is the first word of the file "darkland.map".</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-y_coord">
+						<strong>y_coord: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Y-coordinate.<ul class="notes">
+						<li class="note">Ranges from 0x0000 - 0x03a3.</li>
+						<li class="note">The maximum is the second word of the file "darkland.map".</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-item">Structure: item</a>
+		</h2>
+		<p>Size 0x06.</p>
+		<p>An item.</p>
+		<ul class="notes">
+			<li class="note">
+				Most of these values can be found in the
+				<a class="external" href="darkland.lst.html#variable-item_definitions">item_definitions array</a> (found in <a class="external" href="darkland.lst.html">darkland.lst</a>).
+				Quality and quantity, of course, differ from item to item.
+			</li>
+		</ul>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-code">
+						<strong>code: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-type">
+						<strong>type: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x03</code>: </span>
+				<span class="var-name">
+					<a name="variable-quality">
+						<strong>quality: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x04</code>: </span>
+				<span class="var-name">
+					<a name="variable-quantity">
+						<strong>quantity: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x05</code>: </span>
+				<span class="var-name">
+					<a name="variable-weight">
+						<strong>weight: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-attribute_set">Structure: attribute_set</a>
+		</h2>
+		<p>Size 0x07.</p>
+		<p>A set of attribute values.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-end">
+						<strong>end: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Endurance.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x01</code>: </span>
+				<span class="var-name">
+					<a name="variable-str">
+						<strong>str: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Strength.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-agl">
+						<strong>agl: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Agility.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x03</code>: </span>
+				<span class="var-name">
+					<a name="variable-per">
+						<strong>per: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Perception.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x04</code>: </span>
+				<span class="var-name">
+					<a name="variable-int">
+						<strong>int: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Intelligence.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x05</code>: </span>
+				<span class="var-name">
+					<a name="variable-chr">
+						<strong>chr: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Charisma.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x06</code>: </span>
+				<span class="var-name">
+					<a name="variable-df">
+						<strong>df: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Divine favor.</span>
+			</dd>
+		</dl>
+		<h2>
+			<a name="structdef-skill_set">Structure: skill_set</a>
+		</h2>
+		<p>Size 0x13.</p>
+		<p>A set of skill values.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-wEdg">
+						<strong>wEdg: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Edged Weapon skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x01</code>: </span>
+				<span class="var-name">
+					<a name="variable-wImp">
+						<strong>wImp: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Impact Weapon skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-wFll">
+						<strong>wFll: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Flail Weapon skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x03</code>: </span>
+				<span class="var-name">
+					<a name="variable-wPol">
+						<strong>wPol: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Polearm skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x04</code>: </span>
+				<span class="var-name">
+					<a name="variable-wThr">
+						<strong>wThr: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Thrown Weapon skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x05</code>: </span>
+				<span class="var-name">
+					<a name="variable-wBow">
+						<strong>wBow: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Bow skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x06</code>: </span>
+				<span class="var-name">
+					<a name="variable-wMsl">
+						<strong>wMsl: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Missile Weapon skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x07</code>: </span>
+				<span class="var-name">
+					<a name="variable-alch">
+						<strong>alch: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Alchemy skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x08</code>: </span>
+				<span class="var-name">
+					<a name="variable-relg">
+						<strong>relg: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Religious skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x09</code>: </span>
+				<span class="var-name">
+					<a name="variable-virt">
+						<strong>virt: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Virtue skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0a</code>: </span>
+				<span class="var-name">
+					<a name="variable-spkC">
+						<strong>spkC: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Speak Common skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0b</code>: </span>
+				<span class="var-name">
+					<a name="variable-spkL">
+						<strong>spkL: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Speak Latin skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0c</code>: </span>
+				<span class="var-name">
+					<a name="variable-r_w">
+						<strong>r_w: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Read/Write skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0d</code>: </span>
+				<span class="var-name">
+					<a name="variable-heal">
+						<strong>heal: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Healing skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0e</code>: </span>
+				<span class="var-name">
+					<a name="variable-artf">
+						<strong>artf: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Artifice skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0f</code>: </span>
+				<span class="var-name">
+					<a name="variable-stlh">
+						<strong>stlh: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Stealth skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x10</code>: </span>
+				<span class="var-name">
+					<a name="variable-strw">
+						<strong>strw: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Streetwise skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x11</code>: </span>
+				<span class="var-name">
+					<a name="variable-ride">
+						<strong>ride: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Riding skill.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x12</code>: </span>
+				<span class="var-name">
+					<a name="variable-wdws">
+						<strong>wdws: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Woodwise skill.</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/structures.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

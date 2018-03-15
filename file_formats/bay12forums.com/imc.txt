@@ -1,0 +1,200 @@
+IMC mentions from http://www.bay12forums.com/smf/index.php?topic=68919.0
+
+Re: Who would try and make a Darklands remake?
+
+
+Sowelu:
+« Reply #30 on: October 26, 2010, 02:41:41 pm »
+
+Well, here's my understanding.  1) They use a very limited palette, so surely less than a byte, considering that it uses custom palettes for each person.  3 bits seems low, but 4 bits seems like enough.  2) I think someone on the mailing list said they looked like they were RLE.  In any case, they're a format where changing one bit can change big chunks of it.  3) Each .imc file has a lot of data; walk and attack cycles in each direction.  But that was probably obvious.
+
+Many thanks for taking a crack at it!  I'll see what I can engineer as well, but this is known to be HARD.  I think someone went as far as trying to muck with the bits and bobs in machine code to see what was going on, and that looked fruitful but didn't last forever.  Apparently there's another file somewhere with animation data that is loaded at the same time as the .imc files at start of combat; it is possible-to-likely that all header information is embedded in that and not in the .imc's.  I've got a sneaky suspicion that each byte might be 4 bits for color and 4 bits for run-length.  Which still leaves a question:  Is the internal data stored as one spritesheet that the animation file knows how to blit from, or is it stored as its own weird catalog?
+
+
+sluissa:
+« Reply #31 on: October 26, 2010, 03:41:42 pm »
+According to the mailing list, one of the original artists for the game chimed in and said that the animation sprites were all just in a grid and the programming to run the animation was elsewhere. I'm guessing the IMC files are nothing but sprites. But I could be wrong there.
+
+I really keep wanting to think it's PCX format somehow. That would fit with RLE and also that they used that format in the tactical sections of X-COM as well. If it were as simple as that though, I'm sure someone else would have figured it out.
+
+
+olemars:
+« Reply #39 on: October 26, 2010, 06:08:57 pm »
+Oh well, was fun figuring out the catalog format and extracting the files manually. Not that it's a terribly complicated one. There are separate imc files for attack and walk animations by the way.
+
+I've been looking at a couple of the IMC files in hex.  There does seem to be a bit of header info in each one. The first 32 bytes doesn't seem to change a lot within a character class, the next 8 changes little.
+
+Additionally there are only a few blocks of FFFF in each file, all near the start. Linebreaking on it reveals a pattern:
+Code: [Select]
+1F 81 05 00 02 00 01 FE FF E8 E3 FA FE 04 00 17 00 10 F0 FF C3 03 00 03 02 F2 FD FE 01 FF FF
+00 7C E9 FF EF FF 01 25 00 14 FC 78 E2 16 00 13 00 0F FC 15 00 19 84 23 D2 BE 06 00 07 FE 40 1C B8 FE 03 F8
+10 41 7E F8 C4 13 01 21 02 1A 03 E0 25 01 30 02 FF FF
+2D 03 27 00 37 01 42 02 3D 03 3C 00 4A 01 50 02 FF FF
+50 03 4E 00 5D 01 64 02 60 03 64 00 72 01 75 02 FF FF
+73 03 76 00 85 01 86 02 87 03 8D 00 9A 01 99 02 FF FF
+99 03 9F 00 AC 01 AB 02 A9 03 B4 00 C1 01 BE 02 FF FF
+BB 03 C5 00 D2 01 D0 02 CC 03 DA 00 E7 01 E2 02 FF E1
+DE 03 EB 00 F9 01 F4 02 F0 03 6C 0E 02 30 F9 06 FA 04 14
+
+Notice the alternating columns of 1, 2, 3 and 0. Extracting the columns show that the following byte increases for each occurence.
+
+Code: [Select]
+1	21?		2	1A		3	E0?		0	37
+1	30		2	2D		3	27		0	4A
+1	42		2	3D		3	3C		0	5D
+1	50		2	50		3	4E		0	72
+1	64		2	60		3	64		0	85
+1	75		2	73		3	76		0	9A
+1	86		2	87		3	8D		0	AC
+1	99		2	99		3	9F		0	C1
+1	AB		2	A9		3	B4		0	D2
+1	BE		2	BB		3	C5		0	E7
+1	D0		2	CC		3	DA		0	F9
+1	E2		2	E1?		3	EB			
+1	F4		2	F0		3	6C?			
+
+I'm thinking 0..3 are frames in an animation. No idea what the other number means.
+
+That's as far as I've gotten yet, which isn't very. Knowing the dimensions and the pallette would help tremendously though, since then it would be easier to experiment with drawing to pixmaps.
+
+
+olemars:
+« Reply #42 on: October 28, 2010, 02:54:29 pm »
+
+Still looking at the sprite animations, and I'm definitely onto something. And it does indeed look like there is some RLE going on, and... something else.
+
+Will report back soonish if/when I get anywhere useful.
+
+
+olemars:
+« Reply #43 on: October 30, 2010, 08:38:15 pm »
+
+Guess that counts as "anywhere useful". I've got the basics of the file compression down pat, as well as the frame index, and the individual sprite encoding.
+
+Haven't figured out the palette data yet, nor the animation frame count/order, although the latter isn't terribly important. There's also a good bit of header values and other metadata I haven't found any use for yet either.
+
+Palette data is the trickiest part. There are several palette files in the folder, but I don't know which chunks I need in them. Plus at least some of the sprites have some of their colors determined at runtime. Now I'm just creating a generic 256 color palette, the result of which is visibile in the picture. That's technically a sprite for the regular city gate guard (E02)
+
+
+olemars:
+« Reply #45 on: October 31, 2010, 12:05:47 pm »
+
+I think the programmer in charge of this bit of the game was a follower of the "job security through code obscurity" school of software development philosophy. The compression is completely homebrew. I'm pretty sure it's hand-tailored in asm. The battle code will also open and read the same chunks from some files 5-6 times in a row for no apparent reason.
+
+
+olemars:
+« Reply #47 on: November 01, 2010, 03:53:54 am »
+
+I'm organizing my data and making a nice little app for reliably decompressing and extracting the sprites. I'll also write up a description of the algorithms in use.
+
+I'm not sure what you mean by hotspots but sprites can be any size really (within the bounds of reason anyway). The one i posted is 14x30, while another in the same file is 19x30. Some of the attack sprites are fairly tall, up to 16x50 or something, especially the "overhead chop" attack. I don't think they're even the same size within the same animation sequence, although it's mostly just one pixel width/height plus or minus.
+
+For the human walk animation files there are 72 sprites, which means 9 frames per direction, or 8 frames + 1 standing still. That also means there are several thousand of these little sprites in total. Pixel artists must be the most patient people on earth.
+
+
+olemars:
+« Reply #51 on: November 01, 2010, 08:55:26 am »
+
+Right. More formats to dissect :)
+There are some other "hidden" catalogs too; LCASTLE and a few files called DARKLANDS.something. The game really has a lot of assets.
+
+EDIT: The files in BC and IMAPS.CAT are all compressed with the same algorithm as the IMC files. Hopefully they'll make more sense after decompression.
+
+
+olemars:
+« Reply #56 on: November 01, 2010, 06:38:17 pm »
+
+Quote from: Sowelu on November 01, 2010, 04:42:12 pm
+
+    Hey, I wonder if they used that same compression format for the music?  I think people were having a hard time ripping the Darklands music at one point.
+
+If the .PAN files are the music files, then yeah it looks like it's probably the same compression. They all end with 0x00 0xF0 0x00, which acts as an EOF marker of sorts for the algorithm (it's also the only marker available to sort of identify these files, which is a bit painful, even the headers are compressed...). Guess I'll have to expand the scope for my file tool a little.
+
+On a related note, I think I have a working implementation of the algorithm now. My testfile matches 100% with one I dumped from the game's memory.
+
+
+olemars:
+« Reply #58 on: November 03, 2010, 06:24:36 pm »
+
+Here's a WIP version of the file tool, with at least some basic functionality. I figured it would be a nice opportunity to brush up on my Model/View cred, so it has a tree view of the files you open and a preview for sprites (at 5x zoom). It only supports reading CAT files, decompressing IMC files and extracting animation sprites so far.
+
+You open CAT files through the file menu, and right clicking on a file in the tree view gets you some export options. "Export all children" dumps all the subcontents of a file into an equivalent folder hierarchy. If you do this on a CAT, it could mean a lot of files since each IMC file can have up to 70 sprites and there's 50-70 IMC files in each CAT.
+
+Download link. (https://docs.google.com/leaf?id=0B_ibgxGs3lrkZmZjZjY4Y2YtYjYxNi00NTI4LWE0MTctYjBjM2Q3ZDAwOThm&sort=name&layout=list&num=50)
+
+Only dependency is Qt, which is bundled. And of course the Visual Studio 2008 C++ runtimes. If you get errors about "Side By Side" "R6024", "the application is configured incorrectly" or something similarly useless, you're probably missing the runtimes. Just google "MSVC 2008 SP1 Redist".
+
+As for stability, it gets the "works for me" stamp of approval. I'm so confident in my own programming abilities* that there's hardly any error checking/handling, which I feel is in the spirit of the original Darklands developers. Use at your own risk (there isn't really a lot that can go wrong though).
+
+I'll put it on github or something eventually, I just want to add support for more file types first, palette editing and maybe sprinkle some comments on the code. Might as well add PIC viewing functionality too since the decode algorithm is available anyway.
+
+Side note: At least in my version of the game there seems to be a single corrupted animation file, M40WKWH.IMC, which apparently is the "wild hunter", or this fella:
+
+It's a giant squirrel with antlers and a superman costume, right? Would be interesting to know if that file is corrupt for someone else too. You'll get an error message if it is. It could be a hickup in the decompression algorithm, but in that case this is the only file it breaks on. I can probably salvage most of the file though with some hex editing, it's just a frame or two at the end that's missing.
+
+
+olemars:
+« Reply #61 on: November 04, 2010, 04:48:18 am »
+
+Just thought of a way to get at the game's palette. It's m3g4 31337 and I wonder why I didn't think of it sooner. Won't be able to actually do it for another 6-7 hours though...
+
+
+olemars:
+« Reply #68 on: November 04, 2010, 05:50:33 pm »
+
+Graphics hardware interaction is always tricky, VGA palette data is basically written to an internal hardware port as a serialized stream, one byte for each color channel. VGA uses a 256 color palette with 18 bits per color. Tracing this kind of thing is pretty difficult (ie nightmarish), unlike file IO which is comparatively trivial.
+
+I had no idea how to figure out the palette, until I remembered that I'm not running the game on real hardware but through Dosbox. So I just found the function in the dosbox VGA emulation layer that deals with the palette stream, changed it so it outputs a nicely formatted line for each palette update from the game, and just played the game for a little bit. Now I have a text file with stuff like this:
+
+Code: [Select]
+	mColorTable[79] = qRgb(134, 0, 186); // 21 0 2e
+   mColorTable[80] = qRgb(255, 162, 101); // 3f 28 19
+	mColorTable[81] = qRgb(85, 85, 85); // 15 15 15
+	mColorTable[82] = qRgb(56, 56, 56); // e e e
+	mColorTable[83] = qRgb(36, 36, 36); // 9 9 9
+	mColorTable[84] = qRgb(0, 0, 0); // 0 0 0
+	mColorTable[85] = qRgb(138, 0, 0); // 22 0 0
+	mColorTable[86] = qRgb(162, 0, 0); // 28 0 0
+	mColorTable[87] = qRgb(186, 0, 0); // 2e 0 0
+
+With a proper palette I've learned a bit of how the game deals with colors, at least for characters.
+There are 3 custom blocks of 16 colors that are reserved for enemies/critters. These are index 32-47, 48-63 and 64-79. This puts a limit on how many different critters there can be in a single battle.
+
+The file ENEMYPAL.DAT contains sets of custom colors that critters can use. Each entry is 53 bytes long, 71 entries in total. The first byte tells the first index of the 16 colors. It's either 0x60, 0x90 or 0xC0, divide by 3 and you get 32, 48 and 64 in base10. The next 48 bytes are byte triplets for 16 colors. The last 4 bytes I have no clue about, so they're probably vitally important.
+The first 6 entries are for the city guard sargeants, the next 6 for the regular city guards. No idea about the rest. I guess trial and error is the only way unless someone else can find a pattern.
+
+For player characters it's completely different. They have 8 customizable colors each, but their sprite files all use the same color indices for them, 235-242. Basically the game replaces occurences of these indices in the hero sprites with other indices "owned" by each character slot. Slot A gets index 80-87, slot B 88-95, slot C 96-103, slot D 104-111, slot E 112-119 (if used). Seems kind of silly they went to all this trouble just for a nearly useless feature.
+
+
+olemars:
+« Reply #73 on: November 06, 2010, 03:47:25 pm »
+
+New release with proper palette handling:
+Download link. (https://docs.google.com/leaf?id=0B_ibgxGs3lrkNGI5Y2RmNzctM2VkYy00ZTUyLThkMDgtZDNlYzI4ZjliOTI0&sort=name&layout=list&num=50)
+
+I've made it remap character colors so those show up correctly according to the default party setup. For enemies/critters (anything in E00C.cat and M00C.cat), I've added dropdown boxes so you can choose between palette layouts for the custom blocks. The default is all white, so if a sprite has a lot of white in it, play around with the palettes until it looks right. The setting is applied individually to each IMC file. It's not saved in any way on application exit, so remember to note down which palette choices you think are correct for each critter.
+
+
+olemars:
+« Reply #80 on: November 14, 2010, 10:54:11 am »
+
+I've decompressed and had a few looks at the tile files, which is apparently the stuff in "BC" (IMAPS.CAT seems to be the battleground layouts/maps). It's a whole new level of wrong. There's 8 different file extensions and they all seem to be different formats. I think I've figured out the FLC type and at least partially the FFC type. The rest are still a mystery.
+
+What's odd about these files is they all seem to contain some garbage, like they were made by some misaligned memory dump. At least a couple of them contain bits of what looks suspiciously like somebodys autoexec.bat.
+
+I'll add support for reading and decompressing these things so whoever wants to can have a look at the raw data.
+
+
+olemars:
+« Reply #101 on: February 15, 2011, 02:48:39 pm »
+
+I did indeed push my source code to bitbucket, it's available here (https://bitbucket.org/olemars/dldecoder). I've also added the latest binary build to the project downloads, no need for google docs anymore. Right now I'm picking up the threads where I left them, which was battleground tiles. I have the basic grasp of some of them, but it's like there are multiple formats for the things... There's also something that looks like battle maps, which is interesting but not particularly useful I guess.
+
+
+olemars:
+« Reply #121 on: April 04, 2011, 05:37:49 am »
+
+Ah, this. I keep meaning to get through the battlescape tiles, but whoever coded them at MPS was either high on something from a trailer park lab, or an amiga programmer.
+
+Seems like tile extraction would most likely be more effort than is useful. It's not like they were very remarkable ingame, and what little environmental "effects" there were (like water or fire) were just simple palette index animations that are hard to emulate now. Making new ones would be easier to use for procedural map making too if that's a goal. If I understand the old maps right there were just a small number of maps for each environment that were randomly selected.
+

@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/locs.tmp.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands current location data</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands current location data</h1>
+		<p>Files with this format: "<code>locs.tmp</code>".</p>
+		<p>
+	This is a temporary file, created when a saved game is loaded.
+	TODO: is this also created when a new game is started?  Or when going in and out of battle?
+	</p>
+		<p>
+	All of the structures in here are defined in the saved game format,
+	so only brief descriptions are given here.
+	</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">from 0x00 to 0x5dcd</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: from 0x00 to 0x5dcd</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_locations">
+						<strong>num_locations: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span> = 0x19e</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					See <a class="external" href="dksaveXX.sav.html#variable-num_locations">num_locations</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-locations">
+						<strong>locations: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_locations">num_locations</a> ] of struct <a class="external" href="dksaveXX.sav.html#structdef-location">location</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					See <a class="external" href="dksaveXX.sav.html#variable-locations">locations</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/locs.tmp.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

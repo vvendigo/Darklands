@@ -1,0 +1,58 @@
+body {
+	background-color: white;
+	color: black;
+	font-family: helvetica, arial, futura, sans-serif;
+}
+
+/* ----- links ----- */
+
+a.external {
+	/* TODO */
+}
+
+/* ----- headers ----- */
+
+h1, h2, h3, h4, h5, h6 {
+	margin-bottom:0.2em;
+}
+
+/* ----- tables ----- */
+
+table {
+	margin-left: 10px;
+	margin-right: 10px;
+	padding: 10px;
+}
+
+th {
+	padding-right: 6px;
+	padding-left: 6px;
+	font-family: helvetica, arial, futura, sans-serif;
+	font-weight: bold;
+	font-size: 80%;
+	text-align: left;
+	vertical-align: top;
+}
+
+td {
+	padding-right: 6px;
+	padding-left: 6px;
+	color: #009;
+	text-align: left;
+	vertical-align: top;
+}
+
+td.file {
+	font-family: monospace;
+	color: #003;
+}
+
+/* ----- table of contents ----- */
+
+table.toc {
+	font-size: 80%;
+}
+
+table.toc td {
+	vertical-align: top;
+}

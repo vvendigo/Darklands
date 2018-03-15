@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/darkland.snt.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands saint descriptions</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands saint descriptions</h1>
+		<p>Files with this format: "<code>darkland.snt</code>".</p>
+		<p>Contains long text descriptions of the saints.</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">starting at 0x00</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: starting at 0x00</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_saints">
+						<strong>num_saints: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span> = 0x88</dt>
+			<dd>
+				<span class="var-description">Number of saints.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x01</code>: </span>
+				<span class="var-name">
+					<a name="variable-saint_descriptions">
+						<strong>saint_descriptions: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_saints">num_saints</a> ] of string(168)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Descriptions of the saints.<ul class="notes">
+						<li class="note">
+					TODO: verify:
+					The order of saints here matches the order in
+					<a class="external" href="darkland.lst.html#variable-saint_full_names">saint_full_names</a> (found in <a class="external" href="darkland.lst.html">darkland.lst</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/darkland.snt.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

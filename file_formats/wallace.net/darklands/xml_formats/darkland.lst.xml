@@ -1,0 +1,328 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands general lists">
+
+<globs>
+	<glob filespec="darkland.lst" />
+</globs>
+
+<description>Contains item definitions, saint names, and formula names.</description>
+
+<offsets>
+	<offset start="0x00">
+		<byte at="0x00" name="num_item_slots" value="0xc8">
+			<description>Number of item definition slots.</description>
+			<notes>
+				<note>This is the number of slots, not the actual number of items that are defined.</note>
+			</notes>
+		</byte>
+		<byte at="0x01" name="num_saints" value="0x88">
+			<description>Number of saints defined.</description>
+			<notes>
+				<note>
+					Saint information is also stored in other file(s) like
+					<reference file="darkland.snt" />;
+					changing this value would probably be a bad idea.
+				</note>
+			</notes>
+		</byte>
+		<byte at="0x02" name="num_formulae" value="0x42">
+			<description>Number of alchemical formulae defined.</description>
+			<notes>
+				<note>
+					Alchemical formula information is also stored in other file(s) like
+					<reference file="darkland.alc" />;
+					changing this value would probably be a bad idea.
+				</note>
+			</notes>
+		</byte>
+
+		<array at="0x03" size="*num_item_slots" name="item_definitions">
+			<description>Item definitions.</description>
+			<notes>
+				<note>
+					The index of an item in this array is called the item's "code",
+					and is used very frequently in other files.
+					Unfortunately, the code is not stored anywhere in the item's definition.
+				</note>
+				<note>
+					A comprehensive list of codes (and corresponding types)
+					can be found in the UGE module, available from 
+					the <html:a href="http://www.darklands.net/files/files.shtml">files section</html:a>
+					of	<html:a href="http://www.darklands.net/">darklands.net</html:a>.
+				</note>
+				<note>"Empty" slots contain all 0x00.</note>
+			</notes>
+			<struct type="item_definition" />
+		</array>
+
+		<array size="*num_saints" name="saint_full_names">
+			<description>Full names of saints.</description>
+			<notes>
+				<note>All start with "St.".</note>
+				<note>The longest one is 23 letters: "St.Christina, Astonish.".</note>
+				<note>
+					The order of these is the "definitive" order, since the full name is the best unique identifier.
+				</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array size="*num_saints" name="saint_short_names">
+			<description>Short names of saints.</description>
+			<notes>
+				<note>All start with "S.".</note>
+				<note>The longest ones are 13 letters.</note>
+				<note>
+					The order of saints here matches the order in
+					<reference type="variable" to="saint_full_names" />.
+				</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array size="*num_formulae" name="formula_full_names">
+			<description>Full names of alchemical formulae.</description>
+			<notes>
+				<note>The longest ones are 26 letters.</note>
+				<note>
+					The order of these is the "definitive" order, since the full name is the best unique identifier.
+				</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+		<array size="*num_formulae" name="formula_short_names">
+			<description>Short names of alchemical formulae.</description>
+			<notes>
+				<note>All start with two initials, then a space, then five to seven letters: 8 to 10 letters total.</note>
+				<note>
+					The order of formulae here matches the order in
+					<reference type="variable" to="formula_full_names" />.
+				</note>
+			</notes>
+			<string delimiter="null" />
+		</array>
+
+	</offset>
+</offsets>
+
+<!-- ====================================================================== -->
+
+<structdefs>
+
+	<structdef type="item_definition" size="0x2e">
+		<description>A definition of an item.</description>
+
+		<string at="0x00" size="20" name="name">
+			<description>Name.</description>
+		</string>
+		<string at="0x14" size="10" name="short_name">
+			<description>Full name.</description>
+		</string>
+
+		<word at="0x1e" name="type">
+			<description>Item type.</description>
+			<notes>
+				<note>TODO: add ext-reference to the UGE file for the enum data.</note>
+				<note>TODO: instead, make this an empty enum pointing there...</note>
+			</notes>
+		</word>
+
+		<bitmask at="0x20" size="1">
+			<bit name="is_edged">
+				<description>Item is an edged weapon.</description>
+			</bit>
+			<bit name="is_impact">
+				<description>Item is an impact weapon.</description>
+			</bit>
+			<bit name="is_polearm">
+				<description>Item is an polearm.</description>
+			</bit>
+			<bit name="is_flail">
+				<description>Item is a flail.</description>
+			</bit>
+			<bit name="is_thrown">
+				<description>Item is a thrown weapon.</description>
+			</bit>
+			<bit name="is_bow">
+				<description>Item is a bow.</description>
+			</bit>
+			<bit name="is_metal_armor">
+				<description>Item is metal armor.</description>
+			</bit>
+			<bit name="is_shield">
+				<description>Item is a shield.</description>
+			</bit>
+		</bitmask>
+
+		<bitmask at="0x21" size="1">
+			<bit unknown="yes">
+				<notes>
+					<note>This and the next bit seem to indicate items that could be found in a pawnshop (all unequippable "normal" items).</note>
+					<note>0x03 for harp and flute, 0x02 for clock, grappling hook, and lockpicks, 0x01 for all other pawnshop items.</note>
+				</notes>
+			</bit>
+			<bit unknown="yes" />
+			<bit name="is_component">
+				<description>Item is an alchemical component.</description>
+			</bit>
+			<bit name="is_potion">
+				<description>Item is a potion.</description>
+			</bit>
+			<bit name="is_relic">
+				<description>Item is a relic.</description>
+			</bit>
+			<bit name="is_horse">
+				<description>Item is a horse.</description>
+			</bit>
+			<bit name="is_quest_1">
+				<notes>
+					<note>These seem to be the types of quest items that would be found in offices (love letters), or unused ones (treason note).</note>
+				</notes>
+			</bit>
+			<bit constant="yes" value="0" />
+		</bitmask>
+
+		<bitmask at="0x22" size="1">
+			<bit name="is_lockpicks">
+				<description>Item is lockpicks.</description>
+			</bit>
+			<bit name="is_light">
+				<description>Item gives light.</description>
+				<notes>
+					<note>Torch, candle, and lantern.</note>
+					<note>Note that lights are not a factor in game play.</note>
+				</notes>
+			</bit>
+			<bit name="is_arrow">
+				<description>Item is an arrow.</description>
+			</bit>
+			<bit constant="yes" value="0" />
+			<bit name="is_quarrel">
+				<description>Item is a quarrel.</description>
+			</bit>
+			<bit name="is_ball">
+				<description>Item is a ball.</description>
+			</bit>
+			<bit constant="yes" value="0" />
+			<bit name="is_quest_2">
+				<notes>
+					<note>
+						These seem to be outdoors quest items (prayerbook), 
+						fortress/baphomet/dragon items (sword of war, bone, gold cup),
+						and creature parts (tusk and wolfskin).
+					</note>
+				</notes>
+			</bit>
+		</bitmask>
+
+		<bitmask at="0x23" size="1">
+			<notes>
+				<note>
+					This is the only one of the five bitmasks where more than one bit is on for a given item: leather armor is 0x14.
+				</note>
+			</notes>
+			<bit name="is_throw_potion">
+				<description>Item is a throwable potion.</description>
+			</bit>
+			<bit constant="yes" value="0" />
+			<bit name="is_nonmetal_armor">
+				<description>Item is a non-metal armor.</description>
+			</bit>
+			<bit name="is_missile_weapon">
+				<description>Item is a missile weapon.</description>
+			</bit>
+			<bit constant="yes" value="0" />
+			<bit unknown="yes" name="is_unknown_1">
+				<notes>
+					<note>Set only for:
+						great hammer, maul, military hammer, leather armor,
+						pure gold, manganes, zincblende, antimoni, orpiment,
+						white cinnibar, nikel, pitchblende, zinken, and brimstone.
+					</note>
+					<note>Best guess is "items found in chests in the mines", but it's a wild guess.</note>
+				</notes>
+			</bit>
+			<bit name="is_music">
+				<description>Item is a musical instrument.</description>
+				<notes>
+					<note>Harp and flute.</note>
+				</notes>
+			</bit>
+			<bit constant="yes" value="0" />
+		</bitmask>
+
+		<bitmask at="0x24" size="1">
+			<bit unknown="yes" name="is_unknown_2">
+				<notes>
+					<note>
+						This and the next bit are set for anything that
+						does not have the high bit <reference type="variable" to="is_unknown_3" /> set,
+						except for: cloth armor, superb horse, and fast horse.
+					</note>
+				</notes>
+			</bit>
+			<bit unknown="yes" />
+			<bit constant="yes" value="0" />
+			<bit constant="yes" value="0" />
+			<bit constant="yes" value="0" />
+			<bit constant="yes" value="0" />
+			<bit constant="yes" value="0" />
+			<bit unknown="yes" name="is_unknown_3">
+				<notes>
+					<note>Set for cloth armor, all types of quest items, relics, and creature parts.</note>
+					<note>
+						This is always set if any of these three bits was set:
+						<reference type="variable" to="is_relic" />,
+						<reference type="variable" to="is_quest_1" />,
+						<reference type="variable" to="is_quest_2" />.
+					</note>
+				</notes>
+			</bit>
+		</bitmask>
+
+		<byte at="0x25" name="weight">
+			<description>Item weight (when wielded).</description>
+		</byte>
+
+		<byte at="0x26" name="quality">
+			<description>Default quality of the item.</description>
+			<notes>
+				<note>
+					Based on the values, this is probably used as a sort of "base" or "default" item quality.
+				</note>
+				<note>
+					Values are: 25 for most everyday items.
+					35 for composite bow.
+					70/40/25/15/5 for horses (superb, fast, average, pack, and mule).
+					99 for quest items and non-weapon relics.
+					High (40-70) for weapon relics.
+				</note>
+			</notes>
+		</byte>
+
+		<word at="0x28" unknown="yes">
+			<notes>
+				<note>Non-zero only for relics.</note>
+				<note>Ranges from 0x06 (St. Edward's Ring) to 0x50 (St. Gabriel's Horn).</note>
+			</notes>
+		</word>
+		<word at="0x2a" unknown="yes">
+			<notes>
+				<note>Non-zero only for relics, and for the "residency permit" (which is unused by the game).</note>
+				<note>Ranges from 0x05 to 0x27 (residency permit).</note>
+			</notes>
+		</word>
+
+		<word at="0x2c" name="value">
+			<notes>
+				<note>This value is high for expensive things (transformation potion is 0x4e0=1248) and low for cheap things (arrows are 2).</note>
+				<note>Quest items are either low values or off-the-scale high values (0x270f).</note>
+				<note>Relics vary but are lower than many potions.</note>
+			</notes>
+		</word>
+	</structdef>
+</structdefs>
+
+</file>

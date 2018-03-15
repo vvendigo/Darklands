@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/darkland.map.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands world map</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands world map</h1>
+		<p>Files with this format: "<code>darkland.map</code>".</p>
+		<p>
+	Contains the wilderness map, with everything except for
+	the dynamically generated locations
+	(all non-cities listed in <code>darkland.loc</code>).
+	</p>
+		<p>
+	The map is constructed from tiles contained in two <code>.pic</code> files:
+	"<code>mapicons.pic</code>" and "<code>mapicon2.pic</code>".
+	</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">starting at 0x00</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: starting at 0x00</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-max_x_coord">
+						<strong>max_x_coord: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span> = 0x147</dt>
+			<dd>
+				<span class="var-description">Number of locations.<ul class="notes">
+						<li class="note">This word is stored high-byte first</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-max_y_coord">
+						<strong>max_y_coord: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span> = 0x3a3</dt>
+			<dd>
+				<span class="var-description">Number of locations.<ul class="notes">
+						<li class="note">This word is stored high-byte first</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x04</code>: </span>
+				<span class="var-name">
+					<a name="variable-row_offsets">
+						<strong>row_offsets: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-max_y_coord">max_y_coord</a> ] of word</span>
+			</dt>
+			<dd>
+				<span class="var-description">File offsets to row data.</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-map_data">
+						<strong>map_data: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-max_y_coord">max_y_coord</a> ] of array[ <em></em> ] of byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Map data.<ul class="notes">
+						<li class="note">
+					This data is RLE compressed: each byte represents 1-7 map tiles.
+				</li>
+						<li class="note">
+					The top three bits are the repeat count, 
+					and are always at least one (<code>001xxxxx</code>).
+				</li>
+						<li class="note">
+					The next bit is the palette set:
+					<code>0</code> for "<code>mapicons.pic</code>",
+					<code>1</code> for "<code>mapicon2.pic</code>".
+				</li>
+						<li class="note">
+					The four least bits indicate which row the tile comes from in the palette set.
+				</li>
+						<li class="note">
+					Which column the map tile comes from depends on the four diagonally adjacent tiles:
+					<br>
+					the 1's bit comes from the northwest tile's row's 8's bit;
+					<br>
+					the 2's bit comes from the northeast tile's row's 4's bit;
+					<br>
+					the 4's bit comes from the southwest tile's row's 2's bit;
+					<br>
+					the 8's bit comes from the southeast tile's row's 1's bit.
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/darkland.map.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

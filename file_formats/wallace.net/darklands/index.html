@@ -1,0 +1,827 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+
+<!-- Mirrored from wallace.net/darklands/ by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 17:59:47 GMT -->
+<head>
+	<title>Reversing Darklands: an analysis of Darklands game data files</title>
+	<link href="index.css" rel="stylesheet" title="Index" type="text/css">
+</head>
+<body>
+
+<p><em>Last updated 25-Jan-4</em></p>
+
+<h1>Table of Contents</h1>
+
+<table class="toc">
+<thead>
+	<tr>
+		<th>Section</th>
+		<th>Chapter</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td>
+			<a href="#About">Introduction</a>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="#Formats">File Formats</a>
+		</td>
+		<td>
+			<a href="#Formats_Saves">Saved Games</a>
+			<br>
+			<a href="#Formats_Data">World Data Files</a>
+			<br>
+			<a href="#Formats_Exe">Binary Files</a>
+			<br>
+			<a href="#Formats_Temp">Temporary Files</a>
+			<br>
+			<a href="#Formats_Misc">Miscellaneous Data</a>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="#Catalogs">Catalog Contents</a>
+		</td>
+		<td>
+			<a href="#Catalogs_Battle">Battle Image Catalogs (?)</a>
+			<br>
+			<a href="#Catalogs_Other">Other Catalogs</a>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="#Source">Source XML</a>
+		</td>
+	</tr>
+</tbody>
+</table>
+
+<hr>
+
+<!-- ====================================================================== -->
+
+<a name="About"></a><h1>Introduction</h1>
+
+<p>
+This is very much a work in progress.
+Please excuse broken links, missing content, etc.
+</p>
+
+<hr>
+
+<!-- ====================================================================== -->
+
+<a name="Formats"></a><h1>File Formats</h1>
+
+<p>
+All of the file format description files were generated from
+XML files using XSLT.
+At some point I will upload the raw files so folks can look at them.
+</p>
+
+<a name="Formats_Saves"></a><h2>Saved Games</h2>
+
+<table>
+<thead>
+	<tr>
+		<th>Filename(s)</th>
+		<th>Description</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="file" valign="top">
+			<a href="formats/dksaveXX.sav.html">saves\*.sav</a>
+		</td>
+		<td valign="top">Saved game (regular)</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			[saves\*.bsv]
+		</td>
+		<td valign="top">Saved game (battlefield data)</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			[saves\default]
+		</td>
+		<td valign="top">TODO: base character data for trading members at inns?</td>
+	</tr>
+</tbody>
+</table>
+
+<a name="Formats_Data"></a><h2>World Data Files</h2>
+
+<table>
+<thead>
+	<tr>
+		<th>File name or type</th>
+		<th>Description</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td valign="top">
+			<a href="formats/X.cat.html">catalog (<code>*.cat</code>)</a>
+		</td>
+		<td valign="top">Catalog file (pseudo-filesystem)</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="formats/darkland.alc.html">darkland.alc</a>
+		</td>
+		<td valign="top">Alchemical formula definitions</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="formats/darkland.cty.html">darkland.cty</a>
+		</td>
+		<td valign="top">City definitions</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="formats/darkland.dsc.html">darkland.dsc</a>
+		</td>
+		<td valign="top">City descriptions</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="formats/darkland.enm.html">darkland.enm</a>
+		</td>
+		<td valign="top">Enemy definitions</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="formats/darkland.loc.html">darkland.loc</a>
+		</td>
+		<td valign="top">Location definitions</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="formats/darkland.lst.html">darkland.lst</a>
+		</td>
+		<td valign="top">Lists of items, saints, and formulae</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="formats/darkland.map.html">darkland.map</a>
+		</td>
+		<td valign="top">Map of the world</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="formats/darkland.snt.html">darkland.snt</a>
+		</td>
+		<td valign="top">Saint descriptions</td>
+	</tr>
+</tbody>
+</table>
+
+<a name="Formats_Exe"></a><h2>Binary Files</h2>
+
+<table>
+<thead>
+	<tr>
+		<th>File name or type</th>
+		<th>Description</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="file" valign="top">
+			<a href="formats/darkland.exe.html">darkland.exe</a>
+		</td>
+		<td valign="top">Darklands executable</td>
+	</tr>
+</tbody>
+</table>
+
+<a name="Formats_Temp"></a><h2>Temporary Files</h2>
+
+<table>
+<thead>
+	<tr>
+		<th>Filename</th>
+		<th>Description</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="file" valign="top">
+			<a href="formats/cache.tmp.html">cache.tmp</a>
+		</td>
+		<td valign="top">Temporary file: inn cache data</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="formats/charactr.tmp.html">charactr.tmp</a>
+		</td>
+		<td valign="top">Temporary file: character data</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="formats/locs.tmp.html">locs.tmp</a>
+		</td>
+		<td valign="top">Temporary file: location data</td>
+	</tr>
+</tbody>
+</table>
+
+<a name="Formats_Misc"></a><h2>Miscellaneous Data</h2>
+
+<table>
+<tbody>
+	<tr>
+		<td valign="top">
+			<a href="formats/X.msg.html">menu (<code>*.msg</code>)</a>
+		</td>
+		<td valign="top">
+			Menu files
+			(see also <code><a href="catalogs/msgfiles.html">msgfiles</a></code>)
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="formats/structures.html">structures</a>
+		</td>
+		<td valign="top">Structures common to several files</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="formats/enumerations.html">enumerations</a>
+		</td>
+		<td valign="top">Enumerations common to several files</td>
+	</tr>
+</tbody>
+</table>
+
+<hr>
+
+<!-- ====================================================================== -->
+
+<a name="Catalogs"></a><h1>Catalog Contents</h1>
+
+<p>
+Several of the Darklands data files are actually "catalogs": collections of
+many smaller files.  Most of these have a "<code>.cat</code>" extension.
+All of them have a common <a href="formats/X.cat.html">structure</a>.
+<p>
+
+<a name="Catalogs_Battle"></a><h2>Battle Image Catalogs (?)</h2>
+
+<p>
+These catalogs all contain files with an "<code>.imc</code>" extension.
+Most likely, these are battle sprites and overlays.
+</p>
+
+<p>
+The filename part of these files follows a standard encoding scheme;
+substrings of the filenames (ie "<code>A00CBAX</code>") can be broken
+down ("<code>A00</code>" "<code>CB</code>" "<code>AX</code>") as follows:
+</p>
+
+<table>
+<thead>
+	<tr>
+		<th>Character Positions</th>
+		<th>Meaning</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td valign="top">1-3</td>
+		<td valign="top">
+			The image group (ie, "<code>F60</code>" for Gretchen, "<code>M01</code>" for a wild boar).
+			Another place where three letters indicates an image group is the
+			<a href="formats/dksaveXX.sav.html#variable-party_images">party_images</a>
+			array in the saved game files.
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">4-5</td>
+		<td valign="top">
+			"<code>CB</code>" for combat,
+			"<code>WK</code>" for walking,
+			"<code>DY</code>" for dying (or dead).
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">6-7</td>
+		<td valign="top">
+			For combat or walking images, the weapon being carried
+			(ie, "<code>AX</code>" for an axe, "<code>HG</code>" for a handgun).
+			<br>
+			These positions are never filled for the dying/dead image.
+		</td>
+	</tr>
+</tbody>
+</table>
+
+<p>
+The catalogs themselves are grouped by image group, or by a set of image groups.
+"<code>a00c.cat</code>" contains just the "<code>A00</code>" images, but
+"<code>e00c.cat</code>" contains all of the "<code>E<em>??</em></code>" images.
+</p>
+
+<table>
+<thead>
+	<tr>
+		<th>Catalog File</th>
+		<th>Contents</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="file" valign="top">
+			<a href="catalogs/a00c.cat.html">a00c.cat</a>
+		</td>
+		<td valign="top">Battle sprites and overlays for an alchemist ("Hans")</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="catalogs/c00c.cat.html">c00c.cat</a>
+		</td>
+		<td valign="top">Battle sprites and overlays for a cleric ("Ebhard")</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="catalogs/e00c.cat.html">e00c.cat</a>
+		</td>
+		<td valign="top">Battle sprites and overlays for human enemies</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="catalogs/f01c.cat.html">f01c.cat</a>
+		</td>
+		<td valign="top">Battle sprites and overlays for a male fighter ("Gunther")</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="catalogs/f60c.cat.html">f60c.cat</a>
+		</td>
+		<td valign="top">Battle sprites and overlays for a female fighter ("Gretchen")</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="catalogs/m00c.cat.html">m00c.cat</a>
+		</td>
+		<td valign="top">Battle sprites and overlays for non-human enemies</td>
+	</tr>
+</tbody>
+</table>
+
+<a name="Catalogs_Other"></a><h2>Other Catalogs</h2>
+
+<table>
+<thead>
+	<tr>
+		<th>Catalog File</th>
+		<th>Contents</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="file" valign="top">
+			<a href="catalogs/bc.html">bc</a>
+		</td>
+		<td valign="top">TODO</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="catalogs/editor.cat.html">editor.cat</a>
+		</td>
+		<td valign="top">TODO</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="catalogs/einfo.cat.html">einfo.cat</a>
+		</td>
+		<td valign="top">TODO</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="catalogs/imaps.cat.html">imaps.cat</a>
+		</td>
+		<td valign="top">Graphics? Tiles? for city, mine, outdoor, and castle</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="catalogs/lcastle.html">lcastle</a>
+		</td>
+		<td valign="top">TODO</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">
+			<a href="catalogs/msgfiles.html">msgfiles</a>
+		</td>
+		<td valign="top">
+			Menus and cards (see also <code><a href="formats/X.msg.html">*.msg</a></code>)
+		</td>
+	</tr>
+</tbody>
+</table>
+
+<hr>
+
+<!-- ====================================================================== -->
+
+<a name="Source"></a><h1>Source XML</h1>
+
+<p>
+Note: links in this section may or may not be viewable in your browser,
+depending on how your browser interprets incoming content.  The "<code>AddType</code>"
+directive was added in the <code>.htaccess</code> file, but that isn't always enough.
+If you are having problems viewing these files, do a <em>lame-click->Save</em>, save
+as a <code>.txt</code> file, and view that way.
+</p>
+
+<p>
+All of the file format content was generated via XSLT from source XML files.
+The intent was to create an XML protocol for describing file formats
+that could be used to create HTML viewable content, as well as C structs
+(or other language constructs).  The support files are:
+</p>
+
+<table>
+<thead>
+	<tr>
+		<th>Filename</th>
+		<th>Purpose</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="file">
+			<a href="xml_formats/file_format.dtd">file_format.dtd</a>
+		</td>
+		<td>DTD for the file format XML files</td>
+	</tr>
+	<tr>
+		<td class="file">
+			<a href="xml_formats/simple_inline_html.dtd">simple_inline_html.dtd</a>
+		</td>
+		<td>"Simple HTML" DTD (for extended descriptions)</td>
+	</tr>
+	<tr>
+		<td class="file">
+			<a href="xml_formats/file_format.xslt">file_format.xslt</a>
+		</td>
+		<td>XSLT file for converting file format XML into HTML</td>
+	</tr>
+</tbody>
+</table>
+
+<p>
+And the source XML content is:
+</p>
+
+<table>
+<thead>
+	<tr>
+		<th>Filename</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="file"><a href="xml_formats/cache.tmp.xml">cache.tmp.xml</a></td>
+		<td class="file"><a href="xml_formats/character.tmp.html">character.tmp.xml</a></td>
+		<td class="file"><a href="xml_formats/darkland.alc.xml">darkland.alc.xml</a></td>
+	</tr>
+	<tr>
+		<td class="file"><a href="xml_formats/darkland.cty.xml">darkland.cty.xml</a></td>
+		<td class="file"><a href="xml_formats/darkland.dsc.xml">darkland.dsc.xml</a></td>
+		<td class="file"><a href="xml_formats/darkland.enm.xml">darkland.enm.xml</a></td>
+	</tr>
+	<tr>
+		<td class="file"><a href="xml_formats/darkland.exe.xml">darkland.exe.xml</a></td>
+		<td class="file"><a href="xml_formats/darkland.loc.xml">darkland.loc.xml</a></td>
+		<td class="file"><a href="xml_formats/darkland.lst.xml">darkland.lst.xml</a></td>
+	</tr>
+	<tr>
+		<td class="file"><a href="xml_formats/darkland.map.xml">darkland.map.xml</a></td>
+		<td class="file"><a href="xml_formats/darkland.snt.xml">darkland.snt.xml</a></td>
+		<td class="file"><a href="xml_formats/dksaveXX.sav.xml">dksaveXX.sav.xml</a></td>
+	</tr>
+	<tr>
+		<td class="file"><a href="xml_formats/enumerations.xml">enumerations.xml</a></td>
+		<td class="file"><a href="xml_formats/locs.tmp.xml">locs.tmp.xml</a></td>
+		<td class="file"><a href="xml_formats/structures.xml">structures.xml</a></td>
+	</tr>
+	<tr>
+		<td class="file"><a href="xml_formats/X.cat.xml">X.cat.xml</a></td>
+		<td class="file"><a href="xml_formats/X.msg.xml">X.msg.xml</a></td>
+	</tr>
+</tbody>
+</table>
+
+<hr>
+
+<!-- ====================================================================== -->
+
+<a name="Ignore"></a><h1>Ignore This</h1>
+
+<p>todo: this is a placeholder for the list of all files not accounted for above</p>
+
+<p>these links are all broken right now. ;-)</p>
+
+<table>
+<thead>
+	<tr>
+		<th>Filename</th>
+		<th>Links</th>
+		<th>Description</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="file" valign="top">asound.dlb</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">asound.dlc</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">banner.dat</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">battlegr.img</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">bkgndpal.dat</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">bootdisk.exe</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">commonsp.img</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">comnclrs.dat</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">config.drk</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">credits.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">darkland.cch</td>
+		<td nowrap>
+			[format]
+		</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">darkland.cfg</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">darkland.fam</td>
+		<td nowrap>
+			[format]
+		</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">darkland.msg</td>
+		<td nowrap>
+			[format]
+		</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">darkpop.com</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">death.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">enddark1.dgt</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">enddark2.dgt</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">enemypal.dat</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">fin0a.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">fin1a.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">fin2a.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">fin3a.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">fin4a.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">fin5a.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">fonts.fnt</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">fonts.utl</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">heap.fng</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">hitseq.dta</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">install.exe</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">install.pif</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">isound.dlb</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">isound.dlc</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">mgraphic.exe</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">misc.exe</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">mpscopy.exe</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">nsound.dlc</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">opendark.dgt</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">openin6z.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">opening2.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">opening3.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">opening4.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">opening7.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">opening8.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">opening9.pan</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">psound.dlb</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">psound.dlc</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">readme.now</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">readme.txt</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">rsound.dlb</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">rsound.dlc</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">tac.txt</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">tacanim.db</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">terrain.fil</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="file" valign="top">xtract.exe</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+</tbody>
+</table>
+
+</body>
+
+<!-- Mirrored from wallace.net/darklands/ by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 17:59:59 GMT -->
+</html>
+

@@ -1,0 +1,826 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/darkland.lst.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands general lists</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands general lists</h1>
+		<p>Files with this format: "<code>darkland.lst</code>".</p>
+		<p>Contains item definitions, saint names, and formula names.</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">starting at 0x00</a>
+		</div>
+		<h2 class="toc-category">Structures</h2>
+		<div class="toc-entry">
+			<a href="#structdef-item_definition">item_definition</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: starting at 0x00</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_item_slots">
+						<strong>num_item_slots: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span> = 0xc8</dt>
+			<dd>
+				<span class="var-description">Number of item definition slots.<ul class="notes">
+						<li class="note">This is the number of slots, not the actual number of items that are defined.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x01</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_saints">
+						<strong>num_saints: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span> = 0x88</dt>
+			<dd>
+				<span class="var-description">Number of saints defined.<ul class="notes">
+						<li class="note">
+					Saint information is also stored in other file(s) like
+					<a class="external" href="darkland.snt.html">darkland.snt</a>;
+					changing this value would probably be a bad idea.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_formulae">
+						<strong>num_formulae: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span> = 0x42</dt>
+			<dd>
+				<span class="var-description">Number of alchemical formulae defined.<ul class="notes">
+						<li class="note">
+					Alchemical formula information is also stored in other file(s) like
+					<a class="external" href="darkland.alc.html">darkland.alc</a>;
+					changing this value would probably be a bad idea.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x03</code>: </span>
+				<span class="var-name">
+					<a name="variable-item_definitions">
+						<strong>item_definitions: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_item_slots">num_item_slots</a> ] of struct <a href="#structdef-item_definition">item_definition</a>
+					<span class="var-struct-size"> (each size 0x2e)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Item definitions.<ul class="notes">
+						<li class="note">
+					The index of an item in this array is called the item's "code",
+					and is used very frequently in other files.
+					Unfortunately, the code is not stored anywhere in the item's definition.
+				</li>
+						<li class="note">
+					A comprehensive list of codes (and corresponding types)
+					can be found in the UGE module, available from 
+					the <a href="http://www.darklands.net/files/files.shtml">files section</a>
+					of	<a href="http://www.darklands.net/">darklands.net</a>.
+				</li>
+						<li class="note">"Empty" slots contain all 0x00.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-saint_full_names">
+						<strong>saint_full_names: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_saints">num_saints</a> ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Full names of saints.<ul class="notes">
+						<li class="note">All start with "St.".</li>
+						<li class="note">The longest one is 23 letters: "St.Christina, Astonish.".</li>
+						<li class="note">
+					The order of these is the "definitive" order, since the full name is the best unique identifier.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-saint_short_names">
+						<strong>saint_short_names: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_saints">num_saints</a> ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Short names of saints.<ul class="notes">
+						<li class="note">All start with "S.".</li>
+						<li class="note">The longest ones are 13 letters.</li>
+						<li class="note">
+					The order of saints here matches the order in
+					<a href="#variable-saint_full_names">saint_full_names</a>.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-formula_full_names">
+						<strong>formula_full_names: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_formulae">num_formulae</a> ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Full names of alchemical formulae.<ul class="notes">
+						<li class="note">The longest ones are 26 letters.</li>
+						<li class="note">
+					The order of these is the "definitive" order, since the full name is the best unique identifier.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">[next]: </span>
+				<span class="var-name">
+					<a name="variable-formula_short_names">
+						<strong>formula_short_names: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_formulae">num_formulae</a> ] of string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Short names of alchemical formulae.<ul class="notes">
+						<li class="note">All start with two initials, then a space, then five to seven letters: 8 to 10 letters total.</li>
+						<li class="note">
+					The order of formulae here matches the order in
+					<a href="#variable-formula_full_names">formula_full_names</a>.
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+		<hr>
+		<h1>Structures</h1>
+		<h2>
+			<a name="structdef-item_definition">Structure: item_definition</a>
+		</h2>
+		<p>Size 0x2e.</p>
+		<p>A definition of an item.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-name">
+						<strong>name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(20)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Name.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x14</code>: </span>
+				<span class="var-name">
+					<a name="variable-short_name">
+						<strong>short_name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(10)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Full name.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1e</code>: </span>
+				<span class="var-name">
+					<a name="variable-type">
+						<strong>type: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Item type.<ul class="notes">
+						<li class="note">TODO: add ext-reference to the UGE file for the enum data.</li>
+						<li class="note">TODO: instead, make this an empty enum pointing there...</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x20</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">bitmask[1]</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<table class="bitmask-contents">
+						<tr>
+							<td nowrap>bit 1:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_edged">
+										<strong>is_edged: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is an edged weapon.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 2:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_impact">
+										<strong>is_impact: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is an impact weapon.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 3:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_polearm">
+										<strong>is_polearm: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is an polearm.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 4:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_flail">
+										<strong>is_flail: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is a flail.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 5:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_thrown">
+										<strong>is_thrown: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is a thrown weapon.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 6:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_bow">
+										<strong>is_bow: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is a bow.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 7:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_metal_armor">
+										<strong>is_metal_armor: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is metal armor.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 8:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_shield">
+										<strong>is_shield: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is a shield.</td>
+						</tr>
+					</table>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x21</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">bitmask[1]</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<table class="bitmask-contents">
+						<tr>
+							<td nowrap>bit 1:</td>
+							<td class="bit-name">
+								<span class="var-name"></span>
+								<em>unknown </em>
+							</td>
+							<td class="bit-description">
+								<ul class="notes">
+									<li class="note">This and the next bit seem to indicate items that could be found in a pawnshop (all unequippable "normal" items).</li>
+									<li class="note">0x03 for harp and flute, 0x02 for clock, grappling hook, and lockpicks, 0x01 for all other pawnshop items.</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 2:</td>
+							<td class="bit-name">
+								<span class="var-name"></span>
+								<em>unknown </em>
+							</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 3:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_component">
+										<strong>is_component: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is an alchemical component.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 4:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_potion">
+										<strong>is_potion: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is a potion.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 5:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_relic">
+										<strong>is_relic: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is a relic.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 6:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_horse">
+										<strong>is_horse: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is a horse.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 7:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_quest_1">
+										<strong>is_quest_1: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">
+								<ul class="notes">
+									<li class="note">These seem to be the types of quest items that would be found in offices (love letters), or unused ones (treason note).</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 8:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+					</table>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x22</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">bitmask[1]</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<table class="bitmask-contents">
+						<tr>
+							<td nowrap>bit 1:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_lockpicks">
+										<strong>is_lockpicks: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is lockpicks.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 2:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_light">
+										<strong>is_light: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item gives light.<ul class="notes">
+									<li class="note">Torch, candle, and lantern.</li>
+									<li class="note">Note that lights are not a factor in game play.</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 3:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_arrow">
+										<strong>is_arrow: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is an arrow.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 4:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 5:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_quarrel">
+										<strong>is_quarrel: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is a quarrel.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 6:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_ball">
+										<strong>is_ball: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is a ball.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 7:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 8:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_quest_2">
+										<strong>is_quest_2: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">
+								<ul class="notes">
+									<li class="note">
+						These seem to be outdoors quest items (prayerbook), 
+						fortress/baphomet/dragon items (sword of war, bone, gold cup),
+						and creature parts (tusk and wolfskin).
+					</li>
+								</ul>
+							</td>
+						</tr>
+					</table>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x23</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">bitmask[1]</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					This is the only one of the five bitmasks where more than one bit is on for a given item: leather armor is 0x14.
+				</li>
+					</ul>
+					<table class="bitmask-contents">
+						<tr>
+							<td nowrap>bit 1:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_throw_potion">
+										<strong>is_throw_potion: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is a throwable potion.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 2:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 3:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_nonmetal_armor">
+										<strong>is_nonmetal_armor: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is a non-metal armor.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 4:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_missile_weapon">
+										<strong>is_missile_weapon: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is a missile weapon.</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 5:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 6:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_unknown_1">
+										<strong>is_unknown_1: </strong>
+									</a>
+								</span>
+								<em>unknown </em>
+							</td>
+							<td class="bit-description">
+								<ul class="notes">
+									<li class="note">Set only for:
+						great hammer, maul, military hammer, leather armor,
+						pure gold, manganes, zincblende, antimoni, orpiment,
+						white cinnibar, nikel, pitchblende, zinken, and brimstone.
+					</li>
+									<li class="note">Best guess is "items found in chests in the mines", but it's a wild guess.</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 7:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_music">
+										<strong>is_music: </strong>
+									</a>
+								</span>
+							</td>
+							<td class="bit-description">Item is a musical instrument.<ul class="notes">
+									<li class="note">Harp and flute.</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 8:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+					</table>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x24</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">bitmask[1]</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<table class="bitmask-contents">
+						<tr>
+							<td nowrap>bit 1:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_unknown_2">
+										<strong>is_unknown_2: </strong>
+									</a>
+								</span>
+								<em>unknown </em>
+							</td>
+							<td class="bit-description">
+								<ul class="notes">
+									<li class="note">
+						This and the next bit are set for anything that
+						does not have the high bit <a href="#variable-is_unknown_3">is_unknown_3</a> set,
+						except for: cloth armor, superb horse, and fast horse.
+					</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td nowrap>bit 2:</td>
+							<td class="bit-name">
+								<span class="var-name"></span>
+								<em>unknown </em>
+							</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 3:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 4:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 5:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 6:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 7:</td>
+							<td class="bit-name">
+								<span class="var-name"></span> [constant: 0]</td>
+							<td class="bit-description"></td>
+						</tr>
+						<tr>
+							<td nowrap>bit 8:</td>
+							<td class="bit-name">
+								<span class="var-name">
+									<a name="variable-is_unknown_3">
+										<strong>is_unknown_3: </strong>
+									</a>
+								</span>
+								<em>unknown </em>
+							</td>
+							<td class="bit-description">
+								<ul class="notes">
+									<li class="note">Set for cloth armor, all types of quest items, relics, and creature parts.</li>
+									<li class="note">
+						This is always set if any of these three bits was set:
+						<a href="#variable-is_relic">is_relic</a>,
+						<a href="#variable-is_quest_1">is_quest_1</a>,
+						<a href="#variable-is_quest_2">is_quest_2</a>.
+					</li>
+								</ul>
+							</td>
+						</tr>
+					</table>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x25</code>: </span>
+				<span class="var-name">
+					<a name="variable-weight">
+						<strong>weight: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Item weight (when wielded).</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x26</code>: </span>
+				<span class="var-name">
+					<a name="variable-quality">
+						<strong>quality: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Default quality of the item.<ul class="notes">
+						<li class="note">
+					Based on the values, this is probably used as a sort of "base" or "default" item quality.
+				</li>
+						<li class="note">
+					Values are: 25 for most everyday items.
+					35 for composite bow.
+					70/40/25/15/5 for horses (superb, fast, average, pack, and mule).
+					99 for quest items and non-weapon relics.
+					High (40-70) for weapon relics.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x28</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Non-zero only for relics.</li>
+						<li class="note">Ranges from 0x06 (St. Edward's Ring) to 0x50 (St. Gabriel's Horn).</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x2a</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Non-zero only for relics, and for the "residency permit" (which is unused by the game).</li>
+						<li class="note">Ranges from 0x05 to 0x27 (residency permit).</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x2c</code>: </span>
+				<span class="var-name">
+					<a name="variable-value">
+						<strong>value: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">This value is high for expensive things (transformation potion is 0x4e0=1248) and low for cheap things (arrows are 2).</li>
+						<li class="note">Quest items are either low values or off-the-scale high values (0x270f).</li>
+						<li class="note">Relics vary but are lower than many potions.</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/darkland.lst.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

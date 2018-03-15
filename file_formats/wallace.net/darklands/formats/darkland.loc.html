@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/darkland.loc.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands location definitions</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands location definitions</h1>
+		<p>Files with this format: "<code>darkland.loc</code>".</p>
+		<p>
+	Contains names, coordinates, and other data for all map locations.
+	This data is copied into each saved game file.
+</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">starting at 0x00</a>
+		</div>
+		<h2 class="toc-category">Structures</h2>
+		<div class="toc-entry">
+			<a href="#structdef-location">location</a>
+		</div>
+		<h2 class="toc-category">Enumerations</h2>
+		<div class="toc-entry">
+			<a href="#enumeration-location_icon">location_icon</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: starting at 0x00</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_locations">
+						<strong>num_locations: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span> = 0x19e</dt>
+			<dd>
+				<span class="var-description">Number of locations.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name">
+					<a name="variable-locations">
+						<strong>locations: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_locations">num_locations</a> ] of struct <a href="#structdef-location">location</a>
+					<span class="var-struct-size"> (each size 0x3a)</span>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Location definitions.</span>
+			</dd>
+		</dl>
+		<hr>
+		<h1>Structures</h1>
+		<h2>
+			<a name="structdef-location">Structure: location</a>
+		</h2>
+		<p>Size 0x3a.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-icon">
+						<strong>icon: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word (enum <a href="#enumeration-location_icon">location_icon</a>)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Map image for the location.<ul class="notes">
+						<li class="note">Note that this basically corresponds to the 'type' of location.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x02</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">0 for cities, other locations range from 0x08-0x0e.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x04</code>: </span>
+				<span class="var-name">
+					<a name="variable-coords">
+						<strong>coords: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">struct <a class="external" href="structures.html#structdef-coordinates">coordinates</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Map coordinates.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x08</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Ranges from 1-10.</li>
+						<li class="note">Seems to be 4 or 9 for live Raubritters (1 for dead); perhaps it's a strength?</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0a</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Most range from 1-5, except pagan altars, which are 0x63 (99).</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0c</code>: </span>
+				<span class="var-name">
+					<a name="variable-menu">
+						<strong>menu: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word (enum <a class="external" href="enumerations.html#enumeration-menu">menu</a>)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Card displayed on entering the location.<ul class="notes">
+						<li class="note">
+					This is the 
+					<a class="external" href="enumerations.html#enumeration-menu">menu</a> (found in <a class="external" href="enumerations.html">enumerations</a>)
+					(card, screen?) you get when you enter the location.
+				</li>
+						<li class="note">
+					It could be said that this is the closest thing to a "location type" that there is.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x0e</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					Always 0x62 except for castles currently occupied by Raubritters
+					(<a href="#variable-icon">icon</a>=2); those are 0x92.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x10</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">byte</span> [constant: 0xff]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x11</code>: </span>
+				<span class="var-name">
+					<a name="variable-city_size">
+						<strong>city_size: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Size of the city.<ul class="notes">
+						<li class="note">Cities range from 3 (small) to 8 (Koln); non-cities are always 1.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x12</code>: </span>
+				<span class="var-name">
+					<a name="variable-local_rep">
+						<strong>local_rep: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">Local reputation.<ul class="notes">
+						<li class="note">
+					In this file, this is always zero.  The copy of this structure that lives in the
+					<a class="external" href="dksaveXX.sav.html">saved game files</a> gets non-zero values.
+				</li>
+						<li class="note">Ranges from -150 to 150 (although others claim to have observed numbers outside this range).</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x14</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Zero seems to indicate an "active" site.</li>
+						<li class="note">Ruins of a Raubritter castle get 0x04, as do destroyed villages.</li>
+						<li class="note">Some other locations get 0x20 or 0x24.</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x15</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (4 bytes)</span> [constant: { 0, 0x19, 0x19, 0x19 }]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x19</code>: </span>
+				<span class="var-name">
+					<a name="variable-inn_cache_idx">
+						<strong>inn_cache_idx: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">In this file, this is always 0xffff (-1).</li>
+						<li class="note">
+					In a saved game file, if the party stores items at an inn (in a city), this
+					value becomes an index into
+					<a class="external" href="dksaveXX.sav.html#variable-cache_offsets">cache_offsets</a> (found in <a class="external" href="dksaveXX.sav.html">dksaveXX.sav</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1a</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">word</span> [constant: 0x0000]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1c</code>: </span>
+				<span class="var-name"></span>
+				<em>unknown </em>
+				<span class="var-datatype">word</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">
+					All are zero except for Nurnberg, which is 0xc0.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x1e</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (8 bytes)</span> [constant: all 0x00]</dt>
+			<dd>
+				<span class="var-description"></span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x26</code>: </span>
+				<span class="var-name">
+					<a name="variable-name">
+						<strong>name: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string(20)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Name.</span>
+			</dd>
+		</dl>
+		<hr>
+		<h1>Enumerations</h1>
+		<h2>
+			<a name="enumeration-location_icon">Enumeration: location_icon</a>
+		</h2>
+		<p>Map image for the location.</p>
+		<ul class="notes">
+			<li class="note">Darklands keeps the images and the menu options tied together, so the 'image' for a location is pretty much the indicator of the 'type' of location.</li>
+			<li class="note">Any unlisted values are displayed as the standard 'castle' style image.</li>
+		</ul>
+		<table class="enum">
+			<thead>
+				<tr>
+					<th class="enum-label">
+					Data Value
+				</th>
+					<th class="enum-label">
+					Meaning
+				</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="enum-value-from">0x00</td>
+					<td class="enum-value-to">city</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x01</td>
+					<td class="enum-value-to">castle (lord or evil lord variety)</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x02</td>
+					<td class="enum-value-to">castle (Raubritter variety)</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x03</td>
+					<td class="enum-value-to">monastery</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x04</td>
+					<td class="enum-value-to">(looks like tomb or pagan altar) TODO: Teufelstein is one</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x05</td>
+					<td class="enum-value-to">cave (TODO: what kind?)</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x06</td>
+					<td class="enum-value-to">mines</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x08</td>
+					<td class="enum-value-to">village</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x09</td>
+					<td class="enum-value-to">ruins of a village</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x0a</td>
+					<td class="enum-value-to">village (more square than 0x08, and unused?)</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x0d</td>
+					<td class="enum-value-to">tomb</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x0f</td>
+					<td class="enum-value-to">dragon's lair (invisible; cannot interact?)</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x10</td>
+					<td class="enum-value-to">spring</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x11</td>
+					<td class="enum-value-to">lake</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x12</td>
+					<td class="enum-value-to">shrine</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x13</td>
+					<td class="enum-value-to">cave (TODO: what kind?)</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x14</td>
+					<td class="enum-value-to">pagan altar</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x15</td>
+					<td class="enum-value-to">witch sabbat</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x16</td>
+					<td class="enum-value-to">Templar castle (has a black top)</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x17</td>
+					<td class="enum-value-to">Hockkonig (the Baphomet castle; all gray)</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x18</td>
+					<td class="enum-value-to">alpine cave</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x19</td>
+					<td class="enum-value-to">lady of the lake (magician/astrologer)</td>
+				</tr>
+				<tr>
+					<td class="enum-value-from">0x1a</td>
+					<td class="enum-value-to">ruins of a Raubritter's castle</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/darkland.loc.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

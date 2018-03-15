@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands common enumerations">
+
+<description>These enumerations are common to a number of different files.</description>
+
+<enumerations>
+
+	<enumeration type="image_group">
+		<description>Image group for battlefield images and animations.</description>
+		<notes>
+			<note>
+				Usually represented as three characters followed by a null,
+				although in some places spaces are used instead of nulls.
+			</note>
+			<note>An initial 'E' stands for a non-player human, an 'M' for a nonhuman.</note>
+		</notes>
+		<map from="A00" to="player character: alchemist" />
+		<map from="C00" to="player character: cleric" />
+		<map from="F01" to="player character: male fighter" />
+		<map from="F60" to="player character: female fighter" />
+		<map from="E00" to="human: Sergeant" />
+		<map from="E02" to="human: Guard" />
+		<map from="E03" to="human: Bandit" />
+		<map from="E04" to="human: Mercenary" />
+		<map from="E05" to="human: GrayExPC" />
+		<map from="E06" to="human: Evil Alchemist or Kobold King" />
+		<map from="E07" to="human: BrunExPC" />
+		<map from="E08" to="human: High Witch or Acolyte" />
+		<map from="E09" to="human: Monk" />
+		<map from="E10" to="human: Knight" />
+		<map from="E11" to="human: TinKnight" />
+		<map from="E12" to="human: BlondExPC" />
+		<map from="E13" to="human: Templar or Preceptor" />
+		<map from="E17" to="human: Witch Cultist or Acolyte" />
+		<map from="M00" to="non-human: Wolf" />
+		<map from="M01" to="non-human: Boar" />
+		<map from="M02" to="non-human: Dwarf" />
+		<map from="M03" to="non-human: Skeleton" />
+		<map from="M04" to="non-human: Gnome" />
+		<map from="M05" to="non-human: Gargoyle" />
+		<map from="M06" to="non-human: Kobold" />
+		<map from="M07" to="non-human: Vulcan" />
+		<map from="M08" to="non-human: Undead" />
+		<map from="M09" to="non-human: Dwarf Overseer or Master" />
+		<map from="M10" to="non-human: Giant Gnome" />
+		<map from="M11" to="non-human: DemonTh" />
+		<map from="M12" to="non-human: DemonKt" />
+		<map from="M13" to="non-human: DemonPrn" />
+		<map from="M14" to="non-human: Demon Locust" />
+		<map from="M20" to="non-human: Big Spider" />
+		<map from="M21" to="non-human: Bear" />
+		<map from="M22" to="non-human: Tatzelwurm" />
+		<map from="M40" to="non-human: Wild Hunter" />
+		<map from="M41" to="non-human: Hellhound" />
+		<map from="M42" to="non-human: Schrat" />
+		<map from="M73" to="non-human: 7 Headed Dragon" />
+		<map from="M90" to="non-human: Cave Dragon" />
+		<map from="M99" to="non-human: Baphomet" />
+	</enumeration>
+
+	<enumeration type="menu">
+		<description>The current menu of options.</description>
+		<notes>
+			<note>
+				This defines which menu of options you get
+				(which determines the background image and possibly the music).
+				Any place there is a menu is represented in here:
+				in-city menus, encounters, talking to the miners, even the iron doors in the mines.
+			</note>
+			<note>
+				These definitions may be stored in the executable; they haven't been found elsewhere.
+				A 'strings' of darkland.exe reveals a bunch of names that look like the menus, in the appropriate order, but no simple structure was apparent -- other binary data was in there too.
+			</note>
+			<note>These are possibly called 'cards' internally to the game.</note>
+			<note>
+				When travelling on the map, 0x0c is used (which isn't really a 'menu of options').
+			</note>
+		</notes>
+
+		<map from="0x0c" to="Darklands map (travelling)" />
+		<map from="TODO!" to="TODO!" />
+	</enumeration>
+
+	<enumeration type="month">
+		<description>Calendar month.</description>
+		<notes>
+			<note>Months are zero-based</note>
+		</notes>
+		<map from="0" to="January" />
+		<map from="1" to="February" />
+		<map from="2" to="March" />
+		<map from="3" to="April" />
+		<map from="4" to="May" />
+		<map from="5" to="June" />
+		<map from="6" to="July" />
+		<map from="7" to="August" />
+		<map from="8" to="September" />
+		<map from="9" to="October" />
+		<map from="10" to="November" />
+		<map from="11" to="December" />
+	</enumeration>
+
+</enumerations>
+
+</file>

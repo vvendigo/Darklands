@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/darkland.dsc.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands city descriptions</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands city descriptions</h1>
+		<p>Files with this format: "<code>darkland.dsc</code>".</p>
+		<p>Contains descriptions of the cities.</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">starting at 0x00</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: starting at 0x00</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_cities">
+						<strong>num_cities: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span> = 0x5e</dt>
+			<dd>
+				<span class="var-description">Number of cities.<ul class="notes">
+						<li class="note">
+					Note: this value is WRONG!
+					It should be 0x5c (92), which is the number of cities defined in
+					<a class="external" href="darkland.loc.html">darkland.loc</a>.
+					This would seem to imply that the game ignores this value.
+				</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x01</code>: </span>
+				<span class="var-name">
+					<a name="variable-city_descriptions">
+						<strong>city_descriptions: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ 92 ] of string(80)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Long descriptions of the cities.<ul class="notes">
+						<li class="note">
+					TODO: verify:
+					The order of cities here matches the order in
+					<a class="external" href="darkland.cty.html#variable-cities">cities</a> (found in <a class="external" href="darkland.cty.html">darkland.cty</a>).
+				</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/darkland.dsc.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

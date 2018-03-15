@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	
+<!-- Mirrored from wallace.net/darklands/formats/X.msg.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+<head>
+		<meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+		<title>
+		File Format: Darklands message file</title>
+		<link href="file_format.css" rel="stylesheet" title="File Format" type="text/css">
+	</head>
+	<body>
+		<h1>Darklands message file</h1>
+		<p>Files with this format: "<code>*.msg</code>".</p>
+		<p>
+Contains text and possibly other information about screens (cards).
+</p>
+		<p>
+It is difficult to tell if a "card" refers to the entire file, or
+to one of the string entries in the file.  The terms are confusingly
+used interchangably in this file.
+</p>
+		<p>
+Most, if not all, "<code>.msg</code>" files are found within
+the one cat file <a href="catalogs/msgfiles.html">msgfiles</a>.
+</p>
+		<h1 class="toc">Table of Contents</h1>
+		<h2 class="toc-category">Offsets</h2>
+		<div class="toc-entry">
+			<a href="#offset-0x00">starting at 0x00</a>
+		</div>
+		<h2 class="toc-category">Structures</h2>
+		<div class="toc-entry">
+			<a href="#structdef-card">card</a>
+		</div>
+		<hr>
+		<h1>Offsets</h1>
+		<h2>
+			<a name="offset-0x00">Offset: starting at 0x00</a>
+		</h2>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name">
+					<a name="variable-num_cards">
+						<strong>num_cards: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">byte</span>
+			</dt>
+			<dd>
+				<span class="var-description">Number of cards.</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x01</code>: </span>
+				<span class="var-name">
+					<a name="variable-card_definitions">
+						<strong>card_definitions: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">array[ <a href="#variable-num_cards">num_cards</a> ] of struct <a href="#structdef-card">card</a>
+				</span>
+			</dt>
+			<dd>
+				<span class="var-description">Card definitions.</span>
+			</dd>
+		</dl>
+		<hr>
+		<h1>Structures</h1>
+		<h2>
+			<a name="structdef-card">Structure: card</a>
+		</h2>
+		<p>A definition of an alchemical formula.</p>
+		<dl>
+			<dt>
+				<span class="var-at">
+					<code>0x00</code>: </span>
+				<span class="var-name"></span>
+				<span class="var-datatype">
+					<i>unknown</i> (5 bytes)</span>
+			</dt>
+			<dd>
+				<span class="var-description">
+					<ul class="notes">
+						<li class="note">Many of these are {0x0a, 0x0a, 0x00, 0xf0, 0x00}.</li>
+						<li class="note">Possibly these have to do with colors, images, or music?</li>
+					</ul>
+				</span>
+			</dd>
+			<dt>
+				<span class="var-at">
+					<code>0x05</code>: </span>
+				<span class="var-name">
+					<a name="variable-contents">
+						<strong>contents: </strong>
+					</a>
+				</span>
+				<span class="var-datatype">string (null-delimited)</span>
+			</dt>
+			<dd>
+				<span class="var-description">Textual contents of the screen.<ul class="notes">
+						<li class="note">
+					Screens are always a preamble of text, sometimes followed by a list of up to ten options.
+					If there are not that many choices, bogus entries (usually just numbered 1-10) fill the option slots.
+				</li>
+						<li class="note">
+					Some cards appear to be standardized (always ten options, with potion/saint/leave options in the same places).
+				</li>
+						<li class="note">
+					0x0a seems to be a newline, 0x14 seems to be a paragraph break.
+					These are almost always used together as a pair {0x0a, 0x14},
+					between every paragraph and each option.
+				</li>
+						<li class="note">Usually the valid options start with {0x0a, 0x14}, but sometimes have an extra 0x14 or 0x15 appended (spacing?).</li>
+						<li class="note">0x15 is unknown.  Usually it follows the {0x0a, 0x14}, so it's probably whitespace?</li>
+						<li class="note">There is always an 0x1d between the "..." and the text of an option.</li>
+						<li class="note">An 0x10 immediately precedes the "..." for options that offer a popup potion selection.</li>
+						<li class="note">An 0x16 immediately precedes the "..." for options that offer a popup saint selection.</li>
+						<li class="note">An 0x06 immediately precedes the "..." for options that would cause the party to enter battle immediately.</li>
+					</ul>
+				</span>
+			</dd>
+		</dl>
+	</body>
+
+<!-- Mirrored from wallace.net/darklands/formats/X.msg.html by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 06 Apr 2010 18:00:00 GMT -->
+</html>

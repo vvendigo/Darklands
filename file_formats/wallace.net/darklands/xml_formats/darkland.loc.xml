@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Darklands location definitions">
+
+<globs>
+	<glob filespec="darkland.loc" />
+</globs>
+
+<description type="paragraph">
+	Contains names, coordinates, and other data for all map locations.
+	This data is copied into each saved game file.
+</description>
+
+<offsets>
+	<offset start="0x00">
+		<word at="0x00" name="num_locations" value="0x19e">
+			<description>Number of locations.</description>
+		</word>
+		<array at="0x02" size="*num_locations" name="locations">
+			<description>Location definitions.</description>
+			<struct type="location" />
+		</array>
+	</offset>
+</offsets>
+
+<!-- ====================================================================== -->
+
+<structdefs>
+	<external-structdef type="coordinates" file="structures" />
+
+	<structdef type="location" size="0x3a">
+		<word at="0x00" name="icon" enumeration="location_icon">
+			<description>Map image for the location.</description>
+			<notes>
+				<note>Note that this basically corresponds to the 'type' of location.</note>
+			</notes>
+		</word>
+
+		<word at="0x02" unknown="yes">
+			<notes>
+				<note>0 for cities, other locations range from 0x08-0x0e.</note>
+			</notes>
+		</word>
+
+		<struct at="0x04" type="coordinates" name="coords">
+			<description>Map coordinates.</description>
+		</struct>
+
+		<word at="0x08" unknown="yes">
+			<notes>
+				<note>Ranges from 1-10.</note>
+				<note>Seems to be 4 or 9 for live Raubritters (1 for dead); perhaps it's a strength?</note>
+			</notes>
+		</word>
+
+		<word at="0x0a" unknown="yes">
+			<notes>
+				<note>Most range from 1-5, except pagan altars, which are 0x63 (99).</note>
+			</notes>
+		</word>
+
+		<word at="0x0c" name="menu" enumeration="menu">
+			<description>Card displayed on entering the location.</description>
+			<notes>
+				<note>
+					This is the 
+					<reference type="enumeration" to="menu" file="enumerations" />
+					(card, screen?) you get when you enter the location.
+				</note>
+				<note>
+					It could be said that this is the closest thing to a "location type" that there is.
+				</note>
+			</notes>
+		</word>
+
+		<word at="0x0e" unknown="yes">
+			<notes>
+				<note>
+					Always 0x62 except for castles currently occupied by Raubritters
+					(<reference type="variable" to="icon" />=2); those are 0x92.
+				</note>
+			</notes>
+		</word>
+
+		<byte at="0x10" unknown="yes" constant="yes" value="0xff" />
+
+		<byte at="0x11" name="city_size">
+			<description>Size of the city.</description>
+			<notes>
+				<note>Cities range from 3 (small) to 8 (Koln); non-cities are always 1.</note>
+			</notes>
+		</byte>
+
+		<word at="0x12" name="local_rep">
+			<description>Local reputation.</description>
+			<notes>
+				<note>
+					In this file, this is always zero.  The copy of this structure that lives in the
+					<reference file="dksaveXX.sav">saved game files</reference> gets non-zero values.
+				</note>
+				<note>Ranges from -150 to 150 (although others claim to have observed numbers outside this range).</note>
+			</notes>
+		</word>
+
+		<byte at="0x14" unknown="yes">
+			<notes>
+				<note>Zero seems to indicate an "active" site.</note>
+				<note>Ruins of a Raubritter castle get 0x04, as do destroyed villages.</note>
+				<note>Some other locations get 0x20 or 0x24.</note>
+			</notes>
+		</byte>
+
+		<unknown at="0x15" size="4" constant="yes" value="{ 0, 0x19, 0x19, 0x19 }" />
+
+		<word at="0x19" name="inn_cache_idx">
+			<notes>
+				<note>In this file, this is always 0xffff (-1).</note>
+				<note>
+					In a saved game file, if the party stores items at an inn (in a city), this
+					value becomes an index into
+					<reference type="variable" to="cache_offsets" file="dksaveXX.sav" />.
+				</note>
+			</notes>
+		</word>
+
+		<word at="0x1a" constant="yes" value="0x0000" />
+
+		<word at="0x1c" unknown="yes">
+			<notes>
+				<note>
+					All are zero except for Nurnberg, which is 0xc0.
+				</note>
+			</notes>
+		</word>
+
+		<unknown at="0x1e" size="8" constant="yes" value="all 0x00" />
+
+		<string at="0x26" size="20" name="name">
+			<description>Name.</description>
+		</string>
+	</structdef>
+
+</structdefs>
+
+<!-- ====================================================================== -->
+
+<enumerations>
+
+	<external-enumeration type="menu" file="enumerations" />
+
+	<enumeration type="location_icon">
+		<description>Map image for the location.</description>
+		<notes>
+			<note>Darklands keeps the images and the menu options tied together, so the 'image' for a location is pretty much the indicator of the 'type' of location.</note>
+			<note>Any unlisted values are displayed as the standard 'castle' style image.</note>
+		</notes>
+		<map from="0x00" to="city" />
+		<map from="0x01" to="castle (lord or evil lord variety)" />
+		<map from="0x02" to="castle (Raubritter variety)" />
+		<map from="0x03" to="monastery" />
+		<map from="0x04" to="(looks like tomb or pagan altar) TODO: Teufelstein is one" />
+		<map from="0x05" to="cave (TODO: what kind?)" />
+		<map from="0x06" to="mines" />
+		<map from="0x08" to="village" />
+		<map from="0x09" to="ruins of a village" />
+		<map from="0x0a" to="village (more square than 0x08, and unused?)" />
+		<map from="0x0d" to="tomb" />
+		<map from="0x0f" to="dragon's lair (invisible; cannot interact?)" />
+		<map from="0x10" to="spring" />
+		<map from="0x11" to="lake" />
+		<map from="0x12" to="shrine" />
+		<map from="0x13" to="cave (TODO: what kind?)" />
+		<map from="0x14" to="pagan altar" />
+		<map from="0x15" to="witch sabbat" />
+		<map from="0x16" to="Templar castle (has a black top)" />
+		<map from="0x17" to="Hockkonig (the Baphomet castle; all gray)" />
+		<map from="0x18" to="alpine cave" />
+		<map from="0x19" to="lady of the lake (magician/astrologer)" />
+		<map from="0x1a" to="ruins of a Raubritter's castle" />
+	</enumeration>
+</enumerations>
+
+</file>
