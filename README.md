@@ -9,7 +9,8 @@ Probably not suitable for Windows because of lazy filepaths handling.
 
 
 ## TODO (Short term goals)
-* File format documentation of my own
+* Fixing up-to-date XSLT
+* IMC format
 * MSG cards connections
 * Weapon attributes
 
@@ -26,9 +27,14 @@ Probably not suitable for Windows because of lazy filepaths handling.
 
 ### Scripts
 #### Auxilary
-* aux_show_fonts.py - renders system fonts usable by Pygame
-* aux_check_pics.py - some PIC files scanning
+* aux_count_bytes.py - file byte histogram counter
+* aux_find_bytes.py - find bytes in file, limited by max distance from first found to last
 * aux_generate_simple_map.py - very simple HTML map with cities and locations
+* aux_check_pics.py - some PIC files scanning
+* aux_show_fonts.py - renders system fonts usable by Pygame
+
+* aux_hexdump_dir.sh - first N chars of hexdump of all files in directory
+* aux_convert_pics.sh - convert all DL/pics/*.pic to tmp/pics/
 
 #### Extracting
 * extract_cat.py - extracts catalogue (.CAT) files
@@ -39,11 +45,14 @@ Probably not suitable for Windows because of lazy filepaths handling.
 
 #### Readers
 * reader_cty.py - cities
+* reader_exe.py - strings extraction - WIP
+* reader_imc.py - battle sprites - WIP
 * reader_loc.py - map locations (cities, villages, castles...)
 * reader_lst.py - item types & attrs, saints and formula names
 * reader_map.py - tile map
 * reader_msg.py - dialogs - WIP
-* reader_pic.py - image format
+* reader_pic.py - image format (can convert .PIC to .PNG if run directly)
+* reader_tacanim.py - mysterious file loaded before  battle
 
 #### Common libs
 * utils.py
