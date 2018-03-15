@@ -41,16 +41,16 @@ the one cat file <html:a href="catalogs/msgfiles.html">msgfiles</html:a>.
 	<structdef type="card">
 		<description>A definition of an alchemical formula.</description>
 
-		<byte at="0x00" name="text_offs_x">
-			<description>Left border of card text.</description>
-			<notes>
-				<note>Starting at the inner edge of left border -2 pixels. </note>
-			</notes>
-		</byte>
-		<byte at="0x01" name="text_offs_y">
+		<byte at="0x00" name="text_offs_y">
 			<description>Top border of card text.</description>
 			<notes>
-				<note>Starting at the inner edge of top border -1 pixel. </note>
+				<note>Starting at the inner edge of top border -2 pixels. </note>
+			</notes>
+		</byte>
+		<byte at="0x01" name="text_offs_x">
+			<description>Left border of card text.</description>
+			<notes>
+				<note>Starting at the inner edge of left border -1 pixel. </note>
 			</notes>
 		</byte>
 		<unknown at="0x02" size="1">
