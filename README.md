@@ -17,10 +17,10 @@ Probably not suitable for Windows because of lazy filepaths handling.
 ## Repository contents
 
 ### Dirs
-* DL/ - put your Darklands instalation here
+* DL/ - put your Darklands installed files here
 * game_patches/ - essential patches to upgrade Darklands to the latest version (.7)
 
-* file_formats/ - gathered docs on DL file formats (corrections included)
+* file_formats/ - gathered docs on DL file formats (up-to-date/ contains updated Merle's docs)
 
 * tmp/ - you may direct output there
 
@@ -34,7 +34,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 * aux_show_fonts.py - renders system fonts usable by Pygame
 
 * aux_hexdump_dir.sh - first N chars of hexdump of all files in directory
-* aux_convert_pics.sh - convert all DL/pics/*.pic to tmp/pics/
+* aux_convert_pics.sh - convert all DL/pics/*.pic to tmp/pics/*.pic.png
 
 #### Extracting
 * extract_cat.py - extracts catalogue (.CAT) files
