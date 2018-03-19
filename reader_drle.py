@@ -45,8 +45,6 @@ def readData(fname):
                     seqLength += 2
                     # seqStart = 255 - next B
                     seqStart = 0xFF - data[pos] ; pos += 1
-                    # move left of output end
-                    seqStart = len(out) - seqStart - 1
                 else: # 01 - and more complicated
                     w = bread(data[pos:pos+2]) ; pos += 2
                     seqStart = (((w >> (8 + 3)) | 0xE0) << 8) | (w & 0xFF)
@@ -65,9 +63,12 @@ def readData(fname):
                             #print pos
                             break
 
+                # start left of output end
+                seqStart = len(out) - seqStart - 1
                 #print 'start', seqStart, '/', len(out), 'len', seqLength
                 for i in xrange(0, seqLength):
                     out.append(out[seqStart+i])
+                #if len(out) > 5*16: pos = dLen ; break;
     return out
 
 
@@ -90,3 +91,4 @@ if __name__ == '__main__':
         data = readData(filePath)
         dumpb(data)
         #print len(data)
+

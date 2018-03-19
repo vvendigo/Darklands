@@ -45,7 +45,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 
 #### Readers
 * reader_cty.py - cities
-* reader_drle.py - "DarklandsRLE" decompression (used for .IMC, in imap.cat, bc)
+* reader_drle.py - "DarklandsRLE" decompression (used for .IMC, in imap.cat, bc) (can decompress file if run directly)
 * reader_exe.py - strings extraction - WIP
 * reader_imc.py - battle sprites - WIP
 * reader_loc.py - map locations (cities, villages, castles...)
