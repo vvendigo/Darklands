@@ -45,6 +45,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 
 #### Readers
 * reader_cty.py - cities
+* reader_drle.py - "DarklandsRLE" decompression (used for .IMC, in imap.cat, bc)
 * reader_exe.py - strings extraction - WIP
 * reader_imc.py - battle sprites - WIP
 * reader_loc.py - map locations (cities, villages, castles...)
@@ -52,7 +53,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 * reader_map.py - tile map
 * reader_msg.py - dialogs - WIP
 * reader_pic.py - image format (can convert .PIC to .PNG if run directly)
-* reader_tacanim.py - mysterious file loaded before  battle
+* reader_tacanim.py - mysterious file loaded before battle
 
 #### Common libs
 * utils.py
