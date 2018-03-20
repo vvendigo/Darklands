@@ -7,12 +7,14 @@ Probably not suitable for Windows because of lazy filepaths handling.
 
 [Some outputs and file format docs online](http://wendigo.online-siesta.com/darklands/)
 
+## Latest News
+* IMC compression resolved. But underlaying format still resists. :)
+* Up-to-date file format docs using updated Merle's XML files.
 
 ## TODO (Short term goals)
-* Fixing up-to-date XSLT
 * IMC format
+* Fixing up-to-date XSLT
 * MSG cards connections
-* Weapon attributes
 
 ## Repository contents
 
