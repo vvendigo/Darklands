@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Image catalog files">
+
+<globs>
+	<glob filespec="*.imc" />
+</globs>
+
+<description type="paragraph">
+	Battle sprites animation catalogue.
+	Contains 72 frames for walking (WK) or combat (CB) or 16 frames for dying sequence (DY).
+	Entire .IMC file is compressed using DL variant od RLE. (see reader_drle.py)
+	<html:em>Next passages are describing contents of decompressed file.</html:em>
+</description>
+
+<offsets>
+	<offset start="0x00">
+		<byte at="0x00" value="5/7/.../30" unknown="yes">
+			<description>Unknown byte</description>
+		</byte>
+
+		<array at="0x01" size="80/60" unknown="yes">
+			<description>Looks like pairs of words. Small numbers. Y/X frame offsets maybe.</description>
+			<notes>
+				<note>It is 60 B long for DY files, 80 for the rest.</note>
+			</notes>
+			<byte />
+		</array>
+
+		<word at="62/82" name="data_length">
+			<description>Size of the rest of the file.</description>
+		</word>
+
+		<array at="64/84" size="16/72" name="frame_data_offsets" unknown="yes">
+			<description>Offsets of frame data</description>
+			<notes>
+				<note>Starting beyond the end of this array</note>
+				<note>Divided by 16 for reason unknown. (so 'end+offset*16' is the start of frame data)</note>
+			</notes>
+			<word />
+		</array>
+
+
+	</offset>
+
+</offsets>
+
+<!-- ====================================================================== -->
+
+<structdefs>
+	<structdef type="frame" size="">
+
+		<byte at="0x00" name="width">
+			<description>Width of image</description>
+		</byte>
+		<byte at="0x01" name="height">
+			<description>Width of image</description>
+		</byte>
+
+		<array at="0x02" size="variable" name="image_data">
+			<byte />
+			<description>Encoded image data</description>
+			<notes>
+				<note>Each row of image starts with byte containing count of defined pixels.</note>
+				<note>Next byte containing count of starting empty pixels.</note>
+				<note>Then follows count_of_defined_pixels long sequence of pixels (pallete index bytes) to be rendered. (zero is transparent)</note>
+				<note></note>
+				<note></note>
+			</notes>
+		</array>
+	</structdef>
+</structdefs>
+
+</file>
