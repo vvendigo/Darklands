@@ -15,8 +15,8 @@ Probably not suitable for Windows because of lazy filepaths handling.
 
 ## TODO (Short term goals)
 * IMC format
+* JS map using canvas
 * Fixing up-to-date XSLT
-* MSG cards connections
 
 ## Repository contents
 
