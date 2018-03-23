@@ -2,13 +2,15 @@
 Darklands (1992 game from Microprose) file reading utils and preserved file format docs
 
 Based heavily upon work of Merle (wallace.net/darklands) and Joel "Quadko" McIntyre.
+IMC decoding done with help of arcane remarks of Olemars from bay12forums.
 
 Probably not suitable for Windows because of lazy filepaths handling.
 
 [Some outputs and file format docs online](http://wendigo.online-siesta.com/darklands/)
 
 ## Latest News
-* IMC compression resolved. But underlaying format still resists. :)
+* IMC inner format partly dissected and documented
+* IMC compression resolved.
 * Up-to-date file format docs using updated Merle's XML files.
 
 ## TODO (Short term goals)
@@ -48,7 +50,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 #### Readers
 * reader_cty.py - cities
 * reader_drle.py - "DarklandsRLE" decompression (used for .IMC, in imap.cat, bc) (can decompress file if run directly)
-* reader_exe.py - strings extraction - WIP
+* reader_exe.py - strings extraction - WIP (aux maybe?)
 * reader_imc.py - battle sprites - WIP
 * reader_loc.py - map locations (cities, villages, castles...)
 * reader_lst.py - item types & attrs, saints and formula names
