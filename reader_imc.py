@@ -1,17 +1,26 @@
 from utils import bread
 import reader_drle
 
-def readData(fname, frameCnt=72): # 16 for DY files
+def readData(fname, frameCnt=None):
     data = reader_drle.readData(fname)
     fileSize = len(data)
 
-    pos = 82 if frameCnt>16 else 62 # eh...
-
+    # heuristic
+    pos = 80
+    frameCnt = bread(data[pos:pos+2]) ; pos += 2
     dataSize = bread(data[pos:pos+2]) ; pos += 2
-    imgOffs = []
-    for i in xrange(0, frameCnt):
-        imgOffs.append(bread(data[pos:pos+2])) ; pos += 2
+    #print fileSize, dataSize, frameCnt, fileSize - 80 - 4 - 8 * 2 * frameCnt
+    if dataSize != fileSize - pos - 8 * 2 * frameCnt:
+        pos = 60
+        frameCnt = bread(data[pos:pos+2]) ; pos += 2
+        dataSize = bread(data[pos:pos+2]) ; pos += 2
+        #print fileSize, dataSize, frameCnt, fileSize - 80 - 4 - 8 * 2 * frameCnt
+        if dataSize != fileSize - pos - 8 * 2 * frameCnt:
+            return None
 
+    imgOffs = []
+    for i in xrange(0, frameCnt*8):
+        imgOffs.append(bread(data[pos:pos+2])) ; pos += 2
     #print fileSize, dataSize, imgOffs
 
     imgs = []
@@ -46,7 +55,7 @@ if __name__ == '__main__':
 
     filePath = sys.argv[1] # file to read
     data = readData(filePath)
-    print len(data)
+    #print len(data)
     '''
     import time
     for img in data:
@@ -61,33 +70,38 @@ if __name__ == '__main__':
     s = set()
     imgW = 0
     imgH = 0
+    dbgI = -1
     for i, img in enumerate(data):
         imgW += len(img[0]) + 1
         imgH = max(imgH, len(img))
         for ln in img:
             for b in ln:
                 s.add(b)
-                if i==4: print b,
-            if i==4: print
-    print s
-
+                if i==dbgI: print "%3d"%b,
+            if i==dbgI: print
+    if dbgI >= 0:
+        print s
+    '''
     pal = [None]*255
     pal[5] = (0,0,0)
-    pal[7] = (0xaa, 0xaa, 0xaa)
-    pal[15] = (0xff, 0xff, 0xff)
-    pal[138] = (0xff, 0xa2, 0x65)
+    pal[7] = (0xaa, 0xaa, 0xaa) # zastita
+    pal[15] = (0xc3, 0xc3, 0xc3) # mec
+    pal[122] = (0x76, 0x00, 0x00)
+    pal[138] = (0x00, 0x55, 0x96) # saty ?
     pal[141] = (0xff, 0xa2, 0x65) # ruce dole
-    pal[236] = (0x38, 0x38, 0x38)
-    pal[237] = (0xe7, 0x82, 0x3f)
-    pal[238] = (0xff, 0xa2, 0x65)
-    pal[239] = (0x05, 0x00, 0x72)
-    pal[240] = (0x86, 0x00, 0x00)
-    pal[241] = (0xa2, 0x00, 0x00)
-    pal[242] = (0xb6, 0x00, 0x00)
+    pal[236] = (0x00, 0x3e, 0x6e) # saty tmava
+    pal[237] = (0x00, 0x55, 0x96) # saty ?
+    pal[238] = (0x00, 0x55, 0x96) # saty ?
+    pal[239] = (0x00, 0x55, 0x96) # saty
+    pal[240] = (0x86, 0x00, 0x00) # vlasy
+    pal[241] = (0xa2, 0x00, 0x00) # vlasy
+    pal[242] = (0xb6, 0x00, 0x00) # vlasy
     pal[235] = (0xe7, 0x82, 0x3f) # ruce
-    pal[142] = (0xff, 0xa2, 0x65)
+    pal[142] = (0xd3, 0x82, 0x51)
     pal[120] = (0xff, 0xa2, 0x65)
-
+    '''
+    pal = [None]
+    pal += [(r/5*5,r/5*5,r/5*5) for r in xrange(0,256)]
     import pygame
     s = pygame.Surface((imgW, imgH), pygame.SRCALPHA, 32)
     xoff = 0

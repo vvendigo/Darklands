@@ -15,11 +15,8 @@
 
 <offsets>
 	<offset start="0x00">
-		<byte at="0x00" value="5/7/.../30" unknown="yes">
-			<description>Unknown byte</description>
-		</byte>
 
-		<array at="0x01" size="80/60" unknown="yes">
+		<array at="0x00" size="80/60" unknown="yes">
 			<description>Looks like pairs of words. Small numbers. Y/X frame offsets maybe.</description>
 			<notes>
 				<note>It is 60 B long for DY files, 80 for the rest.</note>
@@ -27,11 +24,15 @@
 			<byte />
 		</array>
 
+		<word at="60/80" name="frame_count">
+			<description>Frame count for one direction. File contains 8 * frame_count images.</description>
+		</word>
+
 		<word at="62/82" name="data_length">
 			<description>Size of the rest of the file.</description>
 		</word>
 
-		<array at="64/84" size="16/72" name="frame_data_offsets" unknown="yes">
+		<array at="64/84" size="variable" name="frame_data_offsets">
 			<description>Offsets of frame data</description>
 			<notes>
 				<note>Starting beyond the end of this array</note>
