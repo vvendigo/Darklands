@@ -29,7 +29,7 @@
 		</word>
 
 		<word at="62/82" name="data_length">
-			<description>Size of the rest of the file.</description>
+			<description>Size of the rest of the file beyond the frame offsets.</description>
 		</word>
 
 		<array at="64/84" size="variable" name="frame_data_offsets">
@@ -55,7 +55,7 @@
 			<description>Width of image</description>
 		</byte>
 		<byte at="0x01" name="height">
-			<description>Width of image</description>
+			<description>Height of image</description>
 		</byte>
 
 		<array at="0x02" size="variable" name="image_data">
