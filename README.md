@@ -9,13 +9,13 @@ Probably not suitable for Windows because of lazy filepaths handling.
 [Some outputs and file format docs online](http://wendigo.online-siesta.com/darklands/)
 
 ## Latest News
+* FNT file format blurry contures
 * IMC inner format partly dissected and documented
 * IMC compression resolved.
 * Up-to-date file format docs using updated Merle's XML files.
 
 ## TODO (Short term goals)
-* IMC format
-* JS map using canvas
+* Enemy palletes
 * Fixing up-to-date XSLT
 
 ## Repository contents
@@ -31,6 +31,8 @@ Probably not suitable for Windows because of lazy filepaths handling.
 
 ### Scripts
 #### Auxilary
+* aux_color_bits.py - file bits to ASCII
+* aux_color_bytes.py - file bytes to ASCII
 * aux_count_bytes.py - file byte histogram counter
 * aux_find_bytes.py - find bytes in file, limited by max distance from first found to last
 * aux_generate_simple_map.py - very simple HTML map with cities and locations
@@ -44,6 +46,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 * extract_cat.py - extracts catalogue (.CAT) files
 
 #### Generators
+* generate_map_js.py - outputs map JS data struct
 * generate_map_png.py - outputs HUGE image of DL landscape with city and village names
 * generate_map_web.py - outputs HUGE webpage of simplified DL map with city info
 
@@ -51,6 +54,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 * reader_cty.py - cities
 * reader_drle.py - "DarklandsRLE" decompression (used for .IMC, in imap.cat, bc) (can decompress file if run directly)
 * reader_exe.py - strings extraction - WIP (aux maybe?)
+* reader_fnt.py - fonts reader - WIP
 * reader_imc.py - battle sprites - WIP
 * reader_loc.py - map locations (cities, villages, castles...)
 * reader_lst.py - item types & attrs, saints and formula names
