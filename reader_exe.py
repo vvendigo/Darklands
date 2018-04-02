@@ -3,17 +3,15 @@ def readZeroEnded(data, pos, endpos):
     out = []
     while pos < endpos:
         s = ''
-        while pos < endpos and data[pos] != 0:
-            s += chr(data[pos])
-            pos += 1
-        if pos < endpos:
-            pos += 1
-        out.append(s)
+        p2 = data.find('\0', pos)
+        if p2 < 0: p2 = endpos
+        out.append(data[pos:p2])
+        pos = p2 + 1
     return out
 
 def readData(dlPath):
     fname = dlPath + '/darkland.exe'
-    data = map(ord, open(fname).read())
+    data = open(fname).read()
     out = {}
 
     #bg card fnames
@@ -69,19 +67,25 @@ card variable names
 0x00188dd2 ??
 
 city/village ruller titles?
-
-male first names
+0x00188dd2
 0x00188e71
-0x001891a0
 
-female first names
-0x001891a0
-0x0018945f
+'''
 
-surnames
-0x0018945f
-0x00189a20
+    pos = 0x00188e71
+    end = 0x001891a0
+    out['firstnames_male'] = readZeroEnded(data, pos, end)
 
+    pos = 0x001891a0
+    end = 0x0018945f
+    out['firstnames_female'] = readZeroEnded(data, pos, end)
+
+    pos = 0x0018945f
+    end = 0x00189a20
+    out['surnames'] = readZeroEnded(data, pos, end)
+
+
+    '''
 some game menus & msgs
 0x00190fca
 
@@ -126,7 +130,7 @@ camp opts and texts
     pos = 0x00196502
     end = 0x0019783f
     #out['msg_cards'] = [t.upper() if t.startswith('$') else t for t in readZeroEnded(data, pos, end)]
-    out['msg_cards'] = [t.upper() for t in readZeroEnded(data, pos, end) if t.startswith('$')]
+    out['msg_cards'] = [t.upper() if t.startswith('$') else t for t in readZeroEnded(data, pos, end)]# if t.startswith('$')]
 
     return out
 
@@ -153,10 +157,16 @@ if __name__ == '__main__':
     # print data
     #for i, s in enumerate(data['bg_cards']):
     #    print '%4d %s'%(i, ps(s))
-
-    print
-
+    #print
+    idx = 0
     for i, s in enumerate(data['msg_cards']):
-        print '%4d %s'%(i, ps(s))
-
-
+        #if s.endswith('.MSG'): continue
+        print '%4d %s'%(idx, ps(s))
+        idx += 1
+    print
+    for n in data['firstnames_male']: print n
+    print
+    for n in data['firstnames_female']: print n
+    print
+    for n in data['surnames']: print n
+    print
