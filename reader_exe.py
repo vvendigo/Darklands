@@ -14,10 +14,6 @@ def readData(dlPath):
     data = open(fname).read()
     out = {}
 
-    #bg card fnames
-    pos = 0x0018b710
-    end = 0x0018c157
-    out['bg_cards'] = readZeroEnded(data, pos, end)
 
     '''
 month names
@@ -45,22 +41,32 @@ character add menu opts
 some action/quest related strings
 0x0018804f
 0x001881d9
+    '''
 
-character attribute names
-0x001881d9
-0x00188222
+    pos = 0x001881d9
+    end = 0x00188222
+    out['attributes'] = readZeroEnded(data, pos, end)
 
-skills
-0x00188222
-0x001882f0
+    pos = 0x00188222
+    end = 0x001882f0
+    out['skills'] = readZeroEnded(data, pos, end)
 
+    '''
 Menu opts,
-occupation names
-daemon names
-
 0x001882f0
-...
+    '''
+    pos = 0x00188350
+    end = 0x001884d3
+    out['occupations'] = readZeroEnded(data, pos, end)
 
+    pos = 0x0018879a
+    end = 0x00188801
+    out['family'] = readZeroEnded(data, pos, end)
+
+
+    '''
+daemon names
+...
 
 card variable names
 0x00188af4
@@ -84,8 +90,22 @@ city/village ruller titles?
     end = 0x00189a20
     out['surnames'] = readZeroEnded(data, pos, end)
 
+    '''
+some tables??
+0x00189a44
+0x0018b710 cca
+    '''
+
+    #bg card fnames
+    pos = 0x0018b710
+    end = 0x0018c157
+    out['bg_cards'] = readZeroEnded(data, pos, end)
 
     '''
+some table??
+0x0018c157
+0x0018ccb7 cca.?
+
 some game menus & msgs
 0x00190fca
 
@@ -102,7 +122,22 @@ files for map
 pictures for inventory + texts (atts, skill abbrs)
 0x00193844
 0x00193cd8
+    '''
+    pos = 0x00193beb
+    end = 0x00193c06
+    out['attributes_abbr'] = readZeroEnded(data, pos, end)
+    pos = 0x00193c10
+    end = 0x00193c33
+    sk1 = readZeroEnded(data, pos, end)
+    pos = 0x00193c38
+    end = 0x00193c55
+    sk2 = readZeroEnded(data, pos, end)
+    pos = 0x00193c8f
+    end = 0x00193cad
+    sk3 = readZeroEnded(data, pos, end)
+    out['skills_abbr'] = sk1 + sk2 + sk3
 
+    '''
 buy/sell
 0x00193cd8
 0x00193fc2
@@ -144,11 +179,13 @@ def ps(s):
             out += '<'+str(o)+'>'
     return out
 
+def serArr(a):
+    return '"'+('","'.join([ tchars(n) for n in a ]))+'"'
 
 # main ------------
 if __name__ == '__main__':
     import sys
-    from utils import itemStr
+    from utils import itemStr, tchars
 
     dlPath = sys.argv[1] if len(sys.argv) > 1 else 'DL'
 
@@ -158,15 +195,31 @@ if __name__ == '__main__':
     #for i, s in enumerate(data['bg_cards']):
     #    print '%4d %s'%(i, ps(s))
     #print
-    idx = 0
-    for i, s in enumerate(data['msg_cards']):
-        #if s.endswith('.MSG'): continue
-        print '%4d %s'%(idx, ps(s))
-        idx += 1
+    #idx = 0
+    #for i, s in enumerate(data['msg_cards']):
+    #    #if s.endswith('.MSG'): continue
+    #    print '%4d %s'%(idx, ps(s))
+    #    idx += 1
     print
-    for n in data['firstnames_male']: print n
+    print serArr(data['attributes_abbr']) ; print
+    print serArr(data['attributes']) ; print
+    print serArr(data['skills_abbr']) ; print
+    print serArr(data['skills']) ; print
+    '''
+    for abb, name in zip(data['attributes_abbr'], data['attributes']):
+        print '    '+abb+': "'+name+'",'
     print
-    for n in data['firstnames_female']: print n
-    print
-    for n in data['surnames']: print n
-    print
+    for abb, name in zip(data['skills_abbr'], data['skills']):
+        print '    '+abb+': "'+name+'",'
+    '''
+    print ', '.join(['%s:0'%s for s in data['skills_abbr']])
+
+
+    print serArr(data['firstnames_male']) ; print
+    print serArr(data['firstnames_female']) ; print
+    print serArr(data['surnames']) ; print
+    print serArr(data['occupations']) ; print
+    print serArr(data['family']) ; print
+
+
+
