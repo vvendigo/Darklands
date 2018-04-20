@@ -73,6 +73,14 @@ def readData(dlPath):
         pos += 1
         formulae[i]['short_name'] = s
 
+    # read saints descriptions
+    fname = dlPath + '/darkland.snt'
+    data = map(ord, open(fname).read())
+    pos = 1
+    for i in xrange(0, len(saints)):
+        saints[i]['description'] = sread(data[pos:pos+0x168])
+        pos += 0x168
+
     return items, saints, formulae
 
 
