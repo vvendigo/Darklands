@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Font definition files">
+
+<globs>
+	<glob filespec="fonts.*" />
+</globs>
+
+<description type="paragraph">
+	Font definitions.
+    There are two font files. Fonts.fnt (game fonts) and fonts.utl (editor fonts?).
+</description>
+
+<offsets>
+	<offset start="0x00">
+
+        <word at="0x00" name="font_count" value="0x3">
+        <description>Number of contained fonts</description>
+        </word>
+
+		<array at="0x02" name="font_data_offsets" size="0x03">
+			<word />
+			<description>Offsets of font data start in file.</description>
+			<notes>
+				<note>This is start of pixel data. Font header precedes it.</note>
+			</notes>
+		</array>
+	</offset>
+
+</offsets>
+
+<!-- ====================================================================== -->
+
+<structdefs>
+	<structdef type="font_definition" size="variable">
+
+		<byte at="font_data_offset - 0x08" name="start_char_code">
+			<description>Ascii code of the first font character.</description>
+		</byte>
+		<byte at="font_data_offset - 0x7" name="end_char_code">
+			<description>Ascii code of the last font character.</description>
+		</byte>
+        <byte at="font_data_offset - 0x6" name="char_data_width">
+            <description>Character data width in bytes.</description>
+        </byte>
+        <byte at="font_data_offset - 0x5" unknown="yes" value="0"/>
+        <byte at="font_data_offset - 0x4" name="char_height">
+            <description>Character height.</description>
+        </byte>
+        <byte at="font_data_offset - 0x3" unknown="yes" value="1"/>
+        <byte at="font_data_offset - 0x2" unknown="yes" value="1"/>
+        <byte at="font_data_offset - 0x1" unknown="yes" value="0"/>
+
+        <array at="font_data_offset - 8 - size" size="end_char_code - start_char_code + 1" name="character_width">
+            <byte />
+            <description>Font characters widths</description>
+            <notes>
+                <note>Precedes font header.</note>
+            </notes>
+        </array>
+
+		<array at="font_data_offset" size="character_count * char_data_width * char_height" name="font_data">
+			<byte />
+			<description>Font pixel data</description>
+			<notes>
+				<note>Font char pixels are stored as bits.</note>
+				<note>Ie. char_data_width = 2, char_height=8: ([char1_byte]*2[char2_byte]*2 ...)*8</note>
+			</notes>
+		</array>
+	</structdef>
+</structdefs>
+
+</file>
