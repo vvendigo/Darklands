@@ -13,9 +13,9 @@ def readData(dlPath):
         et['image_group'] = sread(data[pos:pos+4]) ; pos += 4
         et['name'] = sread(data[pos:pos+10]) ; pos += 10
         et['num_variants'] = data[pos] ; pos += 1
-        et['unknown1'] = data[pos] ; pos += 1
+        et['pal_cnt'] = data[pos] ; pos += 1 # number of palettes in enemypal?
         et['unknown2'] = data[pos] ; pos += 1
-        et['unknown3'] = data[pos] ; pos += 1
+        et['pal_start'] = data[pos] ; pos += 1 # palettes starting index in enemypal
         et['unknown4'] = bread(data[pos:pos+1]) ; pos += 2
         attrs = {}
         for attr in ('end','str','agl','per','int','chr','df'):
@@ -70,10 +70,10 @@ if __name__ == '__main__':
 
     eTypes, enemies = readData(dlPath)
 
-    #for i, et in enumerate(eTypes):
-    #    print '%2d: %s'%(i, itemStr(et,('type','unknown3')))
+    for i, et in enumerate(eTypes):
+        print '%2d: %s'%(i, itemStr(et))#,('type','unknown3')))
 
-    for i, et in enumerate(enemies):
-        print i
-        print itemStr(et)
+    #for i, et in enumerate(enemies):
+    #    print i
+    #    print itemStr(et)
 

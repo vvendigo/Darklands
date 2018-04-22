@@ -10,9 +10,10 @@ def readData(dlPath):
     while pos < dataLen:
         pal = {}
         startIdx = data[pos]/3
+        pal['start'] = startIdx
         pos += 1
         for i in xrange(startIdx, startIdx+16):
-            pal[i] = (data[pos], data[pos+1], data[pos+2])
+            pal[i] = (data[pos]*4, data[pos+1]*4, data[pos+2]*4)
             pos += 3
         pal['extra'] = data[pos:pos+4]
         pos += 4
@@ -30,5 +31,5 @@ if __name__ == '__main__':
     data = readData(dlPath)
 
     for i, pal in enumerate(data):
-        print '%2d: %s'%(i, pal)#['extra'])
+        print '%2d: %s'%(i, pal['extra'])
 

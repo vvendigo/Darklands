@@ -54,6 +54,7 @@ if __name__ == '__main__':
     import sys
 
     filePath = sys.argv[1] # file to read
+    palIdx = int(sys.argv[2])
     data = readData(filePath)
     #print len(data)
     '''
@@ -70,7 +71,7 @@ if __name__ == '__main__':
     s = set()
     imgW = 0
     imgH = 0
-    dbgI = -1
+    dbgI = 4
     for i, img in enumerate(data):
         imgW += len(img[0]) + 1
         imgH = max(imgH, len(img))
@@ -80,12 +81,26 @@ if __name__ == '__main__':
                 if i==dbgI: print "%3d"%b,
             if i==dbgI: print
     if dbgI >= 0:
-        print s
+        #print s
+        print [x for x in s if x<64 or x>80]
+    pal = {
+        0: None,
+        5: (0,0,0),
+        6: (0xaa,0x55,0x00), # wood
+        7: (0xaa, 0xaa, 0xaa), # steel
+        8: (0x55,0x55,0x55), # gray (belt)
+        15: (0xff, 0xff, 0xff), # blade
+        120: (0xff, 0xa2, 0x65), # skin?
+        122: (0xf3,0x96,0x5d), # skin
+        123: (0xc3,0xc3,0xc3), # steel
+        124: (0xb2,0xb2,0xb2), # gray (jevelry?)
+        #125: (0,255,0), 
+        138: (0, 0xff, 0),
+        141: (0xff, 0xa2, 0x65), # arm low
+        142: (0xd3, 0x82, 0x51),
+    }
+    #e00cba2 [0, 5, 6, 7, 8, 15, 123, 142
     '''
-    pal = [None]*255
-    pal[5] = (0,0,0)
-    pal[7] = (0xaa, 0xaa, 0xaa) # zastita
-    pal[15] = (0xc3, 0xc3, 0xc3) # mec
     pal[122] = (0x76, 0x00, 0x00)
     pal[138] = (0x00, 0x55, 0x96) # saty ?
     pal[141] = (0xff, 0xa2, 0x65) # ruce dole
@@ -99,58 +114,22 @@ if __name__ == '__main__':
     pal[235] = (0xe7, 0x82, 0x3f) # ruce
     pal[142] = (0xd3, 0x82, 0x51)
     pal[120] = (0xff, 0xa2, 0x65)
-    '''
     pal = [None]
     pal += [(r/5*5,r/5*5,r/5*5) for r in xrange(0,256)]
+    '''
+    import reader_enemypal
+    epals = reader_enemypal.readData('DL')
+    pal.update(epals[palIdx])
     import pygame
     s = pygame.Surface((imgW, imgH), pygame.SRCALPHA, 32)
     xoff = 0
     for img in data:
         for y, ln in enumerate(img):
             for x, b in enumerate(ln):
-                if pal[b] != None:
-                    s.fill(pal[b], (xoff+x,y, 1, 1))
+                c = pal.get(b, (255,0,0))
+                if c != None:
+                    s.fill(c, (xoff+x,y, 1, 1))
         xoff += len(img[0]) + 1 
 
     pygame.image.save(s, filePath+".png")
-
-
-    '''
-    human walk animation files there are 72 sprites, which means 9 frames per direction
-    wksw:
-    82: W - velikost zbytku dat!!
-    84: W+x? W W W ... 18x
-    82:16256
-    84:0 269 537 771 - start dat framu (rozmery) 228+X*16
-    15 285 549 784  
-    30 298 561 797  
-    46 315 574 811  
-    60 329 587 823  
-    75 346 602 837  
-    90 363 616 850  
-    105 378 629 863  
-    120 393 642 875  
-    135 407 654 888  
-    150 421 666 900  
-    165 436 679 914  
-    180 450 692 927  
-    195 466 706 943  
-    210 480 721 958  
-    225 495 734 973  
-    240 509 747 989  
-    255 524 759 1002
-
-    228:13 28 - rozmery framu? (B)
-
-    dy:
-    62: W - velikost zbytku
-    64: W+x W W W ... 4x
-    62:3136
-    64:0 66:46 68:96 70:146
-    72:13 74:60 76:109 78:159
-    80:26 82:73 84:122 86:173
-    88:36 90:85 92:134 94:184
-
-    96:19 26 B - rozmery?
-    '''        
-    
+   
