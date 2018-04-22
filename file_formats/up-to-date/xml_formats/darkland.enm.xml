@@ -57,11 +57,8 @@
 			</notes>
 		</byte>
 
-		<byte at="0x0f" unknown="yes">
-			<notes>
-				<note>Ranges from 1-6.</note>
-				<note>At a guess, maybe this is a probability frequency?  Number of instances?</note>
-			</notes>
+		<byte at="0x0f" name="palette_count">
+			<description>Number of usable palettes in enemypal.dat.</description>
 		</byte>
 
 		<byte at="0x10" unknown="yes">
@@ -70,11 +67,9 @@
 			</notes>
 		</byte>
 
-		<byte at="0x11" unknown="yes">
-			<notes>
-				<note>Increases in jumps from 0 to 0x47.</note>
-			</notes>
-		</byte>
+		<byte at="0x11" name="palette_start">
+		    <description>Starting palette index in enemypal.dat.</description>
+        </byte>
 
 		<word at="0x12" unknown="yes">
 			<notes>
@@ -106,6 +101,7 @@
 		<byte at="0x30" unknown="yes">
 			<notes>
 				<note>Most are 0, except: skeletons/gnome/giant gnome (0x2b), vulcan (0x40), hellhound (0x01), both dragons (0x20).</note>
+                <note>Underground related?</note>
 			</notes>
 		</byte>
 
@@ -158,8 +154,8 @@
 			</notes>
 		</byte>
 
-		<byte at="0x95" name="leg_type">
-			<description>Item type of the leg armor worn.</description>
+		<byte at="0x95" name="limb_type">
+			<description>Item type of the limb armor worn.</description>
 		</byte>
 
 		<byte at="0x96" name="armor_q">

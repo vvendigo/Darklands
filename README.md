@@ -9,6 +9,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 [Some outputs and file format docs online](http://wendigo.online-siesta.com/darklands/)
 
 ## Latest News
+* Enemy palette done
 * MSG reader done
 * FNT reader done
 * FNT file format blurry contures
@@ -17,8 +18,8 @@ Probably not suitable for Windows because of lazy filepaths handling.
 * Up-to-date file format docs using updated Merle's XML files.
 
 ## TODO (Short term goals)
-* Enemy palletes
 * Fixing up-to-date XSLT
+* MSG dialogs logic
 
 ## Repository contents
 
@@ -55,6 +56,8 @@ Probably not suitable for Windows because of lazy filepaths handling.
 #### Readers
 * reader_cty.py - cities
 * reader_drle.py - "DarklandsRLE" decompression (used for .IMC, in imap.cat, bc) (can decompress file if run directly)
+* reader_enemypal.py - Enemy palettes
+* reader_enm.py - Enemy types & enemies defs
 * reader_exe.py - strings extraction - WIP (aux maybe?)
 * reader_fnt.py - fonts reader
 * reader_imc.py - battle sprites - WIP
