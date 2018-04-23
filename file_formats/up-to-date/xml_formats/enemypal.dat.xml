@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE file SYSTEM "file_format.dtd">
+<file name="Enemy sprite palettes file">
+
+<globs>
+	<glob filespec="enemypal.dat" />
+</globs>
+
+<description type="paragraph">
+	Small palette chungs (16 RGB triplets) used for enemy IMC rendering.
+</description>
+
+<offsets>
+	<offset start="0x00">
+		<array at="0x00" name="palettes" size="0x47">
+			<struct type="palette_chunk"/>
+			<description>Offsets of font data start in file.</description>
+		</array>
+	</offset>
+
+</offsets>
+
+<!-- ====================================================================== -->
+
+<structdefs>
+	<structdef type="palette_chunk" size="0x34">
+
+		<byte at="0x00" name="start_offset">
+			<description>Starting palette triplets offset</description>
+			<notes>
+                <note>Divide by 3 to get palette index</note>
+            </notes>
+		</byte>
+        <array at="0x01" size="0xf0" name="triplets">
+            <byte />
+            <description>RGB byte triplets</description>
+            <notes>
+                <note>Each component seems divided by 4 for reason unknown.</note>
+            </notes>
+        </array>
+		<array at="0xf1" size="0x03" unknown="yes">
+            <byte />
+            <notes>
+                <note>Sprites use 16 specific colors max. Ending triplet purpose is mystery.</note>
+            </notes>
+        </array>
+	</structdef>
+</structdefs>
+
+</file>
