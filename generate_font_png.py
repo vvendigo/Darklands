@@ -16,7 +16,7 @@ for fnt in fonts:
     cw = max(cw, w)
 
 pygame.init()
-srf = pygame.Surface((cw-1, ch-1))
+srf = pygame.Surface((cw, ch))
 srf.fill((0, 0, 0))
 
 y = 0
