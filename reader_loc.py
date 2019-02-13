@@ -52,6 +52,7 @@ def readData(dlPath):
         #print c['icon']
         c['str_loc_type'] = locTypes[c['icon']] if c['icon'] < len(locTypes) else str(c['icon'])
         c['unknown1'] = bread(data[pos:pos+2]) ; pos += 2
+        #c['unknown1_bin'] = bin(c['unknown1'])
         #0 for cities, other locations range from 0x08-0x0e.
         c['coords'] =(bread(data[pos:pos+2]), bread(data[pos+2:pos+4])) ; pos += 4
         #Map coordinates. 
