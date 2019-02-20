@@ -16,13 +16,36 @@
 <offsets>
 	<offset start="0x00">
 
-		<array at="0x00" size="80/60" unknown="yes">
+		<array at="0x00" size="24" unknown="yes">
 			<description>Looks like pairs of words. Small numbers. Y/X frame offsets maybe.</description>
-			<notes>
-				<note>It is 60 B long for DY files, 80 for the rest.</note>
-			</notes>
 			<byte />
 		</array>
+
+		<byte at="25" unknown="yes">
+			<description>0xff for DY files, 0x0 for other</description>
+		</byte>
+
+        <array at="26" size="20" unknown="yes">
+            <description>Unknown data. Present only in non-DY files.</description>
+            <notes>
+                <note>Looks like motion-related. All zeroes for static monsters (M73, M90).</note>
+            </notes>
+            <byte />
+        </array>
+
+		<word at="26/46" name="sprite_height">
+			<description>Height of sprite (height of all frames is same)</description>
+		</word>
+
+		<array at="28/48" size="8" name="sprite_widths">
+			<description>Sprite widths for 8 directions (frames in one direction are having the same width)</description>
+			<word />
+		</array>
+
+        <array at="44/64" size="16" unknown="yes">
+            <description>8 words? Also direction related?</description>
+            <byte />
+        </array>
 
 		<word at="60/80" name="frame_count">
 			<description>Frame count for one direction. File contains 8 * frame_count images.</description>

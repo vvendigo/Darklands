@@ -9,6 +9,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 [Some outputs and file format docs online](http://wendigo.online-siesta.com/darklands/)
 
 ## Latest News
+* IMC mostly resolved
 * Enemy palette done
 * MSG reader done
 * FNT reader done
