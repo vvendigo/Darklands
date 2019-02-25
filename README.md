@@ -19,6 +19,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 * Up-to-date file format docs using updated Merle's XML files.
 
 ## TODO (Short term goals)
+* systemize readers/scripts interface/flow
 * Fixing up-to-date XSLT
 * MSG dialogs logic
 
@@ -50,6 +51,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 * extract_cat.py - extracts catalogue (.CAT) files
 
 #### Generators
+* generate_font_png.py - blits font archive to image
 * generate_map_js.py - outputs map JS data struct
 * generate_map_png.py - outputs HUGE image of DL landscape with city and village names
 * generate_map_web.py - outputs HUGE webpage of simplified DL map with city info
