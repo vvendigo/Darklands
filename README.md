@@ -3,6 +3,7 @@ Darklands (1992 game from Microprose) file reading utils and preserved file form
 
 Based heavily upon work of Merle (wallace.net/darklands) and Joel "Quadko" McIntyre.
 IMC decoding done with help of arcane remarks of Olemars from bay12forums.
+PIC reader/writer based od darkapandaman's JCivED PIC codecs finally.
 
 Probably not suitable for Windows because of lazy filepaths handling.
 
@@ -21,7 +22,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 * Up-to-date file format docs using updated Merle's XML files.
 
 ## TODO (Short term goals)
-* replace dicts by classes & clean up code a bit
+* replace dicts by classes & clean up the code a lot
 * systemize readers/scripts interface/flow
 * Fixing up-to-date XSLT
 * MSG dialogs logic

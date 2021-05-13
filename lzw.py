@@ -1,5 +1,5 @@
 
-# Based on JCivED PIC reading code, fixed and optimized
+# Based on JCivED PIC handling code, fixed and optimized
 
 
 class LZWDictionary:

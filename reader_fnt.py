@@ -45,6 +45,50 @@ class Font:
                 char.lines.append(ln_data)
             self.chars.append(char)
 
+    def encode_data(self):
+        data = []
+        offset = len(self.chars) + 8 # char width table & header size
+        for ch in self.chars:
+            data.append(ch.width)
+        max_w = max(data)
+        byte_w = max_w / 8 + (1 if max_w % 8 else 0)
+        data += [self.start_chr, self.end_chr, byte_w, 0, self.height, 1, 1, 0]
+        for y in range(0, self.height):
+            for ch in self.chars:
+                val = 0
+                for p in ch.lines[y]:
+                    val <<= 1
+                    val |= p
+                val <<= (byte_w*8) - ch.width
+                bts = []
+                for b in range(byte_w):
+                    bts.insert(0, val & 0xff)
+                    val >>= 8
+                data += bts
+        return data, offset
+
+
+def write_fonts(fname, fonts):
+    fontdata = []
+    for fnt in fonts:
+        data, offset = fnt.encode_data()
+        fontdata.append((data, offset))
+
+    data = [len(fonts), 0]
+    offs = len(data) + 2 * len(fonts)
+    for i, fd in enumerate(fontdata):
+        fdata, foff = fd
+        offs += foff
+        data += [offs & 0xff, offs >> 8]
+        offs += len(fdata) - foff
+
+    for fd, _ in fontdata:
+        data += fd
+
+    f = open(fname, 'wb')
+    f.write(bytearray(data))
+    f.close()
+
 
 def read_fonts(fname):
     data = open(fname).read()

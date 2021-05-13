@@ -1,5 +1,5 @@
 
-# based on JCivED PIC reading code
+# based on JCivED PIC handling code
 
 
 def decode(codedData):

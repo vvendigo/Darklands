@@ -2,10 +2,11 @@ import sys
 
 import pygame
 
-from reader_fnt import Char, Font
+from reader_fnt import Char, Font, write_fonts
 
 image_file = sys.argv[1]
 font_file = sys.argv[2]
+# and then start_char for every font line in image
 
 img = pygame.image.load(image_file)
 
@@ -52,49 +53,6 @@ while y < img.get_height():
     fonts.append(Font(start_chr, start_chr + len(chars) - 1, font_height, chars))
     #print chars[-1]
     y += font_height + 1
-'''
-for ch in fonts[0]['chars'][:5]:
-    for ln in ch['lines']:
-        print ''.join(map(str, ln))
-    print
-'''
-fontdata = []
-for i, fnt in enumerate(fonts):
-    data = []
-    for ch in fnt.chars:
-        data.append(ch.width)
-    max_w = max(data)
-    byte_w = max_w / 8 + (1 if max_w % 8 else 0)
-    print i, fnt.start_chr, '-', fnt.end_chr, len(fnt.chars), fnt.height, 'bw', byte_w
-    data += [fnt.start_chr, fnt.end_chr, byte_w, 0, fnt.height, 1, 1, 0]
-    for y in range(0, fnt.height):
-        for ch in fnt.chars:
-            val = 0
-            for p in ch.lines[y]:
-                val <<= 1
-                val |= p
-            val <<= (byte_w*8) - ch.width
-            bts = []
-            for b in range(byte_w):
-                bts.insert(0, val & 0xff)
-                val >>= 8
-            #if i == 1: print bts
-            data += bts
-    fontdata.append(data)
 
-data = [len(fonts), 0]
-offs = len(data) + 2 * len(fonts)
-for i, fnt in enumerate(fonts):
-    offs += 8 + len(fnt.chars)
-    data += [offs & 0xff, offs >> 8]
-    offs += len(fontdata[i]) - (8 + len(fnt.chars))
-
-for fd in fontdata:
-    data += fd
-
-#print fontdata[1][8 + len(fonts[1]['chars']):]
-
-f = open(font_file, 'wb')
-f.write(bytearray(data))
-f.close()
+write_fonts(font_file, fonts)
 
