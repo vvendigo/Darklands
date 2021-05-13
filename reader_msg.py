@@ -94,14 +94,14 @@ if __name__ == '__main__':
     cards = readData(fname)
 
     for i, c in enumerate(cards):
-        print '#', i
+        #print '#', i
         #print c['unknown1'], c['unknown2']
-        #print '%3d'%i, itemLn(c, ('unknown1', 'unknown2'))#('textOffsY', 'textOffsX', 'unknown1', 'textWidth', 'unknown2'))
-
+        print '%3d'%i, itemLn(c, ('unknown1', 'unknown2', 'textOffsY', 'textOffsX', 'textMaxX'))
+        #continue
         #print itemStr(c)
 
-        print c['text']
-        print '--------'
+        #print c['text']
+        #print '--------'
         printCard(c['elements'])
         print
 

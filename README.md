@@ -9,6 +9,8 @@ Probably not suitable for Windows because of lazy filepaths handling.
 [Some outputs and file format docs online](http://wendigo.online-siesta.com/darklands/)
 
 ## Latest News
+* PIC reader rewritten, writing added
+* FNT reader - writting added
 * IMC mostly resolved
 * Enemy palette done
 * MSG reader done
@@ -19,6 +21,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 * Up-to-date file format docs using updated Merle's XML files.
 
 ## TODO (Short term goals)
+* replace dicts by classes & clean up code a bit
 * systemize readers/scripts interface/flow
 * Fixing up-to-date XSLT
 * MSG dialogs logic

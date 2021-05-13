@@ -50,7 +50,7 @@ while y < img.get_height():
         chars.append(Char(char_width, lines))
         x += char_width
     fonts.append(Font(start_chr, start_chr + len(chars) - 1, font_height, chars))
-    print chars[-1]
+    #print chars[-1]
     y += font_height + 1
 '''
 for ch in fonts[0]['chars'][:5]:

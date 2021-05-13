@@ -4,8 +4,7 @@ def dumpb(data):
     for i in xrange(0, len(data), 16):
         print ' '.join([("%2s"%hex(b)[2:].upper()).replace(' ', '0') for b in data[i:i+16]])
 
-def readData(fname):
-    data = map(ord, open(fname).read())
+def readData(data):
     dLen = len(data)
     out = []
 
@@ -71,6 +70,9 @@ def readData(fname):
                 #if len(out) > 5*16: pos = dLen ; break;
     return out
 
+def readFile(fname):
+    return readData(map(ord, open(fname).read()))
+    
 
 def extractToFile(inPath, outPath):
     data = readData(inPath)
