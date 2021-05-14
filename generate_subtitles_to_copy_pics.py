@@ -1,6 +1,8 @@
-import sys
+import os
+
 from reader_pic import readFile, writeFile, renderImage
-from reader_fnt import read_fonts
+from format_fnt import read_fonts
+
 import pygame
 
 font = read_fonts('DL/fonts.fnt')[0]
@@ -52,7 +54,7 @@ for fname, name in names:
     if len(name) > 1: name[0] += '-'
     print fname, name
 
-    infile = 'DL/pics/' + fname
+    infile = os.path.join('DL/pics/', fname)
 
     pal, pic = readFile(infile, addDefaultPal=True)
 
@@ -63,10 +65,13 @@ for fname, name in names:
 
     writeFile(fname.upper(), None, pic)
 
+    # preview PNG images:
+    '''
     # colors similar to real ones
     pal[141] = (254, 168, 95)
     pal[142] = (202, 140, 83)
     pal[143] = (153, 91, 32)
     img = renderImage(pal, pic)
     pygame.image.save(img, fname + '.png')
+    '''
 

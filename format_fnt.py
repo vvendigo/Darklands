@@ -16,19 +16,19 @@ class Font:
         self.chars = [] if chars is None else chars
         self.bw = bw # for lulz
 
-    def read_data(self, data, offset):
+    def from_data(self, data, offset):
+        ''' init itself from data
+        '''
         self.chars = []
         hdrpos = offset - 8
-        self.start_char, self.end_char, self.bw = unpack('BBB', data[hdrpos:hdrpos+3]) # first char ASCII code
-        #self.end_char = data[hdrpos+1] # last char ASCII code
-        #self.bw = data[hdrpos+2] # char img width in bytes
+        self.start_char, self.end_char, self.bw = unpack('BBB', data[hdrpos:hdrpos+3]) # first char ASCII code, last char ASCII code, char img width in bytes
         # 0 unknown
         self.height, = unpack('B', data[hdrpos+4]) # height in bytes
         # 1 unknown
         # 1 unknown
         # 0 unknown
         char_cnt = self.end_char - self.start_char + 1
-        width_off = offset - char_cnt - 8
+        width_off = offset - char_cnt - 8 # char widths array offset
         for i, ch_width in enumerate(unpack('B'*char_cnt, data[width_off:width_off+char_cnt])):
             char = Char(ch_width)
             for j in xrange(0, self.height):
@@ -45,7 +45,9 @@ class Font:
                 char.lines.append(ln_data)
             self.chars.append(char)
 
-    def encode_data(self):
+    def to_data(self):
+        ''' encode self to data
+        '''
         data = []
         offset = len(self.chars) + 8 # char width table & header size
         for ch in self.chars:
@@ -69,9 +71,11 @@ class Font:
 
 
 def write_fonts(fname, fonts):
+    ''' write font list do file in DL format
+    '''
     fontdata = []
     for fnt in fonts:
-        data, offset = fnt.encode_data()
+        data, offset = fnt.to_data()
         fontdata.append((data, offset))
 
     data = [len(fonts), 0]
@@ -91,6 +95,8 @@ def write_fonts(fname, fonts):
 
 
 def read_fonts(fname):
+    ''' get font list from file in DL format
+    '''
     data = open(fname).read()
     dataLen = len(data)
     #print fname, dataLen, 'B'
@@ -101,12 +107,14 @@ def read_fonts(fname):
     fonts = []
     for offs in unpack('H' * cnt, data[pos:pos + 2 * cnt]):
         font = Font()
-        font.read_data(data, offs)
+        font.from_data(data, offs)
         fonts.append(font)
     return fonts
 
 
 def readData(dlPath):
+    ''' read all DL fonts
+    '''
     fonts = {}
     for ext in ('fnt', 'utl'):
         fname = os.path.join(dlPath, 'fonts.') + ext
@@ -117,7 +125,6 @@ def readData(dlPath):
 # main ------------
 if __name__ == '__main__':
     import sys
-    from utils import itemStr
 
     dlPath = sys.argv[1] if len(sys.argv) > 1 else 'DL'
 

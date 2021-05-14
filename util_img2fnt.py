@@ -1,8 +1,15 @@
+# Util to convert image to .FNT format.
+# significant colors are:
+#  (255, 0, 255) - right and bottom char boundary
+#  (255, 255, 255) - character strokes pixels
+#  all other colors are considered blank character pixels
+# Use `python util_fnt2img.py DL/FONTS.FNT FONTS.FNT.png` to obtain/see editable font image example.
+
 import sys
 
 import pygame
 
-from reader_fnt import Char, Font, write_fonts
+from format_fnt import Char, Font, write_fonts
 
 image_file = sys.argv[1]
 font_file = sys.argv[2]

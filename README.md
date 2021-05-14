@@ -10,6 +10,7 @@ Probably not suitable for Windows because of lazy filepaths handling.
 [Some outputs and file format docs online](http://wendigo.online-siesta.com/darklands/)
 
 ## Latest News
+* Given up resolving MSG dialogs logic (it seems impossible - hidden in executable completely)
 * PIC reader rewritten, writing added
 * FNT reader - writting added
 * IMC mostly resolved
@@ -22,10 +23,9 @@ Probably not suitable for Windows because of lazy filepaths handling.
 * Up-to-date file format docs using updated Merle's XML files.
 
 ## TODO (Short term goals)
-* replace dicts by classes & clean up the code a lot
+* replace dicts by classes & clean up the code a lot (replace reader_* with format_* gradually)
 * systemize readers/scripts interface/flow
 * Fixing up-to-date XSLT
-* MSG dialogs logic
 
 ## Repository contents
 

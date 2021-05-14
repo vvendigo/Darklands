@@ -2,7 +2,7 @@ from utils import bread
 import reader_drle
 
 def readData(fname, frameCnt=None):
-    data = reader_drle.readData(fname)
+    data = reader_drle.readData(map(ord, open(fname).read()))
     fileSize = len(data)
 
     # heuristic
@@ -131,9 +131,9 @@ if __name__ == '__main__':
             break
     if palIdx > edef['pal_cnt']:
         palIdx = 0
-    import reader_enemypal
-    epals = reader_enemypal.readData('DL')
-    pal.update(epals[edef['pal_start']+palIdx])
+    import format_enemypal
+    epals = format_enemypal.readData('DL')
+    pal.update(epals[edef['pal_start']+palIdx].get_dict())
     import pygame
     if not outDir:
         s = pygame.Surface((imgW, imgH), pygame.SRCALPHA, 32)
