@@ -1,7 +1,7 @@
 import sys
 from PIL import Image
 
-from reader_pic import writeFile
+from format_pic import Pic
 
 infile = sys.argv[1]
 outfile = sys.argv[2] if len(sys.argv)>2 else (infile + '.pic')
@@ -14,6 +14,10 @@ w = im.width
 h = im.height
 
 print w, h
+
+pic = Pic()
+pic.width = w
+pic.height = h
 
 # convert palette
 im_pal = im.getpalette()
@@ -36,12 +40,12 @@ while p > 0 and pal[p][0] == 255 and pal[p][1] == 0 and pal[p][2] == 255:
     pal[p] = None
     p -= 1
 print pal
+pic.pal = pal
 
 # convert img data
 im_data = list(im.getdata())
-data = []
 for y in range(0, h):
-    data.append(im_data[y*w:y*w+w])
+    pic.pic.append(im_data[y*w:y*w+w])
 
-writeFile(outfile, pal, data)
+pic.write_file(outfile)
 

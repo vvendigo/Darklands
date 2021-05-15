@@ -1,7 +1,7 @@
 import sys
 import reader_map
 import reader_cty
-import reader_pic
+from format_pic import Pic
 import utils
 
 oPath = sys.argv[1]
@@ -15,7 +15,7 @@ dh = 4 # tile y-dist
 
 palFnames = ('mapicons.pic','mapicon2.pic') # tile "palletes"
 for fn in palFnames:
-	reader_pic.convertImage(dlPath+'/pics/'+fn, oPath+'/'+fn+'.png')
+	Pic(dlPath+'/pics/'+fn).save_image(oPath+'/'+fn+'.png')
 palFnames = [fn+'.png' for fn in palFnames]
 
 out = open(oPath + '/map.html', 'w')
@@ -74,7 +74,7 @@ for y, ln in enumerate(m):
 
 cities = reader_cty.readData(dlPath)
 for c in cities:
-	name = utils.tchars(c['full_name'])
+	name = utils.tchars(c['name'])
 	x, y = c['entry_coords']
 	x1 = x*tw + (tw/2 if y%2 else 0)
 	y1 = y*dh

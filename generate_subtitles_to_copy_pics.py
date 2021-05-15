@@ -1,6 +1,6 @@
 import os
 
-from reader_pic import readFile, writeFile, renderImage
+from format_pic import Pic, default_pal
 from format_fnt import read_fonts
 
 import pygame
@@ -56,22 +56,24 @@ for fname, name in names:
 
     infile = os.path.join('DL/pics/', fname)
 
-    pal, pic = readFile(infile, addDefaultPal=True)
+    pic = Pic(infile)
 
-    w = len(pic[0])
-    h = len(pic)
+    w = pic.width
+    h = pic.height
 
-    draw_text(pic, name, w/2, h - font.height * len(name), 9) # blue
-
-    writeFile(fname.upper(), None, pic)
+    draw_text(pic.pic, name, w/2, h - font.height * len(name), 9) # blue
 
     # preview PNG images:
-    '''
+    #'''
+    pic.pal = default_pal[:16] + [None] * 240
     # colors similar to real ones
-    pal[141] = (254, 168, 95)
-    pal[142] = (202, 140, 83)
-    pal[143] = (153, 91, 32)
-    img = renderImage(pal, pic)
+    pic.pal[141] = (254, 168, 95)
+    pic.pal[142] = (202, 140, 83)
+    pic.pal[143] = (153, 91, 32)
+    img = pic.render_image()
     pygame.image.save(img, fname + '.png')
-    '''
+    #'''
+
+    pic.pal = None
+    pic.write_file(fname.upper())
 

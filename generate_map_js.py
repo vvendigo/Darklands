@@ -2,7 +2,6 @@ import sys
 import reader_map
 import reader_cty
 import reader_loc
-import reader_pic
 import utils
 
 # output file name

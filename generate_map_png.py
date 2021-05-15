@@ -2,7 +2,7 @@ import sys
 import reader_map
 import reader_cty
 import reader_loc
-import reader_pic
+from format_pic import Pic
 import utils
 import pygame
 
@@ -27,7 +27,7 @@ pals = []
 
 for fn in tilePalFnames:
 	print 'Reading tile pallete:', fn
-	pals.append(reader_pic.getImage(fn))
+	pals.append(Pic(fn).render_image())
 
 print "Reading locs..."
 locs = reader_loc.readData(dlPath)
