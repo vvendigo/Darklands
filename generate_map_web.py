@@ -1,6 +1,6 @@
 import sys
 import reader_map
-import reader_cty
+import format_cty
 from format_pic import Pic
 import utils
 
@@ -72,13 +72,13 @@ for y, ln in enumerate(m):
 
 
 
-cities = reader_cty.readData(dlPath)
+cities = format_cty.readData(dlPath)
 for c in cities:
-	name = utils.tchars(c['name'])
-	x, y = c['entry_coords']
+	name = utils.tchars(c.name)
+	x, y = c.entry_coords
 	x1 = x*tw + (tw/2 if y%2 else 0)
 	y1 = y*dh
-	x2, y2 = c['exit_coords']
+	x2, y2 = c.exit_coords
 	x2 = x2 * tw + (tw/2 if y%2 else 0)
 	y2 = y2*dh
 	out.write('<div class="c" style="left:%dpx;top:%dpx">'\

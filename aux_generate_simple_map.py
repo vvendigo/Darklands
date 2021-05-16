@@ -1,16 +1,16 @@
 import sys
-import reader_cty
+import format_cty
 import reader_loc
 import utils
 
 dlPath = sys.argv[1] if len(sys.argv) > 1 else 'DL'
 
-cities = reader_cty.readData(dlPath)
+cities = format_cty.readData(dlPath)
 
 minX, minY, maxX, maxY = 1000, 1000, 0, 0
 for c in cities:
-    ex, ey = c['entry_coords']
-    xx, xy = c['exit_coords']
+    ex, ey = c.entry_coords
+    xx, xy = c.exit_coords
     minX = min(minX, ex, xx)
     minY = min(minY, ey, xy)
     maxX = max(maxX, ex, xx)
@@ -35,11 +35,11 @@ print '''
 <div style="position:relative;border:1px solid gray;width:%dpx;height:%dpx">'''%(divW, divH)
 
 for c in cities:
-    name = utils.tchars(c['short_name'])
-    x, y = c['entry_coords']
+    name = utils.tchars(c.short_name)
+    x, y = c.entry_coords
     dx, dy = x-minX, y-minY
     print '<div class="ce" style="top:%dpx;left:%dpx" title="%s"></div>'%(int(dy*a/2)-4, int(dx*a)-4, name+' E')
-    x, y = c['exit_coords']
+    x, y = c.exit_coords
     dx, dy = x-minX, y-minY
     print '<div class="cx" style="top:%dpx;left:%dpx" title="%s"></div>'%(int(dy*a/2)-4, int(dx*a)-4, name+' X')
 
@@ -61,9 +61,9 @@ for i, l  in enumerate(locs):
         continue
     lx, ly = l['coords']
     c = cities[i]
-    cx, cy = c['entry_coords']
-    if l['name'] != c['short_name'] or cx-lx or cy-ly:
-        print l['name'], c['short_name'], cx-lx, cy-ly
+    cx, cy = c.entry_coords
+    if l['name'] != c.short_name or cx-lx or cy-ly:
+        print l['name'], c.short_name, cx-lx, cy-ly
 
 '''
 </pre>

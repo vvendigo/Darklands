@@ -29,8 +29,15 @@ def tchars(txt):
     #print txt
     return txt.replace('|', 'ü').replace('{', 'ö').replace(chr(0x1f), 'æ')
 
+def cstrim(txt):
+    ''' trim C-string '''
+    return txt[:txt.find(b'\0')]
+
 def itemStr(c, attrs=None):
     ''' str(struct) '''
+    items = []
+    if type(c) is not dict:
+        c = vars(c)
     out = ''
     for k, v in c.iteritems():
         if attrs and k not in attrs:

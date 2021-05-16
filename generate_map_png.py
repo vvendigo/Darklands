@@ -1,6 +1,6 @@
 import sys
 import reader_map
-import reader_cty
+import format_cty
 import reader_loc
 from format_pic import Pic
 import utils
@@ -76,12 +76,12 @@ fontSmallest = pygame.font.SysFont(fontName, 9)
 fonts = {0:fontBig, 8:fontSmaller, 13:0, 15:0, 16:0, 17:0, 18:0, 19:0, 20:0}
 
 print 'Reading cities...'
-cities = reader_cty.readData(dlPath)
+cities = format_cty.readData(dlPath)
 
 print 'Rendering names...'
 for i, loc in enumerate(locs):
 	lt = loc['icon']
-	name = loc['name'] if lt else cities[i]['name']
+	name = loc['name'] if lt else cities[i].name
 	name = utils.tchars(name).decode('utf-8')
 	x, y = loc['coords']
 	x = x*tw + (tw/2 if y%2 else 0)

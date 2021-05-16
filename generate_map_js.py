@@ -1,6 +1,6 @@
 import sys
 import reader_map
-import reader_cty
+import format_cty
 import reader_loc
 import utils
 
@@ -46,7 +46,7 @@ locs: [
 ''');
 
 print "Reading cities..."
-cities = reader_cty.readData(dlPath)
+cities = format_cty.readData(dlPath)
 print "Reading locs..."
 locs = reader_loc.readData(dlPath)
 
@@ -54,7 +54,7 @@ locs = reader_loc.readData(dlPath)
 for i,l in enumerate(locs):
     x,y = l['coords']
     ic = l['icon']
-    name = l['name'] if ic else cities[i]['name']
+    name = l['name'] if ic else cities[i].name
     name = utils.tchars(name)
     of.write('{icon:%d, name:"%s"},\n'%(ic, name))
 
