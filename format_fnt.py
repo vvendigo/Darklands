@@ -24,8 +24,8 @@ class Font:
         self.start_char, self.end_char, self.bw = unpack('BBB', data[hdrpos:hdrpos+3]) # first char ASCII code, last char ASCII code, char img width in bytes
         # 0 unknown
         self.height, = unpack('B', data[hdrpos+4]) # height in bytes
-        # 1 unknown
-        # 1 unknown
+        # 1 - char spacing in px
+        # 1 - line spacing in px
         # 0 unknown
         char_cnt = self.end_char - self.start_char + 1
         width_off = offset - char_cnt - 8 # char widths array offset

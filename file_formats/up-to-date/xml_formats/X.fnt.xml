@@ -47,8 +47,12 @@
         <byte at="font_data_offset - 0x4" name="char_height">
             <description>Character height.</description>
         </byte>
-        <byte at="font_data_offset - 0x3" unknown="yes" value="1"/>
-        <byte at="font_data_offset - 0x2" unknown="yes" value="1"/>
+        <byte at="font_data_offset - 0x3" name="char_spacing" value="1">
+            <description>Space between characters (px).</description>
+        </byte>
+        <byte at="font_data_offset - 0x2" name="line_spacing" value="1">
+            <description>Space between lines (px).</description>
+        </byte>
         <byte at="font_data_offset - 0x1" unknown="yes" value="0"/>
 
         <array at="font_data_offset - 8 - size" size="end_char_code - start_char_code + 1" name="character_width">

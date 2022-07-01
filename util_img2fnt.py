@@ -13,7 +13,7 @@ from format_fnt import Char, Font, write_fonts
 
 image_file = sys.argv[1]
 font_file = sys.argv[2]
-# and then start_char for every font line in image
+# and then start_char for every font line in image (default 0)
 
 img = pygame.image.load(image_file)
 
@@ -32,7 +32,7 @@ while y < img.get_height():
 
     font_height = yy - y
     print font_height
-    start_chr = int(sys.argv[argp])
+    start_chr = int(sys.argv[argp]) if argp < len(sys.argv) else 0
     argp += 1
 
     chars = []
