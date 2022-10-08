@@ -91,6 +91,7 @@ the one cat file <html:a href="catalogs/msgfiles.html">msgfiles</html:a>.
 				<note>An 0x10 immediately precedes the "..." for options that offer a popup potion selection.</note>
 				<note>An 0x16 immediately precedes the "..." for options that offer a popup saint selection.</note>
 				<note>An 0x06 immediately precedes the "..." for options that would cause the party to enter battle immediately.</note>
+				<note>An 0x15 immediately precedes normal options. (thanks to James)</note>
 			</notes>
 		</string>
 	</structdef>
