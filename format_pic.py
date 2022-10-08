@@ -27,44 +27,44 @@ class Pic:
     def pal_from_data(self, data, addDefaultPal = False):
         pStart, pEnd = unpack('BB', data[0:2])
         pos = 2
-        #print 'Pal', pStart, pEnd, pEnd-pStart+1, len(data)
+        #print('Pal', pStart, pEnd, pEnd-pStart+1, len(data))
         out = [None]*256
         if addDefaultPal:
             for i, c in enumerate(default_pal[:16]):
                 out[i] = c
-        for i in xrange(pStart, pEnd+1):
+        for i in range(pStart, pEnd+1):
             r, g, b = unpack('BBB', data[pos: pos+3])
             out[i] = (r*4, g*4, b*4)
             pos += 3
-        print 'Pal read', pStart, '-', pEnd
+        print('Pal read', pStart, '-', pEnd)
         self.pal = out
 
     def pic_from_data(self, data):
         self.width, self.height, self.mode = unpack('HHB', data[0:5])
-        rle_data = lzw.decompress(map(ord, data[5:]), self.mode)
+        rle_data = lzw.decompress(data[5:], self.mode)
         data = rle.decode(rle_data)
         self.pic = []
-        for y in xrange(0, self.height):
+        for y in range(0, self.height):
             self.pic.append(data[y*self.width:y*self.width + self.width])
-        print 'Pic read', self.width, 'x', self.height, '(', self.mode, ')'
+        print('Pic read', self.width, 'x', self.height, '(', self.mode, ')', len(self.pic))
 
     def read_file(self, fname, palOnly = False, addDefaultPal = False):
-        data = open(fname).read()
+        data = open(fname, 'rb').read()
         dataLen = len(data)
         pos = 0
         while pos < dataLen:
             tag, segLen = unpack('HH', data[pos:pos+4])
             pos += 4
-            #print hex(tag), segLen
+            #print(hex(tag), segLen)
             if tag == 0x304D:
-                print 'Pal read', pos, segLen
+                print('Pal read', pos, segLen)
                 self.pal_from_data(data[pos:pos+segLen], addDefaultPal)
                 if palOnly:
                     break
             elif tag == 0x3058 and not palOnly:
-                print 'Pic read', pos, segLen
+                print('Pic read', pos, segLen)
                 self.pic_from_data(data[pos:pos+segLen])
-            else: print 'Unknown!'
+            else: print('Unknown!')
             pos += segLen
         if self.pal is None and addDefaultPal:
             self.pal = default_pal[:16] + [None] * 240
@@ -80,7 +80,7 @@ class Pic:
             p_end -= 1
 
         data = [p_start, p_end]
-        for i in xrange(p_start, p_end+1):
+        for i in range(p_start, p_end+1):
             c = pal[i]
             data += [c[0]/4, c[1]/4, c[2]/4]
         hdr_data = pack('HH', 0x304D, len(data))
@@ -143,20 +143,20 @@ if __name__ == '__main__':
     dname = ddir + '/' + os.path.basename(fname) + '.png'
     pic = Pic(fname)
 
-    print fname,
+    print(fname, end=' ')
     if pic.pic:
-        print 'pic', pic.width, 'x', pic.height,
+        print('pic', pic.width, 'x', pic.height, end=' ')
     #print pic[0][0]
     if pic.pal:
-        print 'pal', len(pic.pal), #pal
+        print('pal', len(pic.pal), end=' ')
     '''
-    print
-    print
+    print()
+    print()
 
     writeFile('pokus.pic', pal, pic)
 
-    print
-    print
+    print()
+    print()
 
     pal, pic = readFile('pokus.pic')
     img = renderImage(pal, pic)
@@ -164,7 +164,7 @@ if __name__ == '__main__':
     '''
 
     if pname:
-        pic = Pic()
+        #pic = Pic()
         pic.read_file(pname, palOnly=True)
 
     if not pic.pal:
@@ -174,5 +174,5 @@ if __name__ == '__main__':
         img = pic.render_image()
         pygame.image.save(img, dname)
     else:
-        print '!!!'
+        print('!!!')
 

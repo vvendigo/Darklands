@@ -92,7 +92,7 @@ def encode(inputData, dicIndexMaxBits = 0x0B):
             codedData.append(dic.getIndexOfEntry(buff))
             i += 1
 
-    #print dic.toString(250, 260)
+    #print(dic.toString(250, 260))
     return codedData;
 
 
@@ -152,7 +152,7 @@ def ints2bytes(lzwIndexes, mode):
 
 def compress(data, mode=11):
     enc_data = encode(data)
-    #print 'ENC', enc_data[500:800], len(enc_data)
+    #print('ENC', enc_data[500:800], len(enc_data))
     return ints2bytes(enc_data, mode)
 
 
@@ -176,15 +176,15 @@ def decode(inputData, dicIndexMaxBits=0x0B):
 
             entry = []
             de = dic.getEntry(k)
-            #print i, k, de, w
+            #print(i, k, de, w)
             if de is not None:
                 entry = de
             elif k == dic.getCurPos():
                 entry = w + [w[0]]
             else:
-                print "No dictionary entry in LZW dict !!! (", i, k, de, w ,")"
+                print("No dictionary entry in LZW dict !!! (", i, k, de, w ,")")
                 return plainData
-            #print 'ent', entry
+            #print('ent', entry)
 
             # Append entry to the result stream (plainData) 
             plainData += entry
@@ -192,7 +192,7 @@ def decode(inputData, dicIndexMaxBits=0x0B):
             dic.addEntry(w + [entry[0]])
 
             w = entry
-            #print dic.toString(250, 260)
+            #print( dic.toString(250, 260))
 
         i += 1
 
@@ -209,7 +209,8 @@ def decode(inputData, dicIndexMaxBits=0x0B):
 
 
 
-def bytes2ints(data, ubyte_mode):
+def bytes2ints(b_data, ubyte_mode):
+        data = bytearray(b_data)
         remainingCodedBytes = len(data)
         parsedIndexes = []
 
@@ -273,12 +274,12 @@ def bytes2ints(data, ubyte_mode):
         for(int i=0; i<intIndexes.length; i++) {
             intIndexes[i] = parsedIndexes.get(i);
         }'''
-        #print 'DEC', parsedIndexes[500:800], len(parsedIndexes)
+        #print('DEC', parsedIndexes[500:800], len(parsedIndexes))
         return parsedIndexes #intIndexes;
 
 
 def decompress(data, mode=11):
     lzw_data = bytes2ints(data, mode)
-    #print 'DEC', lzw_data[500:800], len(lzw_data)
+    #print('DEC', lzw_data[500:800], len(lzw_data))
     return decode(lzw_data)
 
