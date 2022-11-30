@@ -82,7 +82,7 @@ class Pic:
         data = [p_start, p_end]
         for i in range(p_start, p_end+1):
             c = pal[i]
-            data += [c[0]/4, c[1]/4, c[2]/4]
+            data += [c[0]//4, c[1]//4, c[2]//4]
         hdr_data = pack('HH', 0x304D, len(data))
         fh.write(hdr_data)
         fh.write(bytearray(data))

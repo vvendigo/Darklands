@@ -10,8 +10,8 @@ class Char:
 class Font:
 
     def __init__(self, start_chr=0, end_chr=0, height=0, chars=None, bw=0):
-        self.start_chr = start_chr
-        self.end_chr = end_chr
+        self.start_char = start_chr
+        self.end_char = end_chr
         self.height = height
         self.chars = [] if chars is None else chars
         self.bw = bw # for lulz
@@ -53,8 +53,8 @@ class Font:
         for ch in self.chars:
             data.append(ch.width)
         max_w = max(data)
-        byte_w = max_w / 8 + (1 if max_w % 8 else 0)
-        data += [self.start_chr, self.end_chr, byte_w, 0, self.height, 1, 1, 0]
+        byte_w = int(max_w / 8 + (1 if max_w % 8 else 0))
+        data += [self.start_char, self.end_char, byte_w, 0, self.height, 1, 1, 0]
         for y in range(0, self.height):
             for ch in self.chars:
                 val = 0
@@ -130,7 +130,7 @@ if __name__ == '__main__':
 
     fonts = readData(dlPath)
 
-    for ext, fnts in fonts.iteritems():
+    for ext, fnts in fonts.items():
         print('------', ext)
         for i, fnt in enumerate(fnts):
             print("-----", i, 'h:', fnt.height, fnt.start_char, '-', fnt.end_char, len(fnt.chars), 'bw', fnt.bw)

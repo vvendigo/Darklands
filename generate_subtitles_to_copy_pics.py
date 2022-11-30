@@ -36,12 +36,12 @@ def draw_text(imgdata, txts, x, y, clr):
             tw = 0
             xx = x
             for ch in txt:
-                chi = ord(ch) - font.start_chr
+                chi = ord(ch) - font.start_char
                 tw += font.chars[chi].width
             xx -= tw/2
 
             for ch in txt:
-                chi = ord(ch) - font.start_chr
+                chi = ord(ch) - font.start_char
                 char = font.chars[chi]
                 for yy, ln in enumerate(char.lines):
                     for xxx, p in enumerate(ln):
