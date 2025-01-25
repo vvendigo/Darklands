@@ -463,7 +463,7 @@ class List(Widget):
         mx, my = pygame.mouse.get_pos()
         if mx<self.x or mx>=self.x+self.w or my<self.y or my>=self.y+self.h:
             return
-        if event.type == pygame.MOUSEWHEEL:
+        if event.type == pygame.MOUSEWHEEL and len(self.items):
             accel = self._get_accel(event.y)
             if self.items[-1].y+self.items[-1].h+accel < self.list_end:
                 accel = -(self.items[-1].y + self.items[-1].h - self.list_end)
