@@ -33,23 +33,23 @@ locTypes = (
 def readData(dlPath):
     fname = dlPath + '/darkland.loc'
 
-    data = map(ord, open(fname).read())
+    data = open(fname, 'rb').read()
     dataLen = len(data)
-    #print fname, dataLen, 'B'
+    #print(fname, dataLen, 'B')
     pos = 0
 
     cnt = bread(data[pos:pos+2])
-    #print cnt, bread(data[pos:pos+1])
+    #print(cnt, bread(data[pos:pos+1]))
     pos += 2
 
     locs = []
 
-    for i in xrange(0, cnt):
+    for i in range(0, cnt):
         c = OrderedDict()
 
         c['icon'] = bread(data[pos:pos+2]) ; pos += 2 # (enum location_icon)
         #Map image for the location. Note that this basically corresponds to the 'type' of location.
-        #print c['icon']
+        #print(c['icon'])
         c['str_loc_type'] = locTypes[c['icon']] if c['icon'] < len(locTypes) else str(c['icon'])
         c['unknown1'] = bread(data[pos:pos+2]) ; pos += 2
         #c['unknown1_bin'] = bin(c['unknown1'])
@@ -97,11 +97,11 @@ def readData(dlPath):
 
 def infoStr(c):
     out = ''
-    for k, v in c.iteritems():
+    for k, v in c.items():
         out += "%s: "%k
         if type(v) == dict:
             out += '{\n'
-            for vk, vv in v.iteritems():
+            for vk, vv in v.items():
                 out += "- %s: %s\n"%(vk, vv)
             out += '}'
         else:
@@ -121,6 +121,6 @@ if __name__ == '__main__':
 
     # print data
     for i, c in enumerate(locs):
-        print '#', i, '#'
-        print itemStr(c)
+        print('#', i, '#')
+        print(itemStr(dict(c)))
 

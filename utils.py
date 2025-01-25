@@ -31,7 +31,7 @@ def tchars(txt):
 
 def cstrim(txt):
     ''' trim C-string '''
-    return txt[:txt.find(b'\0')]
+    return str(txt[:txt.find(b'\0')])
 
 def itemStr(c, attrs=None):
     ''' str(struct) '''
@@ -39,13 +39,13 @@ def itemStr(c, attrs=None):
     if type(c) is not dict:
         c = vars(c)
     out = ''
-    for k, v in c.iteritems():
+    for k, v in c.items():
         if attrs and k not in attrs:
             continue
         out += "%s: "%k
         if type(v) == dict:
             out += '{\n'
-            for vk, vv in v.iteritems():
+            for vk, vv in v.items():
                 out += "\t%s: %s\n"%(vk, vv)
             out += '}'
         else:

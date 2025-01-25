@@ -69,7 +69,7 @@ class City:
         # When you leave a city, you don't exit at the same point as you entered. The exit coordinates were (usually) selected so as not to place you in an untenable position (the ocean, trapped by a river loop, etc).
 
         dests = []
-        for i in xrange(0,4):
+        for i in range(0,4):
             tgt, = unpack('H', data[pos:pos+2])
             pos += 2
             if tgt != 0xffff:
@@ -98,7 +98,7 @@ class City:
         # [constant: 0]
 
         #city_contents = unpack('H', data[pos:pos+2])# bitmask[16 bits]
-        city_contents = (ord(data[pos]) << 8) | ord(data[pos+1])# bitmask[16 bits]
+        city_contents = (unpack('B', data[pos:pos+1])[0] << 8) | unpack('B', data[pos+1:pos+2])[0]# bitmask[16 bits]
         pos += 2
         #Buildings and locations in the city.
         #    Bits are on iff there is one of that type of building.
@@ -113,33 +113,33 @@ class City:
         self.unknown_cd_4, = unpack('H', data[pos:pos+2]) ; pos += 2
         # [constant: 0]
 
-        self.qual_blacksmith, = unpack('B', data[pos]) ; pos += 1
+        self.qual_blacksmith, = unpack('B', data[pos:pos+1]) ; pos += 1
         #Quality of the blacksmith.
         #    This, and the other nine qualities, all seem to work in the same way.
         #    A zero value indicates that the city does not have that particular shop.
         #    Non-zero values do not exactly equal the quality of the items available, but merely indicate relative qualities! For example, Nurnberg has a 0x31 (49) listed for the armory, but offers q37 (0x25) armor. However, if one city has a higher value than another, then that city's items will be of equal or greater quality.
         #    The quality of the healer is not stored here, but is apparently random. (TODO: verify?)
         #    TODO: comments about Quality of the alchemist, university, pharmacist being the seed thing.
-        self.qual_merchant, = unpack('B', data[pos]) ; pos += 1
+        self.qual_merchant, = unpack('B', data[pos:pos+1]) ; pos += 1
         #Quality of the merchant. 
-        self.qual_swordsmith, = unpack('B', data[pos]) ; pos += 1
+        self.qual_swordsmith, = unpack('B', data[pos:pos+1]) ; pos += 1
         #Quality of the swordsmith. 
-        self.qual_armorer, = unpack('B', data[pos]) ; pos += 1
+        self.qual_armorer, = unpack('B', data[pos:pos+1]) ; pos += 1
         #Quality of the armorer. 
-        self.qual_unk1, = unpack('B', data[pos]) ; pos += 1
-        self.qual_bowyer, = unpack('B', data[pos]) ; pos += 1
+        self.qual_unk1, = unpack('B', data[pos:pos+1]) ; pos += 1
+        self.qual_bowyer, = unpack('B', data[pos:pos+1]) ; pos += 1
         #Quality of the bowyer. 
-        self.qual_tinker, = unpack('B', data[pos]) ; pos += 1
+        self.qual_tinker, = unpack('B', data[pos:pos+1]) ; pos += 1
         #Quality of the tinker. 
-        self.qual_unk2, = unpack('B', data[pos]) ; pos += 1
-        self.qual_clothing, = unpack('B', data[pos]) ; pos += 1
+        self.qual_unk2, = unpack('B', data[pos:pos+1]) ; pos += 1
+        self.qual_clothing, = unpack('B', data[pos:pos+1]) ; pos += 1
         # Quality of the clothing merchant. 
-        self.qual_unk3, = unpack('B', data[pos]) ; pos += 1
+        self.qual_unk3, = unpack('B', data[pos:pos+1]) ; pos += 1
         # [constant: 0]
-        self.unknown_cd_5, = unpack('B', data[pos]) ; pos += 1
+        self.unknown_cd_5, = unpack('B', data[pos:pos+1]) ; pos += 1
         # unknown byte
         # Since the following byte is 0 or 1, this and that might actually be a single word value.
-        self.unknown_cd_6, = unpack('B', data[pos]) ; pos += 1
+        self.unknown_cd_6, = unpack('B', data[pos:pos+1]) ; pos += 1
         # unknown byte
         # Either zero or one (only a couple of ones).
         self.unknown_cd_5_6, = unpack('H', data[pos-2:pos]) # word
@@ -176,17 +176,17 @@ class City:
 
 
 def read_file(fname):
-    data = open(fname).read()
+    data = open(fname, 'rb').read()
 
     dataLen = len(data)
-    #print fname, dataLen, 'B'
+    #print(fname, dataLen, 'B')
     pos = 0
-    cnt = unpack('B', data[pos])[0]
+    cnt = unpack('B', data[pos:pos+1])[0]
     pos += 1
 
     cities = []
-    for i in xrange(0, cnt):
-        #print 'Cty', i
+    for i in range(0, cnt):
+        #print('Cty', i)
         c = City()
         c.from_data(data[pos:pos+622])
         cities.append(c)
@@ -216,7 +216,7 @@ if __name__ == '__main__':
 
     # print data
     for i, c in enumerate(cities):
-        print '#', i, '#'
-        print c
-        #print vars(c)
-        #print 'str_dock_destinations:', c.str_dock_destinations
+        print('#', i, '#')
+        print(c)
+        #print(vars(c))
+        #print('str_dock_destinations:', c.str_dock_destinations)

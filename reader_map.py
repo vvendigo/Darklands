@@ -3,9 +3,9 @@ from utils import rbread, bread
 def readData(dlPath):
     fname = dlPath + '/darkland.map'
 
-    data = map(ord, open(fname).read())
+    data = open(fname, 'rb').read()
     dataLen = len(data)
-    #print fname, dataLen, 'B'
+    #print(fname, dataLen, 'B')
     pos = 0
 
     max_x_size = rbread(data[pos:pos+2]) ; pos += 2
@@ -13,17 +13,17 @@ def readData(dlPath):
     max_y_size = rbread(data[pos:pos+2]) ; pos += 2
     # This word is stored high-byte first
 
-    #print max_x_size, max_y_size
+    #print(max_x_size, max_y_size)
     row_offsets = [0]*max_y_size
-    for i in xrange(0, max_y_size):
+    for i in range(0, max_y_size):
         # typo in Wallace's doc - it's double word, not word
         row_offsets[i] = bread(data[pos:pos+4])
         pos += 4
     m = []
-    for i in xrange(0, max_y_size):
+    for i in range(0, max_y_size):
         line = [None]*max_x_size
         pos = row_offsets[i]
-        #print i, pos, row_offsets[i+1] if i+1 < len(row_offsets) else dataLen
+        #print(i, pos, row_offsets[i+1] if i+1 < len(row_offsets) else dataLen)
         x = 0
         while x < max_x_size:
             b = data[pos]
@@ -31,8 +31,8 @@ def readData(dlPath):
             cnt = b >> 5
             pal = (b >> 4) & 0x1
             row = b & 0xf
-            #print ' ', pos+x, x, cnt, pal, row
-            for c in xrange(0, cnt):
+            #print(' ', pos+x, x, cnt, pal, row)
+            for c in range(0, cnt):
                 line[x] = (pal, row)
                 x += 1
         m.append(line)
@@ -41,9 +41,9 @@ def readData(dlPath):
                 (16,),(17,),(18,),(19,),(20,),(21,),(22,),(23,),(24,25,27,29),(25,1,2,3),(26,25),(27,2,3),(),(29,),(),(),)
 
     # get cols
-    for y in xrange(0, max_y_size):
+    for y in range(0, max_y_size):
         xc = 0 if y%2 else -1
-        for x in xrange(0, max_x_size):
+        for x in range(0, max_x_size):
             pal, row = m[y][x]
             # differs from Wallace - bits set just by adjanced _same_row_ tiles
             tv = pal*16+row
@@ -75,16 +75,16 @@ if __name__ == '__main__':
 
     m = readData(dlPath)
 
-    print len(m[0]), len(m)
+    print(len(m[0]), len(m))
 
     tiles = [' WWWwsppffttTTTT', 'HHhhMMAA/~~%Cc++']
     tiles = [' ....sppffttTTTT', 'HHhhMMAA/~~%Cc++']
     '''
     for ln in m[37:40]:
         for pal, row, col in ln[75:78]:
-            print pal, bin(row), '',
-        print
+            print(pal, bin(row), '',)
+        print()
     '''
     for ln in m:
-        print ''.join([tiles[pal][row] for pal, row, col in ln])
+        print(''.join([tiles[pal][row] for pal, row, col in ln]))
             

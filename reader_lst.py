@@ -3,17 +3,17 @@ from utils import bread, sread
 
 
 def readData(dlPath):
-    fname = dlPath + '/darkland.lst'
+    fname = dlPath + '/DARKLAND.LST'
 
-    data = map(ord, open(fname).read())
+    data = open(fname, 'rb').read()
     dataLen = len(data)
-    #print fname, dataLen, 'B'
+    #print(fname, dataLen, 'B')
     itemCnt, saintCnt, formCnt = data[0], data[1], data[2]
     pos = 3
 
     items = []
 
-    for i in xrange(0, itemCnt):
+    for i in range(0, itemCnt):
         c = OrderedDict()
         c['name'] = sread(data[pos:pos+20]) ; pos += 20
         c['short_name'] = sread(data[pos:pos+10]) ; pos += 10
@@ -40,7 +40,7 @@ def readData(dlPath):
         items.append(c)
 
     saints = []
-    for i in xrange(0, saintCnt):
+    for i in range(0, saintCnt):
         s = ''
         while data[pos]:
             s += chr(data[pos])
@@ -48,7 +48,7 @@ def readData(dlPath):
         pos += 1
         saints.append({'name':s})
 
-    for i in xrange(0, saintCnt):
+    for i in range(0, saintCnt):
         s = ''
         while data[pos]:
             s += chr(data[pos])
@@ -57,7 +57,7 @@ def readData(dlPath):
         saints[i]['short_name'] = s
 
     formulae = []
-    for i in xrange(0, formCnt):
+    for i in range(0, formCnt):
         s = ''
         while data[pos]:
             s += chr(data[pos])
@@ -65,7 +65,7 @@ def readData(dlPath):
         pos += 1
         formulae.append({'name':s})
 
-    for i in xrange(0, formCnt):
+    for i in range(0, formCnt):
         s = ''
         while data[pos]:
             s += chr(data[pos])
@@ -74,10 +74,10 @@ def readData(dlPath):
         formulae[i]['short_name'] = s
 
     # read saints descriptions
-    fname = dlPath + '/darkland.snt'
-    data = map(ord, open(fname).read())
+    fname = dlPath + '/DARKLAND.SNT'
+    data = open(fname, 'rb').read()
     pos = 1
-    for i in xrange(0, len(saints)):
+    for i in range(0, len(saints)):
         saints[i]['description'] = sread(data[pos:pos+0x168])
         pos += 0x168
 
@@ -97,23 +97,23 @@ if __name__ == '__main__':
     # print data
     '''
     for i, c in enumerate(items):
-        print '%3d %s'%(i, itemLn(c, (('name',15),'is_unknown1','is_unknown2','is_unknown3', 'is_const0_6','is_const0_7','is_unknown4','is_unknown5','is_unknown6')))
-    print
+        print('%3d %s'%(i, itemLn(c, (('name',15),'is_unknown1','is_unknown2','is_unknown3', 'is_const0_6','is_const0_7','is_unknown4','is_unknown5','is_unknown6'))))
+    print()
 
     '''
     for i, c in enumerate(items):
-        print '#', i, '#'
-        print itemStr(c)
+        print('#', i, '#')
+        print(itemStr(c))
 
-    print
+    print()
 
     for i, c in enumerate(saints):
-        print '#', i, '#'
-        print itemStr(c)
+        print('#', i, '#')
+        print(itemStr(c))
 
     print
 
     for i, c in enumerate(forms):
-        print '#', i, '#'
-        print itemStr(c)
+        print('#', i, '#')
+        print(itemStr(c))
 
