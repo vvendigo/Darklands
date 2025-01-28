@@ -10,6 +10,8 @@ Probably not suitable for Windows because of lazy filepaths handling.
 [Some outputs and file format docs online](http://wendigo.online-siesta.com/darklands/)
 
 ## Latest News
+* DL Helper - map browsing & quest listing tool added
+* SAV reader/format WIP
 * Given up resolving MSG dialogs logic (it seems impossible - hidden in executable completely)
 * PIC reader rewritten, writing added
 * FNT reader - writting added
@@ -35,8 +37,9 @@ Probably not suitable for Windows because of lazy filepaths handling.
 
 * file_formats/ - gathered docs on DL file formats (up-to-date/ contains updated Merle's docs)
 
-* tmp/ - you may direct output there
+* dlhelper - Dakrlander's LIttle Helper (map browsing & quest listing tool)
 
+* tmp/ - you may direct output there
 
 ### Scripts
 #### Auxilary
@@ -61,18 +64,20 @@ Probably not suitable for Windows because of lazy filepaths handling.
 * generate_map_web.py - outputs HUGE webpage of simplified DL map with city info
 
 #### Readers
-* reader_cty.py - cities
+* format_cty.py - cities
+* format_dsc.py - descriptions
+* format_fnt.py - fonts reader
+* format_pic.py - image format (can convert .PIC to .PNG if run directly)
+* format_sav.py - savegames
 * reader_drle.py - "DarklandsRLE" decompression (used for .IMC, in imap.cat, bc) (can decompress file if run directly)
 * reader_enemypal.py - Enemy palettes
 * reader_enm.py - Enemy types & enemies defs
 * reader_exe.py - strings extraction - WIP (aux maybe?)
-* reader_fnt.py - fonts reader
 * reader_imc.py - battle sprites - WIP
 * reader_loc.py - map locations (cities, villages, castles...)
 * reader_lst.py - item types & attrs, saints and formula names
 * reader_map.py - tile map
 * reader_msg.py - dialogs
-* reader_pic.py - image format (can convert .PIC to .PNG if run directly)
 * reader_tacanim.py - mysterious file loaded before battle
 
 #### Common libs

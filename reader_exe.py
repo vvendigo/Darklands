@@ -1,3 +1,4 @@
+import os
 
 def readZeroEnded(data, pos, endpos):
     out = []
@@ -10,7 +11,7 @@ def readZeroEnded(data, pos, endpos):
     return out
 
 def readData(dlPath):
-    fname = dlPath + '/darkland.exe'
+    fname = os.path.join(dlPath, 'DARKLAND.EXE')
     data = open(fname).read()
     out = {}
 
@@ -193,33 +194,33 @@ if __name__ == '__main__':
 
     # print data
     #for i, s in enumerate(data['bg_cards']):
-    #    print '%4d %s'%(i, ps(s))
-    #print
+    #    print('%4d %s'%(i, ps(s)))
+    #print()
     #idx = 0
     #for i, s in enumerate(data['msg_cards']):
     #    #if s.endswith('.MSG'): continue
-    #    print '%4d %s'%(idx, ps(s))
+    #    print('%4d %s'%(idx, ps(s)))
     #    idx += 1
-    print
-    print serArr(data['attributes_abbr']) ; print
-    print serArr(data['attributes']) ; print
-    print serArr(data['skills_abbr']) ; print
-    print serArr(data['skills']) ; print
+    print()
+    print(serArr(data['attributes_abbr'])) ; print()
+    print(serArr(data['attributes'])) ; print()
+    print(serArr(data['skills_abbr'])) ; print()
+    print(serArr(data['skills'])) ; print()
     '''
     for abb, name in zip(data['attributes_abbr'], data['attributes']):
-        print '    '+abb+': "'+name+'",'
-    print
+        print('    '+abb+': "'+name+'",')
+    print()
     for abb, name in zip(data['skills_abbr'], data['skills']):
-        print '    '+abb+': "'+name+'",'
+        print('    '+abb+': "'+name+'",')
     '''
-    print ', '.join(['%s:0'%s for s in data['skills_abbr']])
+    print(', '.join(['%s:0'%s for s in data['skills_abbr']]))
 
 
-    print serArr(data['firstnames_male']) ; print
-    print serArr(data['firstnames_female']) ; print
-    print serArr(data['surnames']) ; print
-    print serArr(data['occupations']) ; print
-    print serArr(data['family']) ; print
+    print(serArr(data['firstnames_male'])) ; print()
+    print(serArr(data['firstnames_female'])) ; print()
+    print(serArr(data['surnames'])) ; print()
+    print(serArr(data['occupations'])) ; print()
+    print(serArr(data['family'])) ; print()
 
 
 

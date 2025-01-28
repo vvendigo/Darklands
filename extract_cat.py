@@ -8,14 +8,14 @@ ddir = sys.argv[2]
 
 data = map(ord, open(fname).read())
 dataLen = len(data)
-print fname, dataLen, 'B'
+print(fname, dataLen, 'B')
 pos = 0
 
 cnt = bread(data[pos:pos+2])
-print cnt
+print(cnt)
 pos += 2
 
-for i in xrange(0, cnt):
+for i in range(0, cnt):
     fn = sread(data[pos:pos+12])
     pos += 12
     # dword TS
@@ -24,7 +24,7 @@ for i in xrange(0, cnt):
     pos += 4
     dataOffs = bread(data[pos:pos+4])
     pos += 4
-    print fn, dataOffs, dataLen
+    print(fn, dataOffs, dataLen)
 
     fh = open(ddir+'/'+fn, "wb")
     fh.write(bytearray(data[dataOffs:dataOffs+dataLen]))

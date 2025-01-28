@@ -5,7 +5,7 @@ from format_fnt import read_fonts
 
 import pygame
 
-font = read_fonts('DL/fonts.fnt')[0]
+font = read_fonts('DL/FONTS.FNT')[0]
 
 names = [
     ['copy0.pic', 'Calcination'],
@@ -36,12 +36,12 @@ def draw_text(imgdata, txts, x, y, clr):
             tw = 0
             xx = x
             for ch in txt:
-                chi = ord(ch) - font.start_chr
+                chi = ord(ch) - font.start_char
                 tw += font.chars[chi].width
             xx -= tw/2
 
             for ch in txt:
-                chi = ord(ch) - font.start_chr
+                chi = ord(ch) - font.start_char
                 char = font.chars[chi]
                 for yy, ln in enumerate(char.lines):
                     for xxx, p in enumerate(ln):
@@ -52,7 +52,7 @@ def draw_text(imgdata, txts, x, y, clr):
 for fname, name in names:
     name = name.split('-')
     if len(name) > 1: name[0] += '-'
-    print fname, name
+    print(fname, name)
 
     infile = os.path.join('DL/pics/', fname)
 

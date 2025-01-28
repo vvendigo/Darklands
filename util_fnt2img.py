@@ -23,6 +23,7 @@ srf.fill((255, 0, 255))
 
 y = 0
 for fnt in fonts:
+    print('h:', fnt.height, 'start_char:', fnt.start_char)
     x = 0
     for ch in fnt.chars:
         for yy, r in enumerate(ch.lines):

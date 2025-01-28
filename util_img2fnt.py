@@ -23,7 +23,7 @@ argp = 3
 
 while y < img.get_height():
     yy = y
-    print 'reading', len(fonts)
+    print('reading', len(fonts))
     while yy < img.get_height() and img.get_at((0, yy))[:4] != (255, 0, 255, 255):
         yy += 1
 
@@ -31,7 +31,7 @@ while y < img.get_height():
         break
 
     font_height = yy - y
-    print font_height
+    #print(' height', font_height)
     start_chr = int(sys.argv[argp]) if argp < len(sys.argv) else 0
     argp += 1
 
@@ -48,7 +48,7 @@ while y < img.get_height():
         if xx >= img.get_width() or xx == x:
             break
         char_width = xx - x
-        #print char_width
+        #print(char_width)
         lines = []
         for yy in range(0, font_height):
             ln = []
@@ -58,8 +58,17 @@ while y < img.get_height():
         chars.append(Char(char_width, lines))
         x += char_width
     fonts.append(Font(start_chr, start_chr + len(chars) - 1, font_height, chars))
-    #print chars[-1]
+    print('h:', font_height, start_chr, '-', start_chr + len(chars) - 1)
     y += font_height + 1
+
+'''
+# Add blank space to the top of each char
+for i, ha in enumerate((1, 2, 2)):
+    fonts[i].height += ha
+    for ch in fonts[i].chars:
+        for ln in range(0, ha):
+            ch.lines.insert(0, [0] * ch.width)
+'''
 
 write_fonts(font_file, fonts)
 
