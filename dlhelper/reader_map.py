@@ -83,7 +83,7 @@ if __name__ == '__main__':
     '''
     for ln in m[37:40]:
         for pal, row, col in ln[75:78]:
-            print(pal, bin(row), '',)
+            print(pal, bin(row), '', end='')
         print()
     '''
     for ln in m:

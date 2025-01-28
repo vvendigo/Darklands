@@ -9,4 +9,4 @@ pal = ' .:*ijkbT?%&#$XW'
 for b in data:
 	sys.stdout.write(pal[b/16])
 
-print
+print()

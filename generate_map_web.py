@@ -13,9 +13,9 @@ width, height = len(m[0]), len(m) # in tiles
 tw, th = 16, 12 # tile dimensions
 dh = 4 # tile y-dist
 
-palFnames = ('mapicons.pic','mapicon2.pic') # tile "palletes"
+palFnames = ('MAPICONS.PIC','MAPICON2.PIC') # tile "palletes"
 for fn in palFnames:
-	Pic(dlPath+'/pics/'+fn).save_image(oPath+'/'+fn+'.png')
+	Pic(dlPath+'/PICS/'+fn).save_image(oPath+'/'+fn+'.png')
 palFnames = [fn+'.png' for fn in palFnames]
 
 out = open(oPath + '/map.html', 'w')
@@ -31,8 +31,8 @@ body {margin:0; padding:0; font-size:xx-small;}
 ''')
 
 for p, fn in enumerate(palFnames):
-	for r in xrange(0,16):
-		for c in xrange(0,16):
+	for r in range(0,16):
+		for c in range(0,16):
 			out.write(".t%d{width:%dpx;height:%dpx;background:url('%s') %dpx %dpx;position:absolute}"\
 				%(p*256+r*16+c, tw, th, fn, -c*tw, -r*th))
 
@@ -44,11 +44,11 @@ out.write('''
 # sprites test
 '''
 for pal in (0,1):
-	print '<div style="position:relative;width:%dpx;height:%dpx;border:1px solid green">'%(16*tw, 16*th)
-	for row in xrange(0,16):
-		for col in xrange(0,16):
-			print '<div class="t%d_%d_%d" style="left:%dpx;top:%dpx"></div>'%(pal, row, col, col*tw, row*th)
-	print '</div>'
+	print('<div style="position:relative;width:%dpx;height:%dpx;border:1px solid green">'%(16*tw, 16*th))
+	for row in range(0,16):
+		for col in range(0,16):
+			print('<div class="t%d_%d_%d" style="left:%dpx;top:%dpx"></div>'%(pal, row, col, col*tw, row*th))
+	print('</div>')
 '''
 
 out.write('''

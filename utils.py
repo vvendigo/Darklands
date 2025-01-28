@@ -26,12 +26,12 @@ def sread(d):
 
 def tchars(txt):
     ''' translate special chars to proper letters'''
-    #print txt
+    #print(txt)
     return txt.replace('|', 'ü').replace('{', 'ö').replace(chr(0x1f), 'æ')
 
 def cstrim(txt):
     ''' trim C-string '''
-    return str(txt[:txt.find(b'\0')])
+    return str(txt[:txt.find(b'\0')].decode('ascii'))
 
 def itemStr(c, attrs=None):
     ''' str(struct) '''

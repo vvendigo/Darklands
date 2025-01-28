@@ -1,8 +1,9 @@
+import os
 from utils import sread
 
 
 def readData(dlPath):
-    fname = dlPath + '/tacanim.db'
+    fname = os.path.join(dlPath, 'TACANIM.DB')
     data = map(ord, open(fname).read())
     dataLen = len(data)
 
@@ -28,6 +29,6 @@ if __name__ == '__main__':
 
     for k in sorted(data['tacanim'].keys()):
         d = data['tacanim'][k]
-        print '%3s: %s'%(k, (' '.join(['%3d']*10))%tuple(d))
+        print('%3s: %s'%(k, (' '.join(['%3d']*10))%tuple(d)))
 
 

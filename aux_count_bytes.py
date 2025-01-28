@@ -12,4 +12,4 @@ for b in data:
 m = float(max(counter))
 
 for b, c in enumerate(counter):
-	print "%3d: %8d %s"%(b, c, '#'*int(c/m*30))
+	print("%3d: %8d %s"%(b, c, '#'*int(c/m*30)))

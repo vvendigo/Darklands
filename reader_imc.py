@@ -9,14 +9,14 @@ def readData(fname, frameCnt=None):
     pos = 60
     frameCnt = bread(data[pos:pos+2]) ; pos += 2
     dataSize = bread(data[pos:pos+2]) ; pos += 2
-    #print fileSize, dataSize, frameCnt, fileSize - 80 - 4 - 8 * 2 * frameCnt
+    #print(fileSize, dataSize, frameCnt, fileSize - 80 - 4 - 8 * 2 * frameCnt)
     if dataSize != fileSize - pos - 8 * 2 * frameCnt:
         pos = 80
         frameCnt = bread(data[pos:pos+2]) ; pos += 2
         dataSize = bread(data[pos:pos+2]) ; pos += 2
             
     imgOffs = []
-    for i in xrange(0, frameCnt*8):
+    for i in range(0, frameCnt*8):
         imgOffs.append(bread(data[pos:pos+2])) ; pos += 2
     imgs = []
     dataStart = pos
@@ -25,19 +25,19 @@ def readData(fname, frameCnt=None):
         w = data[pos] ; pos += 1
         h = data[pos] ; pos += 1
         img = []
-        for y in xrange(0, h):
+        for y in range(0, h):
             pc = data[pos] ; pos += 1 # pixel count
             ws = data[pos] ; pos += 1 # empty space cnt
             ln = [0]*w
-            for x in xrange(ws, ws+pc):
-                if i==52: print data[pos],
+            for x in range(ws, ws+pc):
+                if i==52: print(data[pos], end='')
                 if pos < fileSize and x < w:
                     ln[x] = data[pos] ; pos += 1
                 else:
-                    #print w,'x',h,' ', x,y
+                    #print(w,'x',h,' ', x,y)
                     #break
                     pass
-            if i==52: print
+            if i==52: print()
             img.append(ln)
         imgs.append(img)
 
@@ -66,9 +66,9 @@ if __name__ == '__main__':
             out = ''
             for b in ln:
                 out += 'X' if b else '.'
-            print out
+            print(out)
         time.sleep(0.01)
-        print
+        print()
     '''
     s = set()
     imgW = 0
@@ -80,11 +80,11 @@ if __name__ == '__main__':
         for ln in img:
             for b in ln:
                 s.add(b)
-                if i==dbgI: print "%3d"%b,
-            if i==dbgI: print
+                if i==dbgI: print("%3d"%b, end='')
+            if i==dbgI: print()
     if dbgI >= 0:
-        #print s
-        print [x for x in s if x<64 or x>80]
+        #print(s)
+        print([x for x in s if x<64 or x>80])
     pal = {
         0: None,
         5: (0,0,0),
@@ -117,15 +117,15 @@ if __name__ == '__main__':
     pal[142] = (0xd3, 0x82, 0x51)
     pal[120] = (0xff, 0xa2, 0x65)
     pal = [None]
-    pal += [(r/5*5,r/5*5,r/5*5) for r in xrange(0,256)]
+    pal += [(r/5*5,r/5*5,r/5*5) for r in range(0,256)]
     '''
     p = filePath.rfind('/')
     imgGrp = filePath[:3] if p < 0 else filePath[p+1:p+4]
-    print '!!!', imgGrp
+    print('!!!', imgGrp)
     import reader_enm
     edef = {}
     for e in reader_enm.readData('DL')[0]:
-        #print e
+        #print(e)
         if e['image_group'] == imgGrp:
             edef = e
             break
@@ -149,8 +149,8 @@ if __name__ == '__main__':
             xoff += len(img[0]) + 1 
         pygame.image.save(s, filePath+".png")
     else:
-        for i in xrange(0, len(data), 8):
-            for j in xrange(0,8):
+        for i in range(0, len(data), 8):
+            for j in range(0,8):
                 img = data[i+j]
                 s = pygame.Surface((len(img[0]), len(img)), pygame.SRCALPHA, 32)
                 for y, ln in enumerate(img):

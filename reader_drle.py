@@ -1,8 +1,8 @@
 from utils import bread
 
 def dumpb(data):
-    for i in xrange(0, len(data), 16):
-        print ' '.join([("%2s"%hex(b)[2:].upper()).replace(' ', '0') for b in data[i:i+16]])
+    for i in range(0, len(data), 16):
+        print(' '.join([("%2s"%hex(b)[2:].upper()).replace(' ', '0') for b in data[i:i+16]]))
 
 def readData(data):
     dLen = len(data)
@@ -18,9 +18,9 @@ def readData(data):
         while 1:
             if fc - 1 <= 0:
                 break
-            #print "%20s %2d |"%(("%20s"%bin(flags)[2:]).replace(' ','0')[-fc:], fc), ' ', len(out), '/', pos
+            #print("%20s %2d |"%(("%20s"%bin(flags)[2:]).replace(' ','0')[-fc:], fc), ' ', len(out), '/', pos)
             #dumpb(out)
-            #print
+            #print()
             f = flags & 1 ; flags >>= 1 ; fc -= 1
             if f: # just copy next B
                 out.append(data[pos]) ; pos += 1
@@ -59,13 +59,13 @@ def readData(data):
                         else:
                             # DONE!!!
                             # side effect - dummy 00FF00 at the end of file
-                            #print pos
+                            #print(pos)
                             break
 
                 # start left of output end
                 seqStart = len(out) - seqStart - 1
-                #print 'start', seqStart, '/', len(out), 'len', seqLength
-                for i in xrange(0, seqLength):
+                #print('start', seqStart, '/', len(out), 'len', seqLength)
+                for i in range(0, seqLength):
                     out.append(out[seqStart+i])
                 #if len(out) > 5*16: pos = dLen ; break;
     return out
@@ -92,5 +92,5 @@ if __name__ == '__main__':
     else:
         data = readData(filePath)
         dumpb(data)
-        #print len(data)
+        #print(len(data))
 

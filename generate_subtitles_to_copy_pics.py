@@ -5,7 +5,7 @@ from format_fnt import read_fonts
 
 import pygame
 
-font = read_fonts('DL/fonts.fnt')[0]
+font = read_fonts('DL/FONTS.FNT')[0]
 
 names = [
     ['copy0.pic', 'Calcination'],
@@ -52,7 +52,7 @@ def draw_text(imgdata, txts, x, y, clr):
 for fname, name in names:
     name = name.split('-')
     if len(name) > 1: name[0] += '-'
-    print fname, name
+    print(fname, name)
 
     infile = os.path.join('DL/pics/', fname)
 

@@ -25,4 +25,4 @@ if __name__ == '__main__':
 
     # print data
     for i, d in enumerate(descs):
-        print i, d
+        print(i, d)

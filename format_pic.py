@@ -146,7 +146,7 @@ if __name__ == '__main__':
     print(fname, end=' ')
     if pic.pic:
         print('pic', pic.width, 'x', pic.height, end=' ')
-    #print pic[0][0]
+    #print(pic[0][0])
     if pic.pal:
         print('pal', len(pic.pal), end=' ')
     '''

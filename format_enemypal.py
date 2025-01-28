@@ -38,7 +38,7 @@ def read_palettes(fname):
     return pals
 
 def readData(dlPath):
-    fname = os.path.join(dlPath, 'enemypal.dat')
+    fname = os.path.join(dlPath, 'ENEMYPAL.DAT')
     return read_palettes(fname)
 
 
@@ -52,6 +52,6 @@ if __name__ == '__main__':
     pals = readData(dlPath)
 
     for i, pal in enumerate(pals):
-        print '%2d: %s'%(i, pal.extra)
+        print('%2d: %s'%(i, pal.extra))
 
-    print pals[0].get_dict()
+    print(pals[0].get_dict())

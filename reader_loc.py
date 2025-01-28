@@ -1,3 +1,4 @@
+import os
 from collections import OrderedDict
 from utils import bread, sread
 
@@ -31,7 +32,7 @@ locTypes = (
 'ruins of a Raubritter\'s castle')
 
 def readData(dlPath):
-    fname = dlPath + '/darkland.loc'
+    fname = os.path.join(dlPath, 'DARKLAND.LOC')
 
     data = open(fname, 'rb').read()
     dataLen = len(data)

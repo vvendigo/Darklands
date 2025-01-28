@@ -116,8 +116,8 @@ def readData(dlPath):
     ''' read all DL fonts
     '''
     fonts = {}
-    for ext in ('fnt', 'utl'):
-        fname = os.path.join(dlPath, 'fonts.') + ext
+    for ext in ('FNT', 'UTL'):
+        fname = os.path.join(dlPath, 'FONTS.') + ext
         fonts[ext] = read_fonts(fname)
     return fonts
 

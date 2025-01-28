@@ -1,6 +1,6 @@
+import os
 from collections import OrderedDict
 from utils import bread, sread
-import os
 
 locTypes = (
 'city',

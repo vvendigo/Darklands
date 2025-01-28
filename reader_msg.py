@@ -41,7 +41,7 @@ def parseCard(txt):
             curState = 'choice'
             out.append([choiceTypes[o]])
         else:
-            print '!!! %d'%o
+            print('!!! %d'%o)
     if curData:
         if curState=='text':
             out.append(curData)
@@ -56,11 +56,11 @@ def readData(fname):
 
     pos = 0
     cardCnt = ord(data[pos]); pos += 1
-    #print cardCnt
+    #print(cardCnt)
 
     cards = []
 
-    for i in xrange(0, cardCnt):
+    for i in range(0, cardCnt):
         c = OrderedDict()
         c['textOffsY'] = ord(data[pos]) ; pos += 1
         c['textOffsX'] = ord(data[pos]) ; pos += 1
@@ -80,9 +80,9 @@ def readData(fname):
 def printCard(c):
     for e in c:
         if type(e) == str:
-            print e
+            print(e)
         elif len(e)==3:
-            print "%s %s%s"%(e[0], e[1], e[2])
+            print("%s %s%s"%(e[0], e[1], e[2]))
 
 
 # main ------------
@@ -94,14 +94,14 @@ if __name__ == '__main__':
     cards = readData(fname)
 
     for i, c in enumerate(cards):
-        #print '#', i
-        #print c['unknown1'], c['unknown2']
-        print '%3d'%i, itemLn(c, ('unknown1', 'unknown2', 'textOffsY', 'textOffsX', 'textMaxX'))
+        #print('#', i)
+        #print(c['unknown1'], c['unknown2'])
+        print('%3d'%i, itemLn(c, ('unknown1', 'unknown2', 'textOffsY', 'textOffsX', 'textMaxX')))
         #continue
-        #print itemStr(c)
+        #print(itemStr(c))
 
-        #print c['text']
-        #print '--------'
+        #print(c['text'])
+        #print('--------')
         printCard(c['elements'])
-        print
+        print()
 

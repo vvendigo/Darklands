@@ -202,7 +202,7 @@ def read_file(fname):
 
 
 def readData(dlPath='DL'):
-    return read_file(os.path.join(dlPath, 'darkland.cty'))
+    return read_file(os.path.join(dlPath, 'DARKLAND.CTY'))
 
 
 

@@ -1,9 +1,10 @@
+import os
 from collections import OrderedDict
 from utils import bread, sread
 
 
 def readData(dlPath):
-    fname = dlPath + '/DARKLAND.LST'
+    fname = os.path.join(dlPath, 'DARKLAND.LST')
 
     data = open(fname, 'rb').read()
     dataLen = len(data)
@@ -111,7 +112,7 @@ if __name__ == '__main__':
         print('#', i, '#')
         print(itemStr(c))
 
-    print
+    print()
 
     for i, c in enumerate(forms):
         print('#', i, '#')

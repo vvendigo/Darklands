@@ -1,14 +1,15 @@
+import os
 from utils import sread, bread
 from collections import OrderedDict
 
 def readData(dlPath):
-    fname = dlPath + '/darkland.enm'
+    fname = os.path.join(dlPath, 'DARKLAND.ENM')
     data = map(ord, open(fname).read())
     dataLen = len(data)
 
     enemyTypes = []
     pos = 0
-    for i in xrange(0, 71):
+    for i in range(0, 71):
         et = OrderedDict()
         et['image_group'] = sread(data[pos:pos+4]) ; pos += 4
         et['name'] = sread(data[pos:pos+10]) ; pos += 10
@@ -49,7 +50,7 @@ def readData(dlPath):
         enemyTypes.append(et)
 
     enemies = []
-    for i in xrange(0, 82):
+    for i in range(0, 82):
         e = OrderedDict()
         e['type'] = bread(data[pos:pos+2]) ; pos += 2
         e['type_str'] = enemyTypes[e['type']]['name']
@@ -72,10 +73,10 @@ if __name__ == '__main__':
     eTypes, enemies = readData(dlPath)
 
     for i, et in enumerate(eTypes):
-        print '%2d: %s'%(i, itemStr(et))#,('name','unknown10')))
+        print('%2d: %s'%(i, itemStr(et)))#,('name','unknown10'))))
 
-    print
+    print()
     for i, et in enumerate(enemies):
-        print i
-        print itemStr(et)
+        print(i)
+        print(itemStr(et))
 

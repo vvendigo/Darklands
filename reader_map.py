@@ -1,7 +1,8 @@
+import os
 from utils import rbread, bread
 
 def readData(dlPath):
-    fname = dlPath + '/darkland.map'
+    fname = os.path.join(dlPath, 'DARKLAND.MAP')
 
     data = open(fname, 'rb').read()
     dataLen = len(data)
@@ -82,7 +83,7 @@ if __name__ == '__main__':
     '''
     for ln in m[37:40]:
         for pal, row, col in ln[75:78]:
-            print(pal, bin(row), '',)
+            print(pal, bin(row), '', end='')
         print()
     '''
     for ln in m:

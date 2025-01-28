@@ -26,7 +26,7 @@ def sread(d):
 
 def tchars(txt):
     ''' translate special chars to proper letters'''
-    #print txt
+    #print(txt)
     return txt.replace('|', 'ü').replace('{', 'ö').replace(chr(0x1f), 'æ')
 
 def cstrim(txt):

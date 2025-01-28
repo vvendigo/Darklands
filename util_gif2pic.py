@@ -13,7 +13,7 @@ im = Image.open(infile)
 w = im.width
 h = im.height
 
-print w, h
+print(w, h)
 
 pic = Pic()
 pic.width = w
@@ -24,7 +24,7 @@ im_pal = im.getpalette()
 pal = []
 for i in range(0, len(im_pal), 3):
     pal.append((im_pal[i+0], im_pal[i + 1], im_pal[i + 2]))
-print len(pal)
+print(len(pal))
 
 for i in range(0, del_palette):
     pal[i] = (255, 0, 255)
@@ -39,7 +39,7 @@ p = len(pal) - 1
 while p > 0 and pal[p][0] == 255 and pal[p][1] == 0 and pal[p][2] == 255:
     pal[p] = None
     p -= 1
-print pal
+print(pal)
 pic.pal = pal
 
 # convert img data

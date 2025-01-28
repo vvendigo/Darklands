@@ -13,13 +13,13 @@ of = open(dname, 'w')
 
 of.write('var Map = {\n');
 
-print 'Reading map data...'
+print('Reading map data...')
 m = reader_map.readData(dlPath)
 
 width, height = len(m[0]), len(m) # in tiles
 tw, th = 16, 12 # tile dimensions
 dh = 4 # tile y-dist for bliting
-#print width, height
+#print(width, height)
 
 of.write('''
 cols: %d,
@@ -45,9 +45,9 @@ of.write('''
 locs: [
 ''');
 
-print "Reading cities..."
+print("Reading cities...")
 cities = format_cty.readData(dlPath)
-print "Reading locs..."
+print("Reading locs...")
 locs = reader_loc.readData(dlPath)
 
 

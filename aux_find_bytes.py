@@ -20,19 +20,19 @@ while pos < dataLen:
 		if p < 0: sys.exit(0)
 		minP = min(minP, p)
 		maxP = max(maxP, p)
-	#print minP, maxP
+	#print(minP, maxP)
 	d = maxP - minP
 	if d <= maxD:
-		print '%d:'%minP,
+		print('%d:'%minP, end='')
 		for ch in data[minP:maxP+1]:
 			if ch in chars:
-				print '%3d#'%ord(ch),
+				print('%3d#'%ord(ch), end='')
 			else:
-				print '%3d '%ord(ch),
-		print
+				print('%3d '%ord(ch), end='')
+		print()
 	pos = minP+1
 	pct = (float(pos)/dataLen)*100
 	if lastPct != pct:
-		#print "%3.3f"%(pct)
+		#print("%3.3f"%(pct))
 		lastPct = pct
 		#if pct > 0.01: break
