@@ -10,6 +10,7 @@ elif __file__:
 
 aparser = ArgumentParser(prog=app_name, description='Darklands map viewer and quest lister.')
 aparser.add_argument('path', nargs='?', default=os.path.dirname(app_path))
+aparser.add_argument('-r', '--rename-saves', action='store_true', default=False)
 args = aparser.parse_args()
 
 dl_path = args.path
@@ -18,7 +19,8 @@ print('Using path', dl_path)
 
 
 from glob import glob
-from random import randint, seed as srand
+import math
+from random import random, seed as srand
 
 import pygame
 
@@ -503,12 +505,52 @@ list_cities = CityList(screen, 550, 13*scale, 250, 550-13*scale)
 log.print('Loading saves...')
 saves = []
 active_save = None
+
+def rename_saves(s_fnames):
+    ''' takes list of *.SAV fnames sorted by mtime '''
+    print('Renaming...')
+    last_no = 10000
+    for fname in s_fnames:
+        _, name = os.path.split(fname)
+        if name.startswith('DKSV'):
+            no = int(name[4:8])
+            if no < last_no:
+                last_no = no
+    for i in range(len(s_fnames)-1, -1, -1):
+        if last_no <= 0:
+            break
+        fname = s_fnames[i]
+        dr, name = os.path.split(fname)
+        if not name.startswith('DKSAVE'):
+            continue
+        last_no -= 1
+        new_name = 'DKSV%04d'%(last_no)
+        print('Rename', name, '>', new_name+'.SAV')
+        # DSV, update s_fnames
+        bsv_fname = fname[:-3]+'BSV'
+        has_bsv = os.path.isfile(bsv_fname)
+        if not has_bsv: # check BSV existence
+            time.sleep(2)
+            has_bsv = os.path.isfile(bsv_fname)
+        if not has_bsv:
+            print('No BSV file?!')
+            break # ??!!
+        new_path = os.path.join(dr, new_name)
+        if os.path.isfile(new_path + '.SAV'):
+            # ignore colliding files
+            continue
+        s_fnames[i] = new_path + '.SAV'
+        os.rename(fname, new_path + '.SAV')
+        os.rename(bsv_fname, new_path + '.BSV')
+
 def load_saves():
     global saves
     sfs = glob(os.path.join(dl_path, 'SAVES', 'DK*.SAV'))
     if len(sfs) == len(saves):
         return False
     sfs.sort(key=os.path.getmtime, reverse=True)
+    if args.rename_saves:
+        rename_saves(sfs)
     saves = []
     print('Loading saves')
     print(os.path.join(dl_path, 'SAVES'))
@@ -535,7 +577,7 @@ def nearest_city_name(x, y):
     nearest_d = None
     for i, l in enumerate(locs[0:91]):
         c = l['coords']
-        d = abs(c[0]-x) + abs(c[1]-y)
+        d = abs(c[0]-x) + abs(c[1]-y)/2
         if nearest_d is None or d < nearest_d:
             nearest_d = d
             nearest_i = i
@@ -631,10 +673,12 @@ class QuestButton(Button):
             if self.quest.location_ambiguous:
                 x, y = self.coords
                 srand(x + y)
-                dx = randint(0,9)
-                dy = randint(dx//2, 9-dx//2)
-                x += -5 + dx
-                y += -5 + dy
+                d = random() * 7
+                a = math.pi * 2 * random()
+                dx = math.cos(a) * d
+                dy = math.sin(a) * d * 2
+                x += dx
+                y += dy
                 map_window.show_target((x, y), False)
             else:
                 map_window.show_target(self.coords)
