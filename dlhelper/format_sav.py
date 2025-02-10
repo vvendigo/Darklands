@@ -28,7 +28,10 @@ class Event:
         self.data = data
         pos = 10
         h, d, m, y = unpack('HHHH', data[pos:pos+8]) ; pos += 8
-        self.create_date = datetime(y, m+1, d, h)
+        try:
+            self.create_date = datetime(y, m+1, d, h)
+        except:
+            pass
         hh, dd, mm, yy = unpack('HHHH', data[pos:pos+8]) ; pos += 8
         # pos == 26
         self.who_i = unpack('h', data[26:26+2])[0]
